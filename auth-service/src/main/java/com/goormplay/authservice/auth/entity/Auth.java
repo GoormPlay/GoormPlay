@@ -19,7 +19,7 @@ public class Auth {
     @Column(name = "member_index", updatable = false)
     private Long memberIndex;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(nullable = false, unique = true,  updatable = false, length = 50)
     private String username;
 
     @Column(nullable = false,  length = 20)

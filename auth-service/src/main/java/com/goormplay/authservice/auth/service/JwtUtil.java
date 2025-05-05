@@ -100,23 +100,6 @@ public class JwtUtil {
     }
 
 
-    public void isValidForm(String token){
-        // 토큰이 들어왔는지
-        if (token == null) {
-            throw new JwtException(JwtExceptionType.TOKEN_NULL);
-        }
-
-        // 토큰이 "Bearer "로 시작하는지
-        if (!token.startsWith(BEARER)) {
-            throw new JwtException(JwtExceptionType.NOT_START_WITH_BEARER);
-        }
-
-        // 토큰이 "Bearer " 이후로 존재하는지
-        if (token.length() < 8) {
-            throw new JwtException(JwtExceptionType.TOKEN_TOO_SHORT);
-        }
-    }
-
 
     // 1. 토큰 타입
     // 2. 토큰 서명
