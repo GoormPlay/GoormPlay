@@ -24,6 +24,7 @@ public class MemberController {
 
     @PostMapping("/member/client")
     public ResponseEntity<ResponseDto> singUpMember(SignUpRequestDto dto) {
+        log.info("Member Service 회원가입 시작 ");
         memberService.joinMember(dto);
         return new ResponseEntity<>(new ResponseDto("회원가입",null), HttpStatus.OK);
     }

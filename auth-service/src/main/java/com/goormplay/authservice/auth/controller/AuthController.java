@@ -23,7 +23,7 @@ public class AuthController {
 
     @PostMapping("/signIn")
     public ResponseEntity<ResponseDto> signIn(@Valid @RequestBody SignInRequestDto dto) {
-
+        log.info("Auth Service 로그인 시작");
         String accessToken = authService.signIn(dto);
 
         return new ResponseEntity<>(new ResponseDto("로그인", accessToken), HttpStatus.OK);
@@ -31,18 +31,22 @@ public class AuthController {
 
     @PostMapping("/signUp")
     public ResponseEntity<ResponseDto> signUp(@Valid @RequestBody SignUpRequestDto dto) {
+        log.info("Auth Service 회원가입 시작");
+
         authService.signUp(dto);
         return new ResponseEntity<>(new ResponseDto("회원가입", dto.getUsername()), HttpStatus.OK);
     }
 
     @GetMapping("/refresh")
     public ResponseEntity<ResponseDto> tokenRefresh() {
+        log.info("Auth Service 토큰 리프레시 시작");
         String accessToken = authService.tokenRefresh();
         return new ResponseEntity<>(new ResponseDto("토큰 리프레시", accessToken), HttpStatus.OK);
     }
 
     @PostMapping("/logout")
     public ResponseEntity<ResponseDto> logout() {
+        log.info("Auth Service 로그아웃 시작");
         authService.logout();
         return new ResponseEntity<>(new ResponseDto("로그아웃", null), HttpStatus.OK);
     }

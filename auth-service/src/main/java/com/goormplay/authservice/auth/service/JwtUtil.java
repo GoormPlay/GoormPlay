@@ -59,14 +59,15 @@ public class JwtUtil {
 
 
     public String createJwt(MemberDto memberDto) {
-        // 토큰 발급
+        log.info("Auth Service - JwtUtil - createJwt 시작");
         String accessToken = getAccessToken(memberDto);
         String refreshToken = getRefreshToken(memberDto);
 
-        // 리프레쉬 토큰을 redis에 저장
-        RefreshToken savedRefreshToken = refreshTokenRepository.save(new RefreshToken(refreshToken, memberDto.getIdx()));
+        log.info("Auth Service - JwtUtil - createJwt - 리프레쉬 토큰을 redis에 저장");
 
-        // cookie에 Refresh token 담기
+        RefreshToken savedRefreshToken = refreshTokenRepository.save(new RefreshToken(refreshToken, memberDto.getIdx()));
+        log.info("Auth Service - JwtUtil - createJwt -  cookie에 Refresh token 담기");
+
         setRefreshTokenToCookie(refreshToken);
 
         if (refreshTokenRepository.findById(savedRefreshToken.getRefreshToken()).isEmpty()) {
@@ -79,6 +80,7 @@ public class JwtUtil {
 
     // 현재 accessToken : 10분/ refreshToken : 1시간 => 배포시 늘려야됨
     public String getAccessToken(MemberDto memberDto) {
+        log.info("Auth Service - JwtUtil - 액세스 발급");
         return JWT.create()
                 .withSubject(ACCESS_TOKEN_SUBJECT)
                 .withAudience(memberDto.getIdx().toString())
@@ -90,6 +92,7 @@ public class JwtUtil {
 
 
     public String getRefreshToken(MemberDto memberDto) {
+        log.info("Auth Service - JwtUtil - 리프레시 발급");
         return JWT.create()
                 .withSubject(REFRESH_TOKEN_SUBJECT)
                 .withAudience(memberDto.getIdx().toString())
@@ -100,11 +103,11 @@ public class JwtUtil {
     }
 
 
-
     // 1. 토큰 타입
     // 2. 토큰 서명
     // 3. 토큰 발행 대상자
     public void isValidToken(String token, String tokenType) {
+        log.info("Auth Service - JwtUtil - isValidToken 토큰 유효성 검사 시작");
         try {
             DecodedJWT decodedJWT = JWT.require(key)
                     .withSubject(tokenType)
@@ -127,6 +130,9 @@ public class JwtUtil {
 
     // 토큰 디코딩
     public DecodedJWT getDecodedJWT(String token) {
+
+        log.info("Auth Service - JwtUtil - getDecodedJWT 토큰 디코딩");
+
         try {
             return JWT.decode(token);
         } catch (JWTDecodeException e) {
@@ -136,6 +142,9 @@ public class JwtUtil {
 
 
     public void setRefreshTokenToCookie(String refreshToken) {
+
+        log.info("Auth Service - JwtUtil - setRefreshTokenToCookie 리프레시 토큰 쿠키 적재");
+
         HttpServletRequest request
                 = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpServletResponse response
@@ -152,6 +161,8 @@ public class JwtUtil {
 
 
     public String getRefreshTokenFromCookie() {
+        log.info("Auth Service - JwtUtil - getRefreshTokenFromCookie 쿠키에서  리프레시 토큰  가져오기");
+
         HttpServletRequest request
                 = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Cookie refreshTokenCookie = WebUtils.getCookie(request, REFRESH_TOKEN_SUBJECT);
@@ -163,6 +174,7 @@ public class JwtUtil {
     }
 
     public RefreshTokenDto getRefreshTokenFromRedis(String refreshToken) {
+        log.info("Auth Service - JwtUtil - getRefreshTokenFromRedis 레디스에서 리프레시 토큰  가져오기");
         RefreshToken rt = refreshTokenRepository
                 .findById(refreshToken)
                 .orElseThrow(() -> new JwtException(JwtExceptionType.TOKEN_EXPIRED));
@@ -170,6 +182,7 @@ public class JwtUtil {
     }
 
     public void deleteRefreshToken(String refreshToken) {
+        log.info("Auth Service - JwtUtil - deleteRefreshToken 리프레시 토큰 삭제");
         refreshTokenRepository.deleteById(refreshToken);
     }
 }

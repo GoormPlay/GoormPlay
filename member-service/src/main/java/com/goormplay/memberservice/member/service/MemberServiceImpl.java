@@ -20,6 +20,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void joinMember(SignUpRequestDto dto) {
+        log.info("Member Service 회원가입 시작");
 
         String username = dto.getUsername();
         if(memberRepository.existsByUsername(username)) throw new MemberException(ALREADY_EXIST_MEMBER);
