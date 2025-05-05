@@ -1,11 +1,20 @@
 package com.goormplay.authservice.auth.controller;
 
-import com.goormplay.authservice.auth.dto.SignInRequestDTO;
+import com.goormplay.authservice.auth.dto.ResponseDto;
+import com.goormplay.authservice.auth.dto.SignInRequestDto;
+import com.goormplay.authservice.auth.dto.SignUpRequestDto;
 import com.goormplay.authservice.auth.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @Slf4j
@@ -16,9 +25,28 @@ public class AuthController {
         private final AuthService authService;
 
         @PostMapping("/signIn")
-        public ResponseEntity<?> createToken(@RequestBody SignInRequestDTO dto){
-            return ResponseEntity.ok(authService.createAccessToken(dto.getMemberId()));
+        public ResponseEntity<?> signIn(@Valid @RequestBody SignInRequestDto dto){
+
+        String accessToken = authService.signIn(dto);
+
+        return new ResponseEntity<>(new ResponseDto("로그인",accessToken),HttpStatus.OK);
         }
 
+//    @PostMapping("/signUp")
+//    public ResponseEntity<Map<String, Object>> signUp(@Valid @RequestBody SignUpRequestDto dto) {
+//
+//
+//    }
 
+    @GetMapping("/refresh")
+    public ResponseEntity<ResponseDto> tokenRefresh() {
+        String accessToken = authService.tokenRefresh();
+        return new ResponseEntity<>(new ResponseDto("토큰 리프레시", accessToken), HttpStatus.OK);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<ResponseDto> logout() {
+        authService.logout();
+        return new ResponseEntity<>(new ResponseDto("로그아웃", null), HttpStatus.OK);
+    }
 }

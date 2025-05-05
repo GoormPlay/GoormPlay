@@ -2,58 +2,36 @@ package com.goormplay.authservice.auth.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-public class Auth implements UserDetails {
+@Table(name = "auth", uniqueConstraints = @UniqueConstraint(columnNames = "memberId"))
+@Getter
+@Setter @NoArgsConstructor @AllArgsConstructor @Builder
+public class Auth {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="member_index" ,updatable = false)
-    private long memberIndex;
+    @Column(name = "member_index", updatable = false)
+    private Long memberIndex;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
+    @Column(nullable = false, unique = true, length = 50)
+    private String username;
 
-    @Override
-    public String getPassword() {
-        return null;
-    }
+    @Column(nullable = false,  length = 20)
+    private String password;
 
-    @Override
-    public String getUsername() {
-        return null;
-    }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
-    }
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
-    }
+    @Column
+    private LocalDateTime lastLoginAt;
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
-    }
+//    @Column(nullable = false)
+//    private boolean enabled = true; 회원 탈퇴 기능
 }

@@ -2,13 +2,16 @@ package com.goormplay.authservice.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
-@AllArgsConstructor
+@Getter
 @NoArgsConstructor
-public class SignInRequestDTO {
-    private String memberId;
+@AllArgsConstructor
+@Builder
+public class ResponseDto {
+    private String message;
+    private Object data;
+
+
 }
