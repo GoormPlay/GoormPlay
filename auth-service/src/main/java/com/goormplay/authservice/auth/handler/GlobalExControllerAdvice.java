@@ -3,6 +3,7 @@ package com.goormplay.authservice.auth.handler;
 import com.goormplay.authservice.auth.dto.ErrorResultDto;
 import com.goormplay.authservice.auth.dto.ResponseDto;
 import com.goormplay.authservice.auth.exception.BaseException;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,15 @@ public class GlobalExControllerAdvice {
     public ResponseEntity<ResponseDto> handleIllegalArgumentEx(IllegalArgumentException exception) {
         ResponseDto responseDTO = ResponseDto.builder()
                 .message(exception.getMessage())
+                .build();
+        return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
+    }
+    
+    //FeignException 에러 처리
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<ResponseDto> handleIllegalArgumentEx(FeignException exception) {
+        ResponseDto responseDTO = ResponseDto.builder()
+                .message(exception.getMessage()+"feign 오류")
                 .build();
         return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
     }

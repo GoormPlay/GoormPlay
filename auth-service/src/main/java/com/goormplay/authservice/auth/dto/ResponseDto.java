@@ -13,5 +13,4 @@ public class ResponseDto {
     private String message;
     private Object data;
 
-
 }

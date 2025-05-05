@@ -5,6 +5,7 @@ import com.goormplay.authservice.auth.client.MemberClient;
 import com.goormplay.authservice.auth.dto.Member.MemberDto;
 import com.goormplay.authservice.auth.dto.Member.MemberSignInDto;
 import com.goormplay.authservice.auth.dto.SignInRequestDto;
+import com.goormplay.authservice.auth.dto.SignUpRequestDto;
 import com.goormplay.authservice.auth.entity.Auth;
 import com.goormplay.authservice.auth.exception.Auth.AuthException;
 import com.goormplay.authservice.auth.exception.Jwt.JwtException;
@@ -46,6 +47,16 @@ public class AuthServiceImpl implements AuthService{
 
         return createJwt(MemberDto.builder().
                 idx(auth.getMemberIndex()).build());
+    }
+
+    @Override
+    @Transactional
+    public void signUp(SignUpRequestDto dto) {
+        memberClient.singUpMember(dto);
+        authRepository.save(Auth.builder().
+                username(dto.getMemberId()).
+                password(bCryptPasswordEncoder.encode(dto.getMemberPass())).
+                createdAt(LocalDateTime.now()).build());
     }
 
     @Override

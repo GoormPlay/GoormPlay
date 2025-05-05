@@ -11,10 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @Slf4j
@@ -22,21 +19,21 @@ import java.util.UUID;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-        private final AuthService authService;
+    private final AuthService authService;
 
-        @PostMapping("/signIn")
-        public ResponseEntity<?> signIn(@Valid @RequestBody SignInRequestDto dto){
+    @PostMapping("/signIn")
+    public ResponseEntity<ResponseDto> signIn(@Valid @RequestBody SignInRequestDto dto) {
 
         String accessToken = authService.signIn(dto);
 
-        return new ResponseEntity<>(new ResponseDto("로그인",accessToken),HttpStatus.OK);
-        }
+        return new ResponseEntity<>(new ResponseDto("로그인", accessToken), HttpStatus.OK);
+    }
 
-//    @PostMapping("/signUp")
-//    public ResponseEntity<Map<String, Object>> signUp(@Valid @RequestBody SignUpRequestDto dto) {
-//
-//
-//    }
+    @PostMapping("/signUp")
+    public ResponseEntity<ResponseDto> signUp(@Valid @RequestBody SignUpRequestDto dto) {
+        authService.signUp(dto);
+        return new ResponseEntity<>(new ResponseDto("회원가입", dto.getMemberId()), HttpStatus.OK);
+    }
 
     @GetMapping("/refresh")
     public ResponseEntity<ResponseDto> tokenRefresh() {
