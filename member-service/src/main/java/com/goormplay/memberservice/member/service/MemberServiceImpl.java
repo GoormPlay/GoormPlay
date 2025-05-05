@@ -1,0 +1,35 @@
+package com.goormplay.memberservice.member.service;
+
+import com.goormplay.memberservice.member.dto.Member.MemberDto;
+import com.goormplay.memberservice.member.dto.SignUpRequestDto;
+import com.goormplay.memberservice.member.entity.Member;
+import com.goormplay.memberservice.member.exception.Member.MemberException;
+import com.goormplay.memberservice.member.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import static com.goormplay.memberservice.member.exception.Member.MemberExceptionType.ALREADY_EXIST_MEMBER;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class MemberServiceImpl implements MemberService{
+
+    private final MemberRepository memberRepository;
+
+    @Override
+    public void joinMember(SignUpRequestDto dto) {
+
+        String username = dto.getUsername();
+        if(memberRepository.existsByUsername(username)) throw new MemberException(ALREADY_EXIST_MEMBER);
+        String gender = dto.getGender();
+        int age = dto.getAge();
+
+        memberRepository.save(Member.builder().
+                username(username).
+                gender(gender).
+                age(age).
+                build());
+    }
+}

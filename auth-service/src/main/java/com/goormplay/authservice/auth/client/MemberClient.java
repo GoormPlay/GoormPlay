@@ -11,12 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @FeignClient(name = "member-service")
 public interface MemberClient {
-    @GetMapping("/member/client/{memberId}")
-    MemberDto getMember(@PathVariable("memberId") String memberId);
-
-    @PostMapping("/member/client/validate")//유효한 회원인지 확인
-    MemberSignInDto checkMemberBeforeSignIn(SignInRequestDto dto); 
-    
     @PostMapping("/member/client")//회원가입
     void singUpMember(SignUpRequestDto dto);
 

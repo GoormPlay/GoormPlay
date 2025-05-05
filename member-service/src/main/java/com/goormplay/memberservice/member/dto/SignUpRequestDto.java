@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SignUpRequestDto {
 
-    private String memberId;
-    private String memberPass;
-    private String memberGender;
-    private String memberAge;
+    private String username;
+    private String password;
+    private String gender;
+    private int age;
 }

@@ -3,7 +3,6 @@ package com.goormplay.authservice.auth.service;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.goormplay.authservice.auth.client.MemberClient;
 import com.goormplay.authservice.auth.dto.Member.MemberDto;
-import com.goormplay.authservice.auth.dto.Member.MemberSignInDto;
 import com.goormplay.authservice.auth.dto.SignInRequestDto;
 import com.goormplay.authservice.auth.dto.SignUpRequestDto;
 import com.goormplay.authservice.auth.entity.Auth;
@@ -54,8 +53,8 @@ public class AuthServiceImpl implements AuthService{
     public void signUp(SignUpRequestDto dto) {
         memberClient.singUpMember(dto);
         authRepository.save(Auth.builder().
-                username(dto.getMemberId()).
-                password(bCryptPasswordEncoder.encode(dto.getMemberPass())).
+                username(dto.getUsername()).
+                password(bCryptPasswordEncoder.encode(dto.getPassword())).
                 createdAt(LocalDateTime.now()).build());
     }
 
@@ -82,8 +81,8 @@ public class AuthServiceImpl implements AuthService{
         // redis에 refresh 토큰이 있는지 체크
         RefreshTokenDto refreshTokenDto = jwtUtil.getRefreshTokenFromRedis(refreshToken);
 
-        MemberDto memberDto = memberClient.getMember(memberId);
-        return jwtUtil.createJwt(memberDto); // access token return
+        Auth auth = authRepository.findByUsername(memberId).orElseThrow(()->new AuthException(NOT_FOUND_MEMBER));
+        return jwtUtil.createJwt(MemberDto.builder().idx(auth.getMemberIndex()).build()); // access token return
     }
 
     @Override

@@ -34,8 +34,12 @@ public class Member {
     @Column(length = 10)
     private String gender;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    //Spring MVC에서 요청/응답 변환 시 적용, DB에 저장되는 실제 값의 포맷은 DB 설정에 따름
-    private LocalDate birthDate;
+    @Column
+    private Integer age;
+
+
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    //Spring MVC에서 요청/응답 변환 시 적용, DB에 저장되는 실제 값의 포맷은 DB 설정에 따름
+//    private LocalDate birthDate;
 
 }

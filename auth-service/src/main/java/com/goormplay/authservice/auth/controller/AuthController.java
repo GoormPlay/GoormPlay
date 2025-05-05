@@ -32,7 +32,7 @@ public class AuthController {
     @PostMapping("/signUp")
     public ResponseEntity<ResponseDto> signUp(@Valid @RequestBody SignUpRequestDto dto) {
         authService.signUp(dto);
-        return new ResponseEntity<>(new ResponseDto("회원가입", dto.getMemberId()), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto("회원가입", dto.getUsername()), HttpStatus.OK);
     }
 
     @GetMapping("/refresh")
