@@ -22,15 +22,23 @@ public class MemberServiceImpl implements MemberService{
     public void joinMember(SignUpRequestDto dto) {
         log.info("Member Service 회원가입 시작");
 
+
         String username = dto.getUsername();
-        if(memberRepository.existsByUsername(username)) throw new MemberException(ALREADY_EXIST_MEMBER);
         String gender = dto.getGender();
         int age = dto.getAge();
-
+        log.info("username, gender, age :" + username+", "+gender+", "+age);
         memberRepository.save(Member.builder().
                 username(username).
                 gender(gender).
+                isCancelScheduled(false).
+                isSubcribe(false).
                 age(age).
                 build());
+    }
+
+    public void deleteMember(String username) {
+        log.info("유저 삭제 시작");
+        memberRepository.findByUsername(username)
+                .ifPresent(memberRepository::delete);
     }
 }

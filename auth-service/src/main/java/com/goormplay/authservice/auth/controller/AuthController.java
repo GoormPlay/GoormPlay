@@ -21,7 +21,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/signIn")
+    @PostMapping("/signin")
     public ResponseEntity<ResponseDto> signIn(@Valid @RequestBody SignInRequestDto dto) {
         log.info("Auth Service 로그인 시작");
         String accessToken = authService.signIn(dto);
@@ -29,11 +29,14 @@ public class AuthController {
         return new ResponseEntity<>(new ResponseDto("로그인", accessToken), HttpStatus.OK);
     }
 
-    @PostMapping("/signUp")
+    @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signUp(@Valid @RequestBody SignUpRequestDto dto) {
         log.info("Auth Service 회원가입 시작");
-
-        authService.signUp(dto);
+        try{
+            authService.signUp(dto);
+        }catch(Exception e){
+            return new ResponseEntity<>(new ResponseDto("회원가입 실패", dto.getUsername()), HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(new ResponseDto("회원가입", dto.getUsername()), HttpStatus.OK);
     }
 

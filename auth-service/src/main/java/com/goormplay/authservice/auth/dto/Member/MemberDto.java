@@ -1,26 +1,20 @@
 package com.goormplay.authservice.auth.dto.Member;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Builder
-@Getter
+@Data
 @ToString
 @NoArgsConstructor
 public class MemberDto {
-    Long idx;
+    String username;
 
-    public void setIdx(Long idx) {
-        if(idx>=0){
-            this.idx = idx;
-        }
-    }
+
 
 
     @Builder
-    public MemberDto(Long idx) {
-        setIdx(idx);
+    public MemberDto(String username) {
+        setUsername(username);
     }
 }

@@ -65,7 +65,7 @@ public class JwtUtil {
 
         log.info("Auth Service - JwtUtil - createJwt - 리프레쉬 토큰을 redis에 저장");
 
-        RefreshToken savedRefreshToken = refreshTokenRepository.save(new RefreshToken(refreshToken, memberDto.getIdx()));
+        RefreshToken savedRefreshToken = refreshTokenRepository.save(new RefreshToken(refreshToken, memberDto.getUsername()));
         log.info("Auth Service - JwtUtil - createJwt -  cookie에 Refresh token 담기");
 
         setRefreshTokenToCookie(refreshToken);
@@ -83,7 +83,7 @@ public class JwtUtil {
         log.info("Auth Service - JwtUtil - 액세스 발급");
         return JWT.create()
                 .withSubject(ACCESS_TOKEN_SUBJECT)
-                .withAudience(memberDto.getIdx().toString())
+                .withAudience(memberDto.getUsername())
                 .withExpiresAt(Date.from(LocalDateTime.now()
                         .plusMinutes(accessExpiration)
                         .atZone(ZoneId.systemDefault()).toInstant()))
@@ -95,7 +95,7 @@ public class JwtUtil {
         log.info("Auth Service - JwtUtil - 리프레시 발급");
         return JWT.create()
                 .withSubject(REFRESH_TOKEN_SUBJECT)
-                .withAudience(memberDto.getIdx().toString())
+                .withAudience(memberDto.getUsername())
                 .withExpiresAt(Date.from(LocalDateTime.now()
                         .plusMinutes(refreshExpiration)
                         .atZone(ZoneId.systemDefault()).toInstant()))
@@ -178,7 +178,7 @@ public class JwtUtil {
         RefreshToken rt = refreshTokenRepository
                 .findById(refreshToken)
                 .orElseThrow(() -> new JwtException(JwtExceptionType.TOKEN_EXPIRED));
-        return RefreshTokenDto.builder().refreshToken(rt.getRefreshToken()).memberId(rt.getMemberId()).build();
+        return RefreshTokenDto.builder().refreshToken(rt.getRefreshToken()).username(rt.getUsername()).build();
     }
 
     public void deleteRefreshToken(String refreshToken) {

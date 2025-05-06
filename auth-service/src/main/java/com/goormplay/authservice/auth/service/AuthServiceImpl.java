@@ -23,8 +23,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDateTime;
 
-import static com.goormplay.authservice.auth.exception.Auth.AuthExceptionType.NOT_FOUND_MEMBER;
-import static com.goormplay.authservice.auth.exception.Auth.AuthExceptionType.WRONG_PASSWORD;
+import static com.goormplay.authservice.auth.exception.Auth.AuthExceptionType.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,33 +32,51 @@ public class AuthServiceImpl implements AuthService{
     private final JwtUtil jwtUtil;
     private final AuthRepository authRepository;
     private final MemberClient memberClient;
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     @Transactional
     public String signIn(SignInRequestDto dto) {
         log.info("Auth Service - AuthServiceImpl - 로그인 시작");
-        Auth auth = authRepository.findByUsername(dto.getMemberId()).orElseThrow(()->new AuthException(NOT_FOUND_MEMBER));
+        Auth auth = authRepository.findByUsername(dto.getUsername()).orElseThrow(()->new AuthException(NOT_FOUND_MEMBER));
         String memberPass = auth.getPassword();
-        if (!bCryptPasswordEncoder.matches(dto.getMemberPass(), memberPass)) {
+        if (!bCryptPasswordEncoder.matches(dto.getPassword(), memberPass)) {
             throw new AuthException(WRONG_PASSWORD);
         }
 
         auth.setLastLoginAt(LocalDateTime.now());
 
         return createJwt(MemberDto.builder().
-                idx(auth.getMemberIndex()).build());
+                username(auth.getUsername()).build());
     }
 
     @Override
     @Transactional
     public void signUp(SignUpRequestDto dto) {
         log.info("Auth Service - AuthServiceImpl - 회원가입 시작");
-        memberClient.singUpMember(dto);
-        authRepository.save(Auth.builder().
-                username(dto.getUsername()).
-                password(bCryptPasswordEncoder.encode(dto.getPassword())).
-                createdAt(LocalDateTime.now()).build());
+        if(authRepository.existsByUsername(dto.getUsername())) throw new AuthException(ALREADY_EXIST_MEMBER);
+
+        try {
+            memberClient.signUpMember(dto);
+
+            Auth auth = Auth.builder()
+                    .username(dto.getUsername())
+                    .password(bCryptPasswordEncoder.encode(dto.getPassword()))
+                    .createdAt(LocalDateTime.now())
+                    .build();
+            authRepository.save(auth);
+
+        } catch (Exception e) {
+            // 실패 시 보상 트랜잭션 실행
+            memberClient.deleteMember(dto.getUsername());
+            throw new AuthException(SIGN_UP_FAIL);
+        }
+    }
+
+    @Override
+    public void deleteTransaction(String username) {
+        log.info("Auth Service - AuthServiceImpl - deleteTransaction 시작");
+        memberClient.deleteMember(username);
     }
 
     @Override
@@ -90,7 +107,7 @@ public class AuthServiceImpl implements AuthService{
         RefreshTokenDto refreshTokenDto = jwtUtil.getRefreshTokenFromRedis(refreshToken);
 
         Auth auth = authRepository.findByUsername(memberId).orElseThrow(()->new AuthException(NOT_FOUND_MEMBER));
-        return jwtUtil.createJwt(MemberDto.builder().idx(auth.getMemberIndex()).build()); // access token return
+        return jwtUtil.createJwt(MemberDto.builder().username(auth.getUsername()).build()); // access token return
     }
 
     @Override

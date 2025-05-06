@@ -22,10 +22,18 @@ public class MemberController {
     private final MemberService memberService;
 
 
-    @PostMapping("/member/client")
-    public ResponseEntity<ResponseDto> singUpMember(SignUpRequestDto dto) {
+    @PostMapping("/client")
+    public ResponseEntity<ResponseDto> singUpMember(@RequestBody SignUpRequestDto dto) {
         log.info("Member Service 회원가입 시작 ");
         memberService.joinMember(dto);
         return new ResponseEntity<>(new ResponseDto("회원가입",null), HttpStatus.OK);
     }
+
+    @DeleteMapping("client/{username}")
+    public ResponseEntity<ResponseDto> signUpMember(@PathVariable("username")String username){
+        log.info("회원가입 보상 트랜잭션 유저 삭제 시작 ");
+        memberService.deleteMember(username);
+        return new ResponseEntity<>(new ResponseDto("보상 트랜잭션: 회원 삭제",null), HttpStatus.OK);
+    }
+    
 }

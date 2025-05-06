@@ -19,7 +19,11 @@ eureka:
     service-url:
       defaultZone: http://gpadmin:1234@localhost:8761/eureka
 
-
+feign:
+  client:
+    config:
+      default:
+        retryer: feign.Retryer.Default
 
 service:
   jwt:

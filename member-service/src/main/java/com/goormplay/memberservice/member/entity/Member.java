@@ -2,13 +2,15 @@ package com.goormplay.memberservice.member.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "member", uniqueConstraints = @UniqueConstraint(columnNames = "memberId"))
+@Table(name = "member", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,12 +26,15 @@ public class Member {
     @Column(nullable = false, unique = true, updatable = false, length = 50)
     private String username;
 
+    @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
-    private Boolean isSubcribe = false;
+    @Column
+    private Boolean isSubcribe;
 
-    private Boolean isCancelScheduled = false;
+    @Column
+    private Boolean isCancelScheduled ;
 
     @Column(length = 10)
     private String gender;

@@ -10,6 +10,7 @@ public interface AuthService {
     String signIn(SignInRequestDto dto);
 
     void signUp(SignUpRequestDto dto);
+    void deleteTransaction(String username);
     String createJwt(MemberDto memberDto);
     String tokenRefresh();
     void logout();

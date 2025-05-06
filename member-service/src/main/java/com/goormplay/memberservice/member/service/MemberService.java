@@ -7,4 +7,6 @@ import com.goormplay.memberservice.member.entity.Member;
 public interface MemberService {
 
     void joinMember(SignUpRequestDto dto);
+
+    void deleteMember(String username);
 }
