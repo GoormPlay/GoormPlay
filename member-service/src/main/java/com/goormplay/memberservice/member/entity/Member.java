@@ -37,7 +37,8 @@ public class Member {
     private Boolean isCancelScheduled ;
 
     @Column(length = 10)
-    private String gender;
+    @Enumerated
+    private Gender gender;
 
     @Column
     private Integer age;

@@ -26,6 +26,10 @@ public class Auth {
     @Column(nullable = false,  length = 200)
     private String password;
 
+    @Column(nullable = false,  length = 20)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

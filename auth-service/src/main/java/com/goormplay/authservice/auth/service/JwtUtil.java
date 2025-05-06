@@ -54,8 +54,7 @@ public class JwtUtil {
 
     public static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
     public static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
-    static final String NICKNAME_CLAIM = "nickname";
-    static final String BEARER = "Bearer ";
+
 
 
     public String createJwt(MemberDto memberDto) {
@@ -81,9 +80,10 @@ public class JwtUtil {
     // 현재 accessToken : 10분/ refreshToken : 1시간 => 배포시 늘려야됨
     public String getAccessToken(MemberDto memberDto) {
         log.info("Auth Service - JwtUtil - 액세스 발급");
+        log.info("Auth Service - memberDto ROLE  : " + memberDto.getRole().toString());
         return JWT.create()
-                .withSubject(ACCESS_TOKEN_SUBJECT)
-                .withAudience(memberDto.getUsername())
+                .withSubject(memberDto.getUsername())
+                .withClaim("role", memberDto.getRole().toString())
                 .withExpiresAt(Date.from(LocalDateTime.now()
                         .plusMinutes(accessExpiration)
                         .atZone(ZoneId.systemDefault()).toInstant()))
@@ -95,7 +95,6 @@ public class JwtUtil {
         log.info("Auth Service - JwtUtil - 리프레시 발급");
         return JWT.create()
                 .withSubject(REFRESH_TOKEN_SUBJECT)
-                .withAudience(memberDto.getUsername())
                 .withExpiresAt(Date.from(LocalDateTime.now()
                         .plusMinutes(refreshExpiration)
                         .atZone(ZoneId.systemDefault()).toInstant()))

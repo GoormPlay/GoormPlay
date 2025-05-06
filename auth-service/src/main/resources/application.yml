@@ -23,7 +23,7 @@ feign:
   client:
     config:
       default:
-        retryer: feign.Retryer.Default
+        retryer: feign.Retryer.Default #실패대비재시도
 
 service:
   jwt:

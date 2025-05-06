@@ -6,6 +6,7 @@ import com.goormplay.authservice.auth.dto.Member.MemberDto;
 import com.goormplay.authservice.auth.dto.SignInRequestDto;
 import com.goormplay.authservice.auth.dto.SignUpRequestDto;
 import com.goormplay.authservice.auth.entity.Auth;
+import com.goormplay.authservice.auth.entity.Role;
 import com.goormplay.authservice.auth.exception.Auth.AuthException;
 import com.goormplay.authservice.auth.exception.Jwt.JwtException;
 import com.goormplay.authservice.auth.exception.Jwt.JwtExceptionType;
@@ -47,7 +48,9 @@ public class AuthServiceImpl implements AuthService{
         auth.setLastLoginAt(LocalDateTime.now());
 
         return createJwt(MemberDto.builder().
-                username(auth.getUsername()).build());
+                username(auth.getUsername()).
+                role(auth.getRole())
+                .build());
     }
 
     @Override
@@ -62,6 +65,7 @@ public class AuthServiceImpl implements AuthService{
             Auth auth = Auth.builder()
                     .username(dto.getUsername())
                     .password(bCryptPasswordEncoder.encode(dto.getPassword()))
+                    .role(Role.USER)
                     .createdAt(LocalDateTime.now())
                     .build();
             authRepository.save(auth);
