@@ -1,5 +1,6 @@
 package com.goormplay.contentservice.dto;
 
+import com.goormplay.contentservice.entity.Content;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,4 +12,7 @@ public class ContentCardDTO {
     private String contentType;
     private String[] genre;
     private String thumbnailUrl;
+    private String embedUrl;
+
+
 }

@@ -25,7 +25,7 @@ public class MongoConfig {
         return new MongoCustomConversions(converters);
     }
 
-
+    // 날짜 변환 컨버터
     @ReadingConverter
     public enum DateToLocalDateTimeConverter implements Converter<Date, LocalDateTime> {
         INSTANCE;

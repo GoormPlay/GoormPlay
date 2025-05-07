@@ -3,12 +3,12 @@ package com.goormplay.contentservice.dto;
 import lombok.Builder;
 import lombok.Data;
 
+
 import java.time.LocalDate;
 
 @Data
 @Builder
-public class ContentDetailDTO {
-    private String id;
+public class ContentDTO {
     private String title;
     private String contentType;
     private String[] genre;
@@ -17,6 +17,5 @@ public class ContentDetailDTO {
     private String[] cast;
     private String embedUrl;
     private String thumbnailUrl;
-    private int commentsCount;
     private LocalDate releaseDate;
 }
