@@ -20,8 +20,8 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_index", updatable = false)
-    private Long memberIndex;
+    @Column(name = "id", updatable = false)
+    private Long id;
 
     @Column(nullable = false, unique = true, updatable = false, length = 50)
     private String username;
@@ -29,12 +29,6 @@ public class Member {
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
-    @Column
-    private Boolean isSubcribe;
-
-    @Column
-    private Boolean isCancelScheduled ;
 
     @Column(length = 10)
     @Enumerated

@@ -10,15 +10,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 @Entity
-@Table(name = "auth", uniqueConstraints = @UniqueConstraint(columnNames = "memberId"))
+@Table(name = "auth", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 @Getter
 @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Auth {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_index", updatable = false)
-    private Long memberIndex;
+    @Column(name = "id", updatable = false)
+    private Long id;
 
     @Column(nullable = false, unique = true,  updatable = false, length = 50)
     private String username;

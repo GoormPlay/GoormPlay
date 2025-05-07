@@ -60,9 +60,10 @@ public class AuthServiceImpl implements AuthService{
         if(authRepository.existsByUsername(dto.getUsername())) throw new AuthException(ALREADY_EXIST_MEMBER);
 
         try {
-            memberClient.signUpMember(dto);
+           Long memberId = memberClient.signUpMember(dto);
 
             Auth auth = Auth.builder()
+                    .id(memberId)
                     .username(dto.getUsername())
                     .password(bCryptPasswordEncoder.encode(dto.getPassword()))
                     .role(Role.USER)
