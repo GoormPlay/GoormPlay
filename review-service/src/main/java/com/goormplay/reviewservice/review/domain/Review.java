@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 public class Review {
     @Id
     private String id;
-    private String contentId;
-    private String comment;
-    private int rating;
-    private String writer;
-    private LocalDateTime createdAt;
+    private String contentId; // 콘텐츠 ID
+    private String userId;    // 작성자 ID
+    private String text;      // 리뷰 텍스트
+    private double rating;    // 별점
+    private LocalDateTime timestamp; // 작성 시간
 }
