@@ -8,15 +8,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 @ToString
 @NoArgsConstructor
-public class MemberDto {
-    String username;
+public class MemberDto {//수정
+    Long memberId;
     Role role;
 
 
 
     @Builder
-    public MemberDto(String username,Role role) {
-        setUsername(username);
+    public MemberDto(Long memberId,Role role) {
+        setMemberId(memberId);
         setRole(role);
     }
 }

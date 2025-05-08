@@ -15,22 +15,22 @@ public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
 
+
     @Override
-    public void joinMember(SignUpRequestDto dto) {
+    public Long joinMember(SignUpRequestDto dto) {
         log.info("Member Service 회원가입 시작");
+        log.info(dto.getUsername());
+        log.info(dto.getPassword());
+        log.info(dto.getGender().toString());
+        log.info(String.valueOf(dto.getAge()));
 
-
-        String username = dto.getUsername();
-        Gender gender = dto.getGender();
-        int age = dto.getAge();
-        log.info("username, gender, age :" + username+", "+gender+", "+age);
-        memberRepository.save(Member.builder().
-                username(username).
-                gender(gender).
-                isCancelScheduled(false).
-                isSubcribe(false).
-                age(age).
+        Member member =  memberRepository.save(Member.builder().
+                username(dto.getUsername()).
+                gender(dto.getGender()).
+                age(dto.getAge()).
                 build());
+        log.info("member 등록 완료");
+        return member.getId();
     }
 
     public void deleteMember(String username) {

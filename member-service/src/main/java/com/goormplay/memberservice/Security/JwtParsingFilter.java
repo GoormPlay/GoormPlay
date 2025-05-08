@@ -45,11 +45,14 @@ public class JwtParsingFilter extends OncePerRequestFilter {
             JsonNode claims = parsePayload(payload);
             // SecurityContext에 인증 정보 설정
             log.info("claim - sub : " + claims.get("sub").asText());
+
+
+
             if (!claims.has("sub")) {
                 throw new ServletException("Missing 'sub' claim");
             }
             Authentication auth = new UsernamePasswordAuthenticationToken(
-                    claims.get("sub").asText(),
+                    claims.get("memberId").asText(),
                     null,
                     extractAuthorities(claims)
             );
