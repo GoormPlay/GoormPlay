@@ -1,4 +1,4 @@
-package com.goormplay.contentservice.repository.dto;
+package com.goormplay.contentservice.dto;
 
 import com.goormplay.contentservice.entity.Content;
 import lombok.Builder;

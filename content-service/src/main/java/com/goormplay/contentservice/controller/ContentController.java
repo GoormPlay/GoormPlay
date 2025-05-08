@@ -1,7 +1,7 @@
 package com.goormplay.contentservice.controller;
 
-import com.goormplay.contentservice.repository.dto.ContentCardDTO;
-import com.goormplay.contentservice.repository.dto.ContentDetailDTO;
+import com.goormplay.contentservice.dto.ContentCardDTO;
+import com.goormplay.contentservice.dto.ContentDetailDTO;
 import com.goormplay.contentservice.entity.Content;
 import com.goormplay.contentservice.service.ContentService;
 import lombok.RequiredArgsConstructor;
