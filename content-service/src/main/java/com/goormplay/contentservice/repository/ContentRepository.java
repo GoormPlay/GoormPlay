@@ -24,4 +24,7 @@ public interface ContentRepository extends MongoRepository<Content, String> {
 
     @Query("{ 'releaseDate': { $exists: true }}")
     Page<Content> findLatestContents(Pageable pageable);
+
+    @Query("{ 'releaseDate': { $exists: true }}")
+    List<Content> findAllLatestContents();  // Pageable 파라미터 없이
 }

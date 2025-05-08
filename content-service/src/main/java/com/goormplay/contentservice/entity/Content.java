@@ -1,7 +1,8 @@
 package com.goormplay.contentservice.entity;
 
-import com.goormplay.contentservice.repository.dto.ContentCardDTO;
-import com.goormplay.contentservice.repository.dto.ContentDetailDTO;
+import com.goormplay.contentservice.dto.ContentCardDTO;
+import com.goormplay.contentservice.dto.ContentDTO;
+import com.goormplay.contentservice.dto.ContentDetailDTO;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -45,6 +46,8 @@ public class Content {
     @LastModifiedDate
     private LocalDate updatedAt;
 
+
+
     // 컨텐츠 Card DT
     public ContentCardDTO contentToContentCardDto(Content content){
         return ContentCardDTO.builder()
@@ -71,6 +74,7 @@ public class Content {
                 .thumbnailUrl(content.getThumbnailUrl())
                 .build();
     }
+
 
 
 }
