@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+content-service/.env
+content-service/dev.env
+content-service/prod.env
