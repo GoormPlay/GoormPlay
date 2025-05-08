@@ -34,14 +34,19 @@ public class ContentController {
             throw new RuntimeException("Failed to import contents", e);
         }
     }
-
-    @GetMapping("/latest-test")
-    public ResponseEntity<List<ContentCardDTO>> getLatestTestContents() {
+    @PostMapping("/import-test")
+    public ResponseEntity<String> saveTestLatestContents() {
         try {
-            return ResponseEntity.ok(contentService.getTestContentCard());
+            contentService.saveTestContents();
+            return ResponseEntity.ok("success");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @GetMapping("/latest-test")
+    public ResponseEntity<List<ContentCardDTO>> getLatestTestContentCards() {
+        return ResponseEntity.ok(contentService.getTestLatestContentCards());
     }
     @GetMapping("/latest")
     public ResponseEntity<Page<ContentCardDTO>> getLatestContents(int page, int size) {

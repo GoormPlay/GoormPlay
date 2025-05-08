@@ -8,14 +8,12 @@ import com.goormplay.contentservice.dto.ContentDTO;
 import com.goormplay.contentservice.dto.ContentDetailDTO;
 import com.goormplay.contentservice.entity.Content;
 import com.goormplay.contentservice.repository.ContentRepository;
+import com.goormplay.contentservice.tool.ContentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,14 +21,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ContentService {
     private final ContentRepository contentRepository;
-    private final MongoTemplate mongoTemplate;
     private final ObjectMapper objectMapper;
+    private final ContentMapper contentMapper;
 
     @Transactional
     public List<Content> createContents() throws IOException {
@@ -68,6 +67,7 @@ public class ContentService {
 
     }
 
+    // 테스트 데이터 변환
     public List<ContentCardDTO> getTestContentCard() throws IOException {
 
             File jsonFile = new File("scripts/test-contents.json");
@@ -75,8 +75,26 @@ public class ContentService {
                 jsonFile,
                 new TypeReference<List<ContentCardDTO>>() {}
         );
+    }
 
+    // 테스트 데이터 변환 후 저장
+    public void saveTestContents() throws IOException {
 
+        List<ContentDTO> contentDTOS = importContentsFromJson();
+
+        List<Content> contents = contentDTOS.stream()
+                .map(contentMapper::toEntity)
+                .collect(Collectors.toList());
+        contentRepository.saveAll(contents);
+    }
+
+    // 테스트 데이터 cardDTO 조회
+    public List<ContentCardDTO> getTestLatestContentCards()  {
+
+        List<Content> contents = contentRepository.findAllLatestContents();
+        return contents.stream()
+                .map(this::contentToContentCardDto)
+                .toList();
     }
 
     // 최신 컨텐츠 조회

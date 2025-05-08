@@ -42,4 +42,4 @@ out/
 .AppleDouble
 .LSOverride
 
-dev.env
+src/main/resources/.env
