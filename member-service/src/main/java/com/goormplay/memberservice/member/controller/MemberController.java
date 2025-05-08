@@ -38,14 +38,15 @@ public class MemberController {
     }
 
     @PostMapping("/client")
-    public ResponseEntity<ResponseDto> singUpMember(@RequestBody SignUpRequestDto dto) {
+    public Long signUpMember(@RequestBody SignUpRequestDto dto) {
         log.info("Member Service 회원가입 시작 ");
         Long memberId = memberService.joinMember(dto);
-        return new ResponseEntity<>(new ResponseDto("회원가입",memberId), HttpStatus.OK);
+        log.info("memberId 반환 "+ memberId);
+        return memberId;
     }
 
     @DeleteMapping("client/{username}")
-    public ResponseEntity<ResponseDto> signUpMember(@PathVariable("username")String username){
+    public ResponseEntity<ResponseDto> deleteMember(@PathVariable("username")String username){
         log.info("회원가입 보상 트랜잭션 유저 삭제 시작 ");
         memberService.deleteMember(username);
         return new ResponseEntity<>(new ResponseDto("보상 트랜잭션: 회원 삭제",null), HttpStatus.OK);

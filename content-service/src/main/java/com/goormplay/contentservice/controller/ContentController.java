@@ -1,13 +1,8 @@
 package com.goormplay.contentservice.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.goormplay.contentservice.dto.ContentCardDTO;
-import com.goormplay.contentservice.dto.ContentDTO;
-import com.goormplay.contentservice.dto.ContentDetailDTO;
+import com.goormplay.contentservice.repository.dto.ContentCardDTO;
+import com.goormplay.contentservice.repository.dto.ContentDetailDTO;
 import com.goormplay.contentservice.entity.Content;
-import com.goormplay.contentservice.repository.ContentRepository;
 import com.goormplay.contentservice.service.ContentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Savepoint;
 import java.util.List;
 
 @RestController

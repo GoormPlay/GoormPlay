@@ -48,7 +48,7 @@ public class AuthServiceImpl implements AuthService{
         auth.setLastLoginAt(LocalDateTime.now());
 
         return createJwt(MemberDto.builder().
-                username(auth.getUsername()).
+                memberId(auth.getId()).
                 role(auth.getRole())
                 .build());
     }
@@ -61,7 +61,7 @@ public class AuthServiceImpl implements AuthService{
 
         try {
            Long memberId = memberClient.signUpMember(dto);
-
+           log.info("memberID : :::::::   "+ memberId);
             Auth auth = Auth.builder()
                     .id(memberId)
                     .username(dto.getUsername())
@@ -105,14 +105,14 @@ public class AuthServiceImpl implements AuthService{
 
         // refresh token 에서 유저 audience값 가져오기
         DecodedJWT payload = jwtUtil.getDecodedJWT(refreshToken);
-        String memberId = payload.getAudience().get(0);
+        Long memberId = payload.getClaim("memberId").asLong();
 
         log.info("Auth Service - AuthServiceImpl - 레디스 확인");
         // redis에 refresh 토큰이 있는지 체크
         RefreshTokenDto refreshTokenDto = jwtUtil.getRefreshTokenFromRedis(refreshToken);
 
-        Auth auth = authRepository.findByUsername(memberId).orElseThrow(()->new AuthException(NOT_FOUND_MEMBER));
-        return jwtUtil.createJwt(MemberDto.builder().username(auth.getUsername()).build()); // access token return
+        Auth auth = authRepository.findById(memberId).orElseThrow(()->new AuthException(NOT_FOUND_MEMBER));
+        return jwtUtil.createJwt(MemberDto.builder().memberId(auth.getId()).build()); // access token return
     }
 
     @Override

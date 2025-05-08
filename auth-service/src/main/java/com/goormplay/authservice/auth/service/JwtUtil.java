@@ -52,7 +52,6 @@ public class JwtUtil {
 
     private final RefreshTokenRepository refreshTokenRepository;
 
-    public static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
     public static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
 
 
@@ -64,7 +63,7 @@ public class JwtUtil {
 
         log.info("Auth Service - JwtUtil - createJwt - 리프레쉬 토큰을 redis에 저장");
 
-        RefreshToken savedRefreshToken = refreshTokenRepository.save(new RefreshToken(refreshToken, memberDto.getUsername()));
+        RefreshToken savedRefreshToken = refreshTokenRepository.save(new RefreshToken(refreshToken, memberDto.getMemberId()));
         log.info("Auth Service - JwtUtil - createJwt -  cookie에 Refresh token 담기");
 
         setRefreshTokenToCookie(refreshToken);
@@ -82,7 +81,8 @@ public class JwtUtil {
         log.info("Auth Service - JwtUtil - 액세스 발급");
         log.info("Auth Service - memberDto ROLE  : " + memberDto.getRole().toString());
         return JWT.create()
-                .withSubject(memberDto.getUsername())
+                .withSubject(memberDto.getMemberId().toString())
+                .withClaim("memberId", memberDto.getMemberId())
                 .withClaim("role", memberDto.getRole().toString())
                 .withExpiresAt(Date.from(LocalDateTime.now()
                         .plusMinutes(accessExpiration)
@@ -95,6 +95,7 @@ public class JwtUtil {
         log.info("Auth Service - JwtUtil - 리프레시 발급");
         return JWT.create()
                 .withSubject(REFRESH_TOKEN_SUBJECT)
+                .withClaim("memberId", memberDto.getMemberId())
                 .withExpiresAt(Date.from(LocalDateTime.now()
                         .plusMinutes(refreshExpiration)
                         .atZone(ZoneId.systemDefault()).toInstant()))
@@ -177,7 +178,7 @@ public class JwtUtil {
         RefreshToken rt = refreshTokenRepository
                 .findById(refreshToken)
                 .orElseThrow(() -> new JwtException(JwtExceptionType.TOKEN_EXPIRED));
-        return RefreshTokenDto.builder().refreshToken(rt.getRefreshToken()).username(rt.getUsername()).build();
+        return RefreshTokenDto.builder().refreshToken(rt.getRefreshToken()).memberId(rt.getMemberId()).build();
     }
 
     public void deleteRefreshToken(String refreshToken) {

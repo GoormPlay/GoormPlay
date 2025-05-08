@@ -15,17 +15,21 @@ public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
 
+
     @Override
     public Long joinMember(SignUpRequestDto dto) {
         log.info("Member Service 회원가입 시작");
-
+        log.info(dto.getUsername());
+        log.info(dto.getPassword());
+        log.info(dto.getGender().toString());
+        log.info(String.valueOf(dto.getAge()));
 
         Member member =  memberRepository.save(Member.builder().
                 username(dto.getUsername()).
                 gender(dto.getGender()).
                 age(dto.getAge()).
                 build());
-
+        log.info("member 등록 완료");
         return member.getId();
     }
 

@@ -1,7 +1,7 @@
 package com.goormplay.contentservice.entity;
 
-import com.goormplay.contentservice.dto.ContentCardDTO;
-import com.goormplay.contentservice.dto.ContentDetailDTO;
+import com.goormplay.contentservice.repository.dto.ContentCardDTO;
+import com.goormplay.contentservice.repository.dto.ContentDetailDTO;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;

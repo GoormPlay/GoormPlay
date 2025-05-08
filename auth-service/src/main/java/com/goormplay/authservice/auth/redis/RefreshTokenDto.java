@@ -7,5 +7,5 @@ import lombok.Getter;
 @Getter
 public class RefreshTokenDto {
     private final String refreshToken;
-    private final String username;
+    private final Long memberId;
 }

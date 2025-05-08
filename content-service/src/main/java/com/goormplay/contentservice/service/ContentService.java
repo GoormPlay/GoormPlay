@@ -3,9 +3,9 @@ package com.goormplay.contentservice.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.goormplay.contentservice.dto.ContentCardDTO;
-import com.goormplay.contentservice.dto.ContentDTO;
-import com.goormplay.contentservice.dto.ContentDetailDTO;
+import com.goormplay.contentservice.repository.dto.ContentCardDTO;
+import com.goormplay.contentservice.repository.dto.ContentDTO;
+import com.goormplay.contentservice.repository.dto.ContentDetailDTO;
 import com.goormplay.contentservice.entity.Content;
 import com.goormplay.contentservice.repository.ContentRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +16,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.print.attribute.standard.PrinterURI;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
