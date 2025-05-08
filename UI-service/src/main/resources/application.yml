@@ -22,6 +22,6 @@ eureka:
 
 
 server:
-  port: 9001
+  port: 9002
 
 #?db 9000, 3306
