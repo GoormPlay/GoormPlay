@@ -35,6 +35,14 @@ public class ContentController {
         }
     }
 
+    @GetMapping("/latest-test")
+    public ResponseEntity<List<ContentCardDTO>> getLatestTestContents() {
+        try {
+            return ResponseEntity.ok(contentService.getTestContentCard());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @GetMapping("/latest")
     public ResponseEntity<Page<ContentCardDTO>> getLatestContents(int page, int size) {
         return ResponseEntity.ok(contentService.getLatestContents(page, size));

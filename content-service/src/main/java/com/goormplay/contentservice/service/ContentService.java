@@ -14,16 +14,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.print.attribute.standard.PrinterURI;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -66,6 +65,17 @@ public class ContentService {
     public ContentDetailDTO getContentDetailById(String id) {
         Content content = contentRepository.findById(id).orElseThrow();
         return contentToContentDetailDto(content);
+
+    }
+
+    public List<ContentCardDTO> getTestContentCard() throws IOException {
+
+            File jsonFile = new File("scripts/test-contents.json");
+        return objectMapper.readValue(
+                jsonFile,
+                new TypeReference<List<ContentCardDTO>>() {}
+        );
+
 
     }
 
@@ -113,7 +123,7 @@ public class ContentService {
 
     // 임시 Content 더미데이터 만들기
     public List<ContentDTO> importContentsFromJson() throws IOException {
-        try (InputStream is = getClass().getResourceAsStream("/test-contents.json")) {
+        try (InputStream is = getClass().getResourceAsStream("/scripts/test-contents.json")) {
             JsonNode root = objectMapper.readTree(is);
             return objectMapper.convertValue(root.get("test-contents"),
                     new TypeReference<List<ContentDTO>>() {});
