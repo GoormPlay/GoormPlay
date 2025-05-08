@@ -1,8 +1,8 @@
-package com.goormplay.authservice.auth.handler;
+package com.goormplay.memberservice.member.handler;
 
-import com.goormplay.authservice.auth.dto.ErrorResultDto;
-import com.goormplay.authservice.auth.dto.ResponseDto;
-import com.goormplay.authservice.auth.exception.BaseException;
+import com.goormplay.memberservice.member.dto.ErrorResultDto;
+import com.goormplay.memberservice.member.dto.ResponseDto;
+import com.goormplay.memberservice.member.exception.BaseException;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class GlobalExControllerAdvice {
 
     // Bean Valid 검사 후 에러 처리
     @ExceptionHandler
-    public Object authValidError(MethodArgumentNotValidException e){
+    public Object memberValidError(MethodArgumentNotValidException e){
         List<ErrorResultDto> collect = e.getAllErrors().stream().map(o -> (FieldError) o)
                 .map(o -> new ErrorResultDto(o.getField(), o.getDefaultMessage()))
                 .collect(Collectors.toList());
