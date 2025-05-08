@@ -1,4 +1,4 @@
-package com.goormplay.memberservice.member.handler;
+package com.goormplay.memberservice.member.service.handler;
 
 import com.goormplay.memberservice.member.dto.ErrorResultDto;
 import com.goormplay.memberservice.member.dto.ResponseDto;
