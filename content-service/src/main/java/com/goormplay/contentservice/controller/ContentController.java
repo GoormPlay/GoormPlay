@@ -17,16 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ContentController {
     private final ContentService contentService;
-    // JSON 파일에서 테스트용 컨텐츠 가져와서 DB에 저장
-    @PostMapping("/import")
-    public ResponseEntity<List<Content>> importTestContents() {
-        try {
-            List<Content> contents = contentService.createContents();
-            return ResponseEntity.ok(contents);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to import contents", e);
-        }
-    }
+
     @PostMapping("/import-test")
     public ResponseEntity<String> saveTestLatestContents() {
         try {

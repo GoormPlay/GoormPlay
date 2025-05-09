@@ -25,14 +25,17 @@ public class Content {
     private String title;
 
     @Indexed
-    private String contentType;
+    private String kind;
 
     private String[] genre;
     private int year;
     private String KMRB;
     private String[] cast;
-    private String embedUrl;
-    private String thumbnailUrl;
+    private String[] director;
+    private String[] provider;
+    private String videoId;
+    private String thumbnail;
+    private String synopsis;
 
     @Builder.Default
     private int likesCount = 0;
@@ -51,27 +54,31 @@ public class Content {
     // 컨텐츠 Card DT
     public ContentCardDTO contentToContentCardDto(Content content){
         return ContentCardDTO.builder()
-                .contentId(content.getId())
+                .id(content.getId())
                 .title(content.getTitle())
-                .contentType(content.getContentType())
+                .kind(content.getKind())
                 .genre(content.getGenre())
-                .thumbnailUrl(content.getThumbnailUrl())
-                .embedUrl(content.getEmbedUrl())
+                .thumbnail(content.getThumbnail())
+                .videoId(content.getVideoId())
                 .build();
+
     }
     // 컨텐츠 Detail DTO
     public ContentDetailDTO contentToContentDetailDto(Content content){
         return ContentDetailDTO.builder()
                 .id(content.getId())
                 .title(content.getTitle())
-                .contentType(content.getContentType())
+                .kind(content.getKind())
                 .genre(content.getGenre())
                 .year(content.getYear())
                 .KMRB(content.getKMRB())
                 .cast(content.getCast())
-                .embedUrl(content.getEmbedUrl())
+                .director(content.getDirector())
+                .videoId(content.getVideoId())
                 .releaseDate(content.getReleaseDate())
-                .thumbnailUrl(content.getThumbnailUrl())
+                .thumbnail(content.getThumbnail())
+                .synopsis(content.getSynopsis())
+                .provider(content.getProvider())
                 .build();
     }
 

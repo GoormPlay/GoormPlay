@@ -11,14 +11,17 @@ import java.time.LocalDate;
 @Builder
 public class ContentDTO {
     private String title;
-    private String contentType;
+    private String kind;
     private String[] genre;
     private int year;
     private String KMRB;
     private String[] cast;
-    private String embedUrl;
-    private String thumbnailUrl;
+    private String[] provider;
+    private String thumbnail;
+    private String[] director;
+    private String videoId;
     private LocalDate releaseDate;
+    private String synopsis;
 
 
 }

@@ -31,24 +31,7 @@ public class ContentService {
     private final ObjectMapper objectMapper;
     private final ContentMapper contentMapper;
 
-    @Transactional
-    public List<Content> createContents() throws IOException {
-        List<ContentDTO> contentDTOs = importContentsFromJson();
-        return contentDTOs.stream()
-                .map(dto -> Content.builder()
-                        .title(dto.getTitle())
-                        .contentType(dto.getContentType())
-                        .genre(dto.getGenre())
-                        .year(dto.getYear())
-                        .KMRB(dto.getKMRB())
-                        .cast(dto.getCast())
-                        .embedUrl(dto.getEmbedUrl())
-                        .releaseDate(dto.getReleaseDate())
-                        .thumbnailUrl(dto.getThumbnailUrl())
-                        .build())
-                .map(contentRepository::save)
-                .toList();
-    }
+
 
 //    private String title;
 //    private String contentType;
@@ -114,12 +97,12 @@ public class ContentService {
     // 컨텐츠 Card DTO
     public ContentCardDTO contentToContentCardDto(Content content){
         return ContentCardDTO.builder()
-                .contentId(content.getId())
+                .id(content.getId())
                 .title(content.getTitle())
-                .contentType(content.getContentType())
+                .kind(content.getKind())
                 .genre(content.getGenre())
-                .thumbnailUrl(content.getThumbnailUrl())
-                .embedUrl(content.getEmbedUrl())
+                .thumbnail(content.getThumbnail())
+                .videoId(content.getVideoId())
                 .build();
     }
 
@@ -128,14 +111,17 @@ public class ContentService {
         return ContentDetailDTO.builder()
                 .id(content.getId())
                 .title(content.getTitle())
-                .contentType(content.getContentType())
+                .kind(content.getKind())
                 .genre(content.getGenre())
                 .year(content.getYear())
                 .KMRB(content.getKMRB())
                 .cast(content.getCast())
-                .embedUrl(content.getEmbedUrl())
+                .director(content.getDirector())
+                .videoId(content.getVideoId())
                 .releaseDate(content.getReleaseDate())
-                .thumbnailUrl(content.getThumbnailUrl())
+                .thumbnail(content.getThumbnail())
+                .synopsis(content.getSynopsis())
+                .provider(content.getProvider())
                 .build();
     }
 
