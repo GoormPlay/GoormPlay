@@ -18,20 +18,31 @@ public class SubscribeController {
     private final SubscribeService subscribeService;
 
 
+    @GetMapping("/client/{memberId}")
+    void joinSubscribe(@PathVariable("memberId") String memberId) {
+        log.info("Subscribe Controller :  회원가입 시작 ");
+        subscribeService.joinSubscribe(memberId);
+    }
+
+    @DeleteMapping("/client/{memberId}")
+    void deleteSubscribe(@PathVariable("memberId") String memberId) {
+        log.info("Subscribe Controller : 회원가입 보상 트랜잭션 구독 삭제 시작 ");
+        subscribeService.deleteSubscribe(memberId);
+    }
 
 
-    
     @GetMapping("/client/{subscriptionId}/status")
-    SubScribeStatusDto getSubScribeStatus(@PathVariable("subscriptionId") Long subscriptionId){
-        return subscribeService.findMemberProfile(subscriptionId);
+    SubScribeStatusDto getSubScribeStatus(@PathVariable("subscriptionId") String memberId) {
+        log.info("Subscribe Controller : 멤버 구독 정보 조회 시작 ");
+        return subscribeService.findMemberProfile(memberId);
     }
 
 
     @PatchMapping("/status")
-    public void patchSubscriptionStatus(Authentication authentication){
-        log.info("Subscribe service - 구독 상태 변경 시작");
+    public void patchSubscriptionStatus(Authentication authentication) {
+        log.info("Subscribe Controller : 멤버 구독 상태 변경 시작");
         String member_Id = authentication.getName();
-        subscribeService.changeSubscribeStatus(Long.parseLong(authentication.getName()));
+        subscribeService.changeSubscribeStatus(authentication.getName());
     }
 
 }

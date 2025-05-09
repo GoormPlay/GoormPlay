@@ -39,7 +39,7 @@ public class AuthServiceImpl implements AuthService{
     @Override
     @Transactional
     public String signIn(SignInRequestDto dto) {
-        log.info("Auth Service - AuthServiceImpl - 로그인 시작");
+        log.info("Auth Service : 로그인 시작");
         Auth auth = authRepository.findByUsername(dto.getUsername()).orElseThrow(()->new AuthException(NOT_FOUND_MEMBER));
         String memberPass = auth.getPassword();
         if (!bCryptPasswordEncoder.matches(dto.getPassword(), memberPass)) {
@@ -57,12 +57,12 @@ public class AuthServiceImpl implements AuthService{
     @Override
     @Transactional
     public void signUp(SignUpRequestDto dto) {
-        log.info("Auth Service - AuthServiceImpl - 회원가입 시작");
+        log.info("Auth Service : 멤버 인증 정보 생성");
         if(authRepository.existsByUsername(dto.getUsername())) throw new AuthException(ALREADY_EXIST_MEMBER);
 
         try {
            String memberId = memberClient.signUpMember(dto);
-           log.info("memberID : :::::::   "+ memberId);
+           log.info("memberID : "+ memberId);
             Auth auth = Auth.builder()
                     .id(UUID.randomUUID().toString())
                     .username(dto.getUsername())
@@ -80,21 +80,22 @@ public class AuthServiceImpl implements AuthService{
         }
     }
 
+
     @Override
     public void deleteTransaction(String username) {
-        log.info("Auth Service - AuthServiceImpl - deleteTransaction 시작");
+        log.info("Auth Service : 멤버 인증 정보 생성 보상 트랜잭션, 인증 정보 삭제");
         memberClient.deleteMember(username);
     }
 
     @Override
     public String createJwt(MemberDto memberDto) {
-        log.info("Auth Service - AuthServiceImpl - 토큰 발급");
+        log.info("Auth Service : 토큰 발급");
         return  jwtUtil.createJwt(memberDto);
     }
 
     @Override
     public String tokenRefresh() {
-        log.info("Auth Service - AuthServiceImpl - 토큰 재발급");
+        log.info("Auth Service : 토큰 재발급");
         
         //쿠키에서 refresh token 받아오기
         String refreshToken = jwtUtil.getRefreshTokenFromCookie();
@@ -102,14 +103,14 @@ public class AuthServiceImpl implements AuthService{
         if (refreshToken == null) {
             throw new JwtException(JwtExceptionType.TOKEN_NULL);
         }
-        log.info("Auth Service - AuthServiceImpl - 리프레시 토큰 유효성 검사");
+        log.info("리프레시 토큰 유효성 검사");
         jwtUtil.isValidToken(refreshToken, JwtUtil.REFRESH_TOKEN_SUBJECT);
 
         // refresh token 에서 유저 audience값 가져오기
         DecodedJWT payload = jwtUtil.getDecodedJWT(refreshToken);
         String memberId = payload.getClaim("memberId").asString();
 
-        log.info("Auth Service - AuthServiceImpl - 레디스 확인");
+        log.info("레디스 확인");
         // redis에 refresh 토큰이 있는지 체크
         RefreshTokenDto refreshTokenDto = jwtUtil.getRefreshTokenFromRedis(refreshToken);
 
@@ -119,14 +120,14 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public void logout() {
-        log.info("Auth Service - AuthServiceImpl - 로그아웃 시작 ");
+        log.info("Auth Service : 로그아웃 시작 ");
         String refreshToken = jwtUtil.getRefreshTokenFromCookie();
         jwtUtil.deleteRefreshToken(refreshToken);
         deleteRefreshTokenCookie();
     }
 
     private void deleteRefreshTokenCookie() {
-        log.info("Auth Service - AuthServiceImpl - 쿠키에서 리프레시 토큰 삭제 시작 ");
+        log.info("Auth Service : 쿠키에서 리프레시 토큰 삭제 시작 ");
         HttpServletResponse response
                 = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         Cookie cookie = new Cookie(JwtUtil.REFRESH_TOKEN_SUBJECT, null);

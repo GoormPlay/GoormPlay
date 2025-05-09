@@ -29,7 +29,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public String joinMember(SignUpRequestDto dto) {
-        log.info("Member Service 회원가입 시작");
+        log.info("Member Service : 회원가입");
         try {
             Member member = memberRepository.save(Member.builder().
                     id(UUID.randomUUID().toString()).
@@ -43,14 +43,16 @@ public class MemberServiceImpl implements MemberService {
             return member.getId();
         } catch (Exception e) {
             // 실패 시 보상 트랜잭션 실행
+            log.error("member 등록 실패");
             subscribeClient.deleteSubscribe(dto.getUsername());
             throw new MemberException(SIGN_UP_FAIL);
         }
 
     }
 
+    @Transactional
     public void deleteMember(String username) {
-        log.info("유저 삭제 시작");
+        log.info("Member Service : 회원가입 보상 트랜잭션 유저 삭제");
         memberRepository.findByUsername(username)
                 .ifPresent(memberRepository::delete);
     }
@@ -61,6 +63,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional(readOnly = true)
     public MemberProfileDto findMemberProfile(String memberId) {
+        log.info("Member Service : 멤버 프로필 조회");
         SubScribeStatusDto subScribeStatusDto = subscribeClient.getSubScribeStatus(memberId);
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
         return MemberProfileDto.builder().

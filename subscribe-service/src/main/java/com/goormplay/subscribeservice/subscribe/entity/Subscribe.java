@@ -2,16 +2,14 @@ package com.goormplay.subscribeservice.subscribe.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "member", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
-@Getter
-@Setter
+@Table(name = "subscribe", indexes = {
+        @Index(name = "idx_subscription_end_date", columnList = "subscriptionEndDate")
+})
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -21,13 +19,21 @@ public class Subscribe {
     @Column(name = "id", updatable = false)
     private String id;
 
-    private LocalDate subscription_start_date;
+    private LocalDate subscriptionStartDate;
 
-    private LocalDate subscription_end_date;
+    private LocalDate subscriptionEndDate;
 
     @Column(nullable = false)
-    private Boolean is_cancel_scheduled;
+    private Boolean isCancelScheduled;
 
     private String memberId;
+
+    public void toggleCancelScheduled() {
+        this.isCancelScheduled = !this.isCancelScheduled;
+    }
+
+    public void setCancelScheduled() {
+        this.isCancelScheduled = false;
+    }
 
 }

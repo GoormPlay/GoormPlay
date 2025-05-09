@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubScribeStatusDto {
-    LocalDate subscription_start_date;
-    LocalDate subscription_end_date;
-    Boolean is_cancel_scheduled;
+    LocalDate subscriptionStartDate;
+    LocalDate subscriptionEndDate;
+    Boolean isCancelScheduled;
 }

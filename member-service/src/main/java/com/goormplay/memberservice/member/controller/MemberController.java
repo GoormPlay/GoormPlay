@@ -21,7 +21,7 @@ public class MemberController {
 
     @GetMapping("/profile")
     public ResponseEntity<ResponseDto> getMemberProfile(Authentication authentication) {
-        log.info("Member Service Profile 조회 시작");
+        log.info("Member Controller :  멤버 프로필 조회 시작");
 
         String member_Id = authentication.getName();
         MemberProfileDto memberProfileDto = memberService.findMemberProfile(member_Id);
@@ -31,7 +31,7 @@ public class MemberController {
 
     @PostMapping("/client")
     public String signUpMember(@RequestBody SignUpRequestDto dto) {
-        log.info("Member Service 회원가입 시작 ");
+        log.info("Member Controller : 회원가입 시작 ");
         String memberId = memberService.joinMember(dto);
         log.info("memberId 반환 "+ memberId);
         return memberId;
@@ -39,7 +39,7 @@ public class MemberController {
 
     @DeleteMapping("client/{username}")
     public ResponseEntity<ResponseDto> deleteMember(@PathVariable("username")String username){
-        log.info("회원가입 보상 트랜잭션 유저 삭제 시작 ");
+        log.info("Member Controller : 회원가입 보상 트랜잭션, 유저 삭제 시작 ");
         memberService.deleteMember(username);
         return new ResponseEntity<>(new ResponseDto("보상 트랜잭션: 회원 삭제",null), HttpStatus.OK);
     }
