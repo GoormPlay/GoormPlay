@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -14,7 +15,7 @@ import java.util.Objects;
 public class ReviewResponse {
     private String userId;
     private String text;
-    private double rating;
+    private BigDecimal rating; // BigDecimal로 변경
     private LocalDateTime timestamp;
 
     public static ReviewResponse of(Review review) {
@@ -22,7 +23,7 @@ public class ReviewResponse {
         return ReviewResponse.builder()
             .userId(review.getUserId())
             .text(review.getText())
-            .rating(review.getRating())
+            .rating(review.getRating()) // BigDecimal 그대로 사용
             .timestamp(review.getTimestamp())
             .build();
     }
