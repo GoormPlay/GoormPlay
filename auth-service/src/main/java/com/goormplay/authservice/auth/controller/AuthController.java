@@ -23,7 +23,7 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<ResponseDto> signIn(@Valid @RequestBody SignInRequestDto dto) {
-        log.info("Auth Service 로그인 시작");
+        log.info("Auth Controller : 로그인 시작");
         String accessToken = authService.signIn(dto);
 
         return new ResponseEntity<>(new ResponseDto("로그인", accessToken), HttpStatus.OK);
@@ -31,7 +31,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> signUp(@Valid @RequestBody SignUpRequestDto dto) {
-        log.info("Auth Service 회원가입 시작");
+        log.info("Auth Controller : 회원가입 시작");
         try{
             authService.signUp(dto);
         }catch(Exception e){
@@ -42,14 +42,14 @@ public class AuthController {
 
     @GetMapping("/refresh")
     public ResponseEntity<ResponseDto> tokenRefresh() {
-        log.info("Auth Service 토큰 리프레시 시작");
+        log.info("Auth Controller : 토큰 리프레시 시작");
         String accessToken = authService.tokenRefresh();
         return new ResponseEntity<>(new ResponseDto("토큰 리프레시", accessToken), HttpStatus.OK);
     }
 
     @PostMapping("/logout")
     public ResponseEntity<ResponseDto> logout() {
-        log.info("Auth Service 로그아웃 시작");
+        log.info("Auth Controller : 로그아웃 시작");
         authService.logout();
         return new ResponseEntity<>(new ResponseDto("로그아웃", null), HttpStatus.OK);
     }
