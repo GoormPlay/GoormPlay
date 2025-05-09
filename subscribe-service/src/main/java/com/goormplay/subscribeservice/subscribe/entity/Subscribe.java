@@ -36,4 +36,10 @@ public class Subscribe {
         this.isCancelScheduled = false;
     }
 
+    public boolean isSubscribed() {
+        LocalDate today = LocalDate.now();
+        return this.subscriptionStartDate.isBefore(today)
+                && this.subscriptionEndDate.isAfter(today);
+    }
+
 }

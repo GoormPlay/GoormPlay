@@ -36,6 +36,7 @@ public class SubscribesServiceImpl implements SubscribeService{
                 subscriptionStartDate(subscribe.getSubscriptionStartDate()).
                 subscriptionEndDate(subscribe.getSubscriptionEndDate()).
                 isCancelScheduled(subscribe.getIsCancelScheduled()).
+                isSubscribed(subscribe.isSubscribed()).
                 build();
     }
 
@@ -75,8 +76,12 @@ public class SubscribesServiceImpl implements SubscribeService{
     }
 
 
+
+
+
+
     @Scheduled(cron = "@midnight")
-    public void expireOldSubscriptions() {
+    private void expireOldSubscriptions() {
         log.info("Subscribe Service :  구독 스케줄러");
         LocalDate today = LocalDate.now();
         LocalDate nextMonth = today.plusMonths(1);

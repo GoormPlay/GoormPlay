@@ -15,4 +15,5 @@ public class SubScribeStatusDto {
     LocalDate subscriptionStartDate;
     LocalDate subscriptionEndDate;
     Boolean isCancelScheduled;
+    Boolean isSubscribed;
 }
