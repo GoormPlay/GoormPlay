@@ -1,6 +1,7 @@
 package com.goormplay.uiservice.ui.exception.Member;
 
-import com.goormplay.memberservice.member.exception.BaseExceptionType;
+// import com.goormplay.memberservice.member.exception.BaseExceptionType;
+import com.goormplay.uiservice.ui.exception.BaseExceptionType;
 import org.springframework.http.HttpStatus;
 
 public enum UIExceptionType implements BaseExceptionType {
