@@ -37,3 +37,4 @@ out/
 .vscode/
 content-service/src/main/resources/.env
 apigateway-service/.gradle/8.13/fileHashes/fileHashes.lock
+UI-service/src/main/resources/.env
