@@ -1,6 +1,6 @@
 spring:
   application:
-    name: member-service
+    name: subscribe-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/goormtest
@@ -10,12 +10,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-
-feign:
-  client:
-    config:
-      default:
-        retryer: feign.Retryer.Default
 
 
 eureka:
@@ -28,6 +22,6 @@ eureka:
 
 
 server:
-  port: 9001
+  port: 9005
 
 #?db 9000, 3306

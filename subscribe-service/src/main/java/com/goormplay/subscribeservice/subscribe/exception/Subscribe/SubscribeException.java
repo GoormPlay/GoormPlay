@@ -1,8 +1,8 @@
-package com.goormplay.subscribeservice.subscribe.handler.exception.Subscribe;
+package com.goormplay.subscribeservice.subscribe.exception.Subscribe;
 
 
-import com.goormplay.subscribeservice.subscribe.handler.exception.BaseException;
-import com.goormplay.subscribeservice.subscribe.handler.exception.BaseExceptionType;
+import com.goormplay.subscribeservice.subscribe.exception.BaseException;
+import com.goormplay.subscribeservice.subscribe.exception.BaseExceptionType;
 
 public class SubscribeException extends BaseException {
     private final BaseExceptionType exceptionType;

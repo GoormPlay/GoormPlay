@@ -23,6 +23,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static com.goormplay.authservice.auth.exception.Auth.AuthExceptionType.*;
 
@@ -60,14 +61,15 @@ public class AuthServiceImpl implements AuthService{
         if(authRepository.existsByUsername(dto.getUsername())) throw new AuthException(ALREADY_EXIST_MEMBER);
 
         try {
-           Long memberId = memberClient.signUpMember(dto);
+           String memberId = memberClient.signUpMember(dto);
            log.info("memberID : :::::::   "+ memberId);
             Auth auth = Auth.builder()
-                    .id(memberId)
+                    .id(UUID.randomUUID().toString())
                     .username(dto.getUsername())
                     .password(bCryptPasswordEncoder.encode(dto.getPassword()))
                     .role(Role.USER)
                     .createdAt(LocalDateTime.now())
+                    .Memberid(memberId)
                     .build();
             authRepository.save(auth);
 
@@ -105,7 +107,7 @@ public class AuthServiceImpl implements AuthService{
 
         // refresh token 에서 유저 audience값 가져오기
         DecodedJWT payload = jwtUtil.getDecodedJWT(refreshToken);
-        Long memberId = payload.getClaim("memberId").asLong();
+        String memberId = payload.getClaim("memberId").asString();
 
         log.info("Auth Service - AuthServiceImpl - 레디스 확인");
         // redis에 refresh 토큰이 있는지 체크

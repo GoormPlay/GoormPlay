@@ -1,8 +1,8 @@
-package com.goormplay.subscribeservice.subscribe.handler.handler;
+package com.goormplay.subscribeservice.subscribe.handler;
 
-import com.goormplay.subscribeservice.subscribe.handler.dto.ErrorResultDto;
-import com.goormplay.subscribeservice.subscribe.handler.dto.ResponseDto;
-import com.goormplay.subscribeservice.subscribe.handler.exception.BaseException;
+import com.goormplay.subscribeservice.subscribe.dto.ResponseDto;
+import com.goormplay.subscribeservice.subscribe.exception.BaseException;
+import com.goormplay.subscribeservice.subscribe.dto.ErrorResultDto;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

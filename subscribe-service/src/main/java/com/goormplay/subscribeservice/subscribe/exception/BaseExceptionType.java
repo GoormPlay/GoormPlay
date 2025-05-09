@@ -1,4 +1,4 @@
-package com.goormplay.subscribeservice.subscribe.handler.exception;
+package com.goormplay.subscribeservice.subscribe.exception;
 
 import org.springframework.http.HttpStatus;
 

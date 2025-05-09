@@ -9,13 +9,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 @ToString
 @NoArgsConstructor
 public class MemberDto {//수정
-    Long memberId;
+    String memberId;
     Role role;
 
 
 
     @Builder
-    public MemberDto(Long memberId,Role role) {
+    public MemberDto(String memberId,Role role) {
         setMemberId(memberId);
         setRole(role);
     }

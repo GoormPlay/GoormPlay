@@ -1,4 +1,4 @@
-package com.goormplay.subscribeservice.subscribe.handler.dto;
+package com.goormplay.subscribeservice.subscribe.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.goormplay.subscribeservice.subscribe.handler.exception;
+package com.goormplay.subscribeservice.subscribe.exception;
 
 public abstract class BaseException extends RuntimeException {
     public abstract BaseExceptionType getExceptionType();
