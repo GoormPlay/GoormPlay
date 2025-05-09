@@ -1,11 +1,8 @@
 spring:
   application:
     name: content-service
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: content_service_db
+  profiles:
+    active: dev
 eureka:
   client:
     enabled: false

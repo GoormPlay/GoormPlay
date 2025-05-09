@@ -1,7 +1,7 @@
 package com.goormplay.contentservice.controller;
 
-import com.goormplay.contentservice.repository.dto.ContentCardDTO;
-import com.goormplay.contentservice.repository.dto.ContentDetailDTO;
+import com.goormplay.contentservice.dto.ContentCardDTO;
+import com.goormplay.contentservice.dto.ContentDetailDTO;
 import com.goormplay.contentservice.entity.Content;
 import com.goormplay.contentservice.service.ContentService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,20 @@ public class ContentController {
             throw new RuntimeException("Failed to import contents", e);
         }
     }
+    @PostMapping("/import-test")
+    public ResponseEntity<String> saveTestLatestContents() {
+        try {
+            contentService.saveTestContents();
+            return ResponseEntity.ok("success");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    @GetMapping("/latest-test")
+    public ResponseEntity<List<ContentCardDTO>> getLatestTestContentCards() {
+        return ResponseEntity.ok(contentService.getTestLatestContentCards());
+    }
     @GetMapping("/latest")
     public ResponseEntity<Page<ContentCardDTO>> getLatestContents(int page, int size) {
         return ResponseEntity.ok(contentService.getLatestContents(page, size));
