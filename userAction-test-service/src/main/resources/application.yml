@@ -9,20 +9,16 @@ spring:
       uri: ${MONGODB_URI}
       database: ${MONGODB_DATABASE}
   kafka:
-    bootstrap-servers: localhost:29092
-    consumer:
-      group-id: user-behavior-group
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: "*"
+    bootstrap-servers: localhost:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: indexing-group2
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
 eureka:
   client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-
+    enabled: false  # Eureka 비활성화

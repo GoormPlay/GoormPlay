@@ -1,10 +1,17 @@
+server:
+  port: 8083
 spring:
   application:
     name: indexing-service
   kafka:
     bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
     consumer:
-      group-id: indexing-group
+      group-id: indexing-group2
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: "*"
+

@@ -39,3 +39,4 @@ content-service/src/main/resources/.env
 apigateway-service/.gradle/8.13/fileHashes/fileHashes.lock
 .DS_Store
 .idea/modules.xml
+infra-test/kafka-docker-test/
