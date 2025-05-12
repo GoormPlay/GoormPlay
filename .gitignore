@@ -1,4 +1,5 @@
 HELP.md
+# Gradle
 .gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -38,3 +39,7 @@ out/
 content-service/src/main/resources/.env
 apigateway-service/.gradle/8.13/fileHashes/fileHashes.lock
 UI-service/src/main/resources/.env
+
+# 컴파일 아웃풋
+out/
+target/
