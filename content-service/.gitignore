@@ -43,3 +43,7 @@ out/
 .LSOverride
 
 src/main/resources/.env
+
+### docker ###
+docker-compose.yml
+docker-compose.override.yml
