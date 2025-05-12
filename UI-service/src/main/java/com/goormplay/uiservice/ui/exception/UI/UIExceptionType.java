@@ -1,4 +1,4 @@
-package com.goormplay.uiservice.ui.exception.Member;
+package com.goormplay.uiservice.ui.exception.UI;
 
 // import com.goormplay.memberservice.member.exception.BaseExceptionType;
 import com.goormplay.uiservice.ui.exception.BaseExceptionType;

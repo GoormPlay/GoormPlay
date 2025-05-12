@@ -22,16 +22,13 @@ spring:
 
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
-
-    # register-with-eureka: true
-    # fetch-registry: true
-    # service-url:
-    #   defaultZone: http://gpadmin:1234@localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://gpadmin:1234@localhost:8761/eureka
 
 
-# server:
-#   port: 9002
+server:
+  port: 9002
 
 #?db 9000, 3306

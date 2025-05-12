@@ -4,6 +4,8 @@ import com.goormplay.uiservice.ui.dto.InteractionRequestDto;
 import com.goormplay.uiservice.ui.entity.InteractionEntity;
 import com.goormplay.uiservice.ui.service.InteractionService;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
@@ -11,17 +13,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/interact")
+@RequiredArgsConstructor
+@Slf4j
+@RequestMapping("/api/ui")
 public class InteractionController {
     
     private final InteractionService interactionService;
 
-    public InteractionController(InteractionService interactionService) {
-        this.interactionService = interactionService;
-    }
 
     @PostMapping("/like")
     public ResponseEntity<InteractionEntity> likeContent(@RequestBody InteractionRequestDto requestDto) {
+        log.info("Interaction Controller :  좋아요 상태 변경 시작");
+
         InteractionEntity result = interactionService.likeContent(
             requestDto.getUserId(),
             requestDto.getContentId(),
@@ -30,12 +33,8 @@ public class InteractionController {
         return ResponseEntity.ok(result);
     }
 
-    // 테스트
-    @GetMapping("/all")
-    public ResponseEntity<List<InteractionEntity>> getAllInteractions() {
-        List<InteractionEntity> interactions = interactionService.getAllInteractions();
-        return ResponseEntity.ok(interactions);
-    }
+    //Get으로 좋아요 정보 보내는 Feign controller 필요
+
 
 
     

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.goormplay.uiservice.ui.entity.InteractionEntity;
 
-@Repository
+
 public interface InteractionRepository extends MongoRepository<InteractionEntity, String> {
     Optional<InteractionEntity> findByUserIdAndContentId(String userId, String contentId); 
 }
