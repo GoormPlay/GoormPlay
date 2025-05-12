@@ -1,6 +1,6 @@
-package com.goormplay.contentservice.controller;
+package com.goormplay.useractiontestservice.controller;
 
-import com.goormplay.contentservice.dto.VideoEventDto;
+import com.goormplay.useractiontestservice.dto.VideoEventDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +15,7 @@ import java.util.Map;
 @RequestMapping("/api/events")
 @Slf4j
 public class VideoEventController {
-    @PostMapping("/video-old")
+    @PostMapping("/video")
     public ResponseEntity<Map<String, String>> trackEvent(@RequestBody VideoEventDto event){
         log.info("Received video event: videoId={}, eventType={}, currentTime={}, timestamp={}",
                 event.getVideoId(), event.getEventType(), event.getCurrentTime(), event.getTimestamp());

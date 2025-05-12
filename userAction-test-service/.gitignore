@@ -44,6 +44,9 @@ out/
 
 src/main/resources/.env
 
-### docker ###
+## Docker ###
 docker-compose.yml
 docker-compose.override.yml
+
+### Logs ###
+*.log

@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/GoormPlay.iml" filepath="$PROJECT_DIR$/.idea/GoormPlay.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.goormplay.content-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.goormplay.content-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/content-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/content-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/indexing-service/indexing-service.iml" filepath="$PROJECT_DIR$/indexing-service/indexing-service.iml" />
     </modules>
   </component>
 </project>
