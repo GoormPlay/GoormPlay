@@ -16,8 +16,8 @@ import java.util.Collection;
 public class Auth {
 
     @Id
-    @Column(name = "id", updatable = false)
-    private Long id;
+    @Column(name = "id", updatable = false, columnDefinition = "CHAR(36)")
+    private String id;
 
     @Column(nullable = false, unique = true,  updatable = false, length = 50)
     private String username;
@@ -35,6 +35,8 @@ public class Auth {
 
     @Column
     private LocalDateTime lastLoginAt;
+
+    private String Memberid;
 
 //    @Column(nullable = false)
 //    private boolean enabled = true; 회원 탈퇴 기능
