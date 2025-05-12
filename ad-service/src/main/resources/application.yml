@@ -10,7 +10,14 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017 #${MONGODB_URI}
+      database: dbfirst #${MONGODB_DATABASE}
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
 
 eureka:
   client:

@@ -1,5 +1,6 @@
-package com.goormplay.adservice.ad.controller;
+package com.goormplay.adservice;
 
+import com.goormplay.adservice.ad.controller.AdController;
 import com.goormplay.adservice.ad.dto.AdResponseDto;
 import com.goormplay.adservice.ad.service.AdService;
 import org.junit.jupiter.api.Test;
