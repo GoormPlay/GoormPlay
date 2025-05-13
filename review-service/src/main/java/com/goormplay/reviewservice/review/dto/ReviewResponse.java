@@ -1,6 +1,6 @@
 package com.goormplay.reviewservice.review.dto;
 
-import com.goormplay.reviewservice.review.domain.Review;
+import com.goormplay.reviewservice.review.entity.Review;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,4 +27,6 @@ public class ReviewResponse {
             .timestamp(review.getTimestamp())
             .build();
     }
+
+
 }

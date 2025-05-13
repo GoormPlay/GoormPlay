@@ -1,6 +1,6 @@
 package com.goormplay.reviewservice.review.repository;
 
-import com.goormplay.reviewservice.review.domain.Review;
+import com.goormplay.reviewservice.review.entity.Review;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

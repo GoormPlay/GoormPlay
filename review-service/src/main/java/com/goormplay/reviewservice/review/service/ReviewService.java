@@ -1,31 +1,36 @@
 package com.goormplay.reviewservice.review.service;
 
-import com.goormplay.reviewservice.review.domain.Review;
 import com.goormplay.reviewservice.review.dto.ReviewRequest;
 import com.goormplay.reviewservice.review.dto.ReviewResponse;
+import com.goormplay.reviewservice.review.entity.Review;
 import com.goormplay.reviewservice.review.repository.ReviewRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ReviewService {
 
-    @Autowired
-    private ReviewRepository reviewRepository;
+    private final ReviewRepository reviewRepository;
 
     public List<ReviewResponse> getReviews(String contentId) {
         return reviewRepository.findByContentId(contentId).stream()
-                .map(ReviewResponse::from)
+                .map(ReviewResponse::of)
                 .collect(Collectors.toList());
     }
 
     public void createReview(String contentId, ReviewRequest request) {
-        Review review = new Review(null, contentId, request.getUserId(), request.getText(), request.getRating(), LocalDateTime.now());
-        reviewRepository.save(review);
+
+        reviewRepository.save(Review.builder().id(UUID.randomUUID().toString())
+                .contentId(contentId)
+                .userId(request.getUserId())
+                .text(request.getText())
+                .rating(request.getRating())
+                .build());
     }
 
     public void updateReview(String contentId, ReviewRequest request) {
