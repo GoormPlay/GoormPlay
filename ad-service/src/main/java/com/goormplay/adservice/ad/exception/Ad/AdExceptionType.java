@@ -1,12 +1,10 @@
-package com.goormplay.adservice.ad.exception.Member;
+package com.goormplay.adservice.ad.exception.Ad;
 
 import com.goormplay.adservice.ad.exception.BaseExceptionType;
 import org.springframework.http.HttpStatus;
 
 public enum AdExceptionType implements BaseExceptionType {
-    NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "회원 정보가 없습니다."),
-    WRONG_PASSWORD(HttpStatus.BAD_REQUEST, "잘못된 비밀번호 입니다."),
-    ALREADY_EXIST_MEMBER(HttpStatus.BAD_REQUEST, "존재하는 회원 아이디 입니다.");
+    INVALID_AD_REQUEST(HttpStatus.NOT_FOUND, "요청에 해당하는 광고 정보가 없습니다.");
     private final HttpStatus httpStatus;
     private final String errorMessage;
 

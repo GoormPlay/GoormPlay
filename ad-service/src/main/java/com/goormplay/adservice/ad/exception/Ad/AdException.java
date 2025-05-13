@@ -1,4 +1,4 @@
-package com.goormplay.adservice.ad.exception.Member;
+package com.goormplay.adservice.ad.exception.Ad;
 
 
 import com.goormplay.adservice.ad.exception.BaseException;

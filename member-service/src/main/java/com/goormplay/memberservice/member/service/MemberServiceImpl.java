@@ -7,7 +7,6 @@ import com.goormplay.memberservice.member.dto.SignUpRequestDto;
 import com.goormplay.memberservice.member.entity.Member;
 import com.goormplay.memberservice.member.exception.Member.MemberException;
 import com.goormplay.memberservice.member.repository.MemberRepository;
-import jakarta.security.auth.message.AuthException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

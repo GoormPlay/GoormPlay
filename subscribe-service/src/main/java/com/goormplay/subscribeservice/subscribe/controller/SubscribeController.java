@@ -1,11 +1,9 @@
 package com.goormplay.subscribeservice.subscribe.controller;
 
-import com.goormplay.subscribeservice.subscribe.dto.ResponseDto;
 import com.goormplay.subscribeservice.subscribe.dto.SubScribe.SubScribeStatusDto;
 import com.goormplay.subscribeservice.subscribe.service.SubscribeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 

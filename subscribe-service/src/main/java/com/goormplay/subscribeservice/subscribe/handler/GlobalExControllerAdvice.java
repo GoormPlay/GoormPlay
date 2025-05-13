@@ -22,7 +22,7 @@ public class GlobalExControllerAdvice {
 
     // Bean Valid 검사 후 에러 처리
     @ExceptionHandler
-    public Object memberValidError(MethodArgumentNotValidException e){
+    public Object subscribeValidError(MethodArgumentNotValidException e){
         List<ErrorResultDto> collect = e.getAllErrors().stream().map(o -> (FieldError) o)
                 .map(o -> new ErrorResultDto(o.getField(), o.getDefaultMessage()))
                 .collect(Collectors.toList());

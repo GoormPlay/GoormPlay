@@ -2,9 +2,10 @@ package com.goormplay.memberservice.member.client;
 
 import com.goormplay.memberservice.Security.FeignHeaderConfig;
 import com.goormplay.memberservice.member.dto.Member.SubScribeStatusDto;
-import com.goormplay.memberservice.member.dto.SignUpRequestDto;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "subscribe-service" , configuration = FeignHeaderConfig.class)
 public interface SubscribeClient {
