@@ -9,7 +9,7 @@
     <file type="web" url="file://$PROJECT_DIR$/indexing-service" />
     <file type="web" url="file://$PROJECT_DIR$/userAction-test-service" />
   </component>
-  <component name="ProjectRootManager">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="homebrew-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

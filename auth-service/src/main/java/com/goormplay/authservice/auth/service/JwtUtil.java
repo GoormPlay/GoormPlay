@@ -81,7 +81,7 @@ public class JwtUtil {
         log.info("Auth Service - JwtUtil - 액세스 발급");
         log.info("Auth Service - memberDto ROLE  : " + memberDto.getRole().toString());
         return JWT.create()
-                .withSubject(memberDto.getMemberId().toString())
+                .withSubject(memberDto.getMemberId())
                 .withClaim("memberId", memberDto.getMemberId())
                 .withClaim("role", memberDto.getRole().toString())
                 .withExpiresAt(Date.from(LocalDateTime.now()

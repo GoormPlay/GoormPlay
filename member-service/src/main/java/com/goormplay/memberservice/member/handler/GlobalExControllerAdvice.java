@@ -50,6 +50,7 @@ public class GlobalExControllerAdvice {
     }
     
     //FeignException 에러 처리
+
     @ExceptionHandler(FeignException.class)
     public ResponseEntity<ResponseDto> handleIllegalArgumentEx(FeignException exception) {
         ResponseDto responseDTO = ResponseDto.builder()

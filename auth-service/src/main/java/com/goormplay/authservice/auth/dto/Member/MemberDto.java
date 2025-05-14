@@ -1,22 +1,16 @@
 package com.goormplay.authservice.auth.dto.Member;
 
 import com.goormplay.authservice.auth.entity.Role;
-import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-
-@Builder
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 @Data
-@ToString
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class MemberDto {//수정
-    Long memberId;
+    String memberId;
     Role role;
 
-
-
-    @Builder
-    public MemberDto(Long memberId,Role role) {
-        setMemberId(memberId);
-        setRole(role);
-    }
 }
