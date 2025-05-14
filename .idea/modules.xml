@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/GoormPlay.iml" filepath="$PROJECT_DIR$/.idea/GoormPlay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.goormplay.content-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.goormplay.content-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/content-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/content-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/indexing-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/indexing-service.main.iml" />
     </modules>
   </component>
 </project>

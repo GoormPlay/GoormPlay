@@ -5,4 +5,4 @@ spring:
     active: dev
 eureka:
   client:
-    enabled: false
+    enabled: false  # Eureka 비활성화

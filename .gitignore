@@ -38,6 +38,9 @@ out/
 .vscode/
 content-service/src/main/resources/.env
 apigateway-service/.gradle/8.13/fileHashes/fileHashes.lock
+.DS_Store
+.idea/modules.xml
+infra-test/kafka-docker-test/
 UI-service/src/main/resources/.env
 
 # 컴파일 아웃풋

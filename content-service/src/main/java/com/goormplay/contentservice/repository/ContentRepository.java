@@ -13,14 +13,14 @@ import java.util.List;
 @Repository
 public interface ContentRepository extends MongoRepository<Content, String> {
     List<Content> findByGenreContaining(String genre);
-    List<Content> findByContentType(String contentType);
+    List<Content> findByKind(String kind);
     List<Content> findByReleaseDateAfterOrderByReleaseDateDesc(LocalDate releaseDate);
 
     @Query("{ 'releaseDate': { $gte: ?0, $lte: ?1 } }")
     List<Content> findByReleaseDateBetween(LocalDate start, LocalDate end);
 
-    @Query("{ 'releaseDate': { $exists: true }, 'contentType': ?0 }")
-    Page<Content> findLatestContentsByContentType(String contentType, Pageable pageable);
+    @Query("{ 'releaseDate': { $exists: true }, 'kind': ?0 }")
+    Page<Content> findLatestContentsByKind(String kind, Pageable pageable);
 
     @Query("{ 'releaseDate': { $exists: true }}")
     Page<Content> findLatestContents(Pageable pageable);
