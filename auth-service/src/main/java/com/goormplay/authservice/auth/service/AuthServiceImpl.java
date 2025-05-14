@@ -56,13 +56,12 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     @Transactional
-    public void signUp(SignUpRequestDto dto) {
+    public void signUp(SignUpRequestDto dto, String memberId) {
         log.info("Auth Service : 멤버 인증 정보 생성");
-        if(authRepository.existsByUsername(dto.getUsername())) throw new AuthException(ALREADY_EXIST_MEMBER);
+        if(authRepository.existsByUsername(dto.getUsername())) {
+            throw new AuthException(ALREADY_EXIST_MEMBER);
+        }
 
-        try {
-           String memberId = memberClient.signUpMember(dto);
-           log.info("memberID : "+ memberId);
             Auth auth = Auth.builder()
                     .id(UUID.randomUUID().toString())
                     .username(dto.getUsername())
@@ -73,19 +72,14 @@ public class AuthServiceImpl implements AuthService{
                     .build();
             authRepository.save(auth);
 
-        } catch (Exception e) {
-            // 실패 시 보상 트랜잭션 실행
-            memberClient.deleteMember(dto.getUsername());
-            throw new AuthException(SIGN_UP_FAIL);
-        }
     }
 
 
-    @Override
-    public void deleteTransaction(String username) {
-        log.info("Auth Service : 멤버 인증 정보 생성 보상 트랜잭션, 인증 정보 삭제");
-        memberClient.deleteMember(username);
-    }
+//    @Override
+//    public void deleteTransaction(String username) {
+//        log.info("Auth Service : 멤버 인증 정보 생성 보상 트랜잭션, 인증 정보 삭제");
+//        memberClient.deleteMember(username);
+//    }
 
     @Override
     public String createJwt(MemberDto memberDto) {

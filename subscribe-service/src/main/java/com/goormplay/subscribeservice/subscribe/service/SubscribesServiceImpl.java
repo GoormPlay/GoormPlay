@@ -50,7 +50,7 @@ public class SubscribesServiceImpl implements SubscribeService{
 
     @Transactional
     @Override
-    public void joinSubscribe(String memberId) {
+    public void signUpSubscribe(String memberId) {
         log.info("Subscribe Service :  멤버 구독 정보 생성");
 
         subscribeRepository.save(Subscribe.builder()
@@ -61,14 +61,14 @@ public class SubscribesServiceImpl implements SubscribeService{
                 memberId(memberId).build());
     }
 
-    @Transactional
-    @Override
-    public void deleteSubscribe(String memberId) {
-        log.info("Subscribe Service :  멤버 구독 정보 생성 보상 트랜잭션, 구독 정보 삭제");
-
-        Subscribe subscribe = subscribeRepository.findByMemberId(memberId).orElseThrow(()->new SubscribeException(NOT_FOUND_MEMBER));
-        subscribeRepository.delete(subscribe);
-    }
+//    @Transactional
+//    @Override
+//    public void deleteSubscribe(String memberId) {
+//        log.info("Subscribe Service :  멤버 구독 정보 생성 보상 트랜잭션, 구독 정보 삭제");
+//
+//        Subscribe subscribe = subscribeRepository.findByMemberId(memberId).orElseThrow(()->new SubscribeException(NOT_FOUND_MEMBER));
+//        subscribeRepository.delete(subscribe);
+//    }
 
     public Subscribe findSubscribeByMemberId(String memberId){
         log.info("Subscribe Service :  멤버 구독 정보 조회");

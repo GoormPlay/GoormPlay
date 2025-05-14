@@ -29,23 +29,13 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public String joinMember(SignUpRequestDto dto) {
         log.info("Member Service : 회원가입");
-        try {
             Member member = memberRepository.save(Member.builder().
                     id(UUID.randomUUID().toString()).
                     username(dto.getUsername()).
                     gender(dto.getGender()).
                     age(dto.getAge()).
                     build());
-            log.info("member 등록 완료");
-            subscribeClient.joinSubscribe(member.getId());
-            log.info("subscribe 등록 완료");
             return member.getId();
-        } catch (Exception e) {
-            // 실패 시 보상 트랜잭션 실행
-            log.error("member 등록 실패");
-            subscribeClient.deleteSubscribe(dto.getUsername());
-            throw new MemberException(SIGN_UP_FAIL);
-        }
 
     }
 

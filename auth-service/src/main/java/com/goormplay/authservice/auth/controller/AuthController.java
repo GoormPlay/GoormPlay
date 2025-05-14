@@ -29,11 +29,11 @@ public class AuthController {
         return new ResponseEntity<>(new ResponseDto("로그인", accessToken), HttpStatus.OK);
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<ResponseDto> signUp(@Valid @RequestBody SignUpRequestDto dto) {
+    @PostMapping("/client/{memberId}")
+    public ResponseEntity<ResponseDto> signUpAuth(@Valid @RequestBody SignUpRequestDto dto, @PathVariable("memberId") String memberId) {
         log.info("Auth Controller : 회원가입 시작");
         try{
-            authService.signUp(dto);
+            authService.signUp(dto,memberId);
         }catch(Exception e){
             return new ResponseEntity<>(new ResponseDto("회원가입 실패", dto.getUsername()), HttpStatus.BAD_REQUEST);
         }

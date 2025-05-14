@@ -16,17 +16,17 @@ public class SubscribeController {
     private final SubscribeService subscribeService;
 
 
-    @GetMapping("/client/{memberId}")
-    void joinSubscribe(@PathVariable("memberId") String memberId) {
+    @PostMapping("/client/{memberId}")
+    void signUpSubscribe(@PathVariable("memberId") String memberId) {
         log.info("Subscribe Controller :  회원가입 시작 ");
-        subscribeService.joinSubscribe(memberId);
+        subscribeService.signUpSubscribe(memberId);
     }
 
-    @DeleteMapping("/client/{memberId}")
-    void deleteSubscribe(@PathVariable("memberId") String memberId) {
-        log.info("Subscribe Controller : 회원가입 보상 트랜잭션 구독 삭제 시작 ");
-        subscribeService.deleteSubscribe(memberId);
-    }
+//    @DeleteMapping("/client/{memberId}")
+//    void deleteSubscribe(@PathVariable("memberId") String memberId) {
+//        log.info("Subscribe Controller : 회원가입 보상 트랜잭션 구독 삭제 시작 ");
+//        subscribeService.deleteSubscribe(memberId);
+//    }
 
 
     @GetMapping("/client/{subscriptionId}/status")

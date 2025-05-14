@@ -10,7 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 @Entity
-@Table(name = "auth", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
+@Table(name = "auth", uniqueConstraints = @UniqueConstraint(columnNames = "username"),
+        indexes = {
+                @Index(name = "idx_username", columnList = "username")
+        })
 @Getter
 @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Auth {

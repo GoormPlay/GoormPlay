@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: bff-service
+
+feign:
+  client:
+    config:
+      default:
+        retryer: feign.Retryer.Default
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://gpadmin:1234@localhost:8761/eureka
+
+
+
+server:
+  port: 8088

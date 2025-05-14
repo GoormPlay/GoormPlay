@@ -42,6 +42,8 @@ public class InteractionService {
 
         return interactionRepository.save(entity);
     }
+    
+    //좋아요한 항목 조회
 
 
     

@@ -23,12 +23,18 @@ spring:
             - Path=/ui/**
           filters:
             - RewritePath=/ui/(?<segment>.*), /api/ui/$\{segment}
-        - - id: ad-service # 광고 서비스
-            uri: lb://ad-service
-            predicates:
+        - id: ad-service # 광고 서비스
+          uri: lb://ad-service
+          predicates:
               - Path=/ad/**
-            filters:
+          filters:
               - RewritePath=/ad/(?<segment>.*), /api/ad/$\{segment}
+        - id: bff-service # bff 서비스
+          uri: lb://bff-service
+          predicates:
+            - Path=/ad/**
+          filters:
+            - RewritePath=/bff/(?<segment>.*), /api/bff/$\{segment}
       default-filters:
         PreserveHostHeader
 
