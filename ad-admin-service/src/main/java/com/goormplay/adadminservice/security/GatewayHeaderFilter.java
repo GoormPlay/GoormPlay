@@ -1,4 +1,4 @@
-package com.goormplay.contentservice.Security;
+package com.goormplay.adadminservice.security;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

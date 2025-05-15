@@ -1,4 +1,4 @@
-package com.goormplay.contentservice.Security;
+package com.goormplay.useractiontestservice.security;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

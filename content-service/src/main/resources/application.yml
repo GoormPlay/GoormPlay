@@ -5,4 +5,9 @@ spring:
     active: dev
 eureka:
   client:
-    enabled: false  # Eureka 비활성화
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://gpadmin:1234@localhost:8761/eureka
+server:
+  port: 8083

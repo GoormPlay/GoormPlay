@@ -1,5 +1,5 @@
 server:
-  port: 8084  # 다른 서비스와 겹치지 않는 포트
+  port: 8085  # 다른 서비스와 겹치지 않는 포트
 
 spring:
   application:
@@ -21,4 +21,7 @@ spring:
         spring.json.trusted.packages: "*"
 eureka:
   client:
-    enabled: false  # Eureka 비활성화
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://gpadmin:1234@localhost:8761/eureka
