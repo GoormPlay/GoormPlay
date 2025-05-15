@@ -1,8 +1,8 @@
 spring:
   data:
     mongodb:
-      uri: ${MONGODB_URI}
-      database: ${MONGODB_DATABASE}
+      uri: mongodb+srv://user:goorm0508@goorm-mongodb.svz66jf.mongodb.net/?retryWrites=true&w=majority&appName=goorm-mongoDB
+      database: content-db
   kafka:
     bootstrap-servers: localhost:29092
     producer:

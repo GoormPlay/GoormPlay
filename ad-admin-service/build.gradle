@@ -36,12 +36,15 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	implementation 'org.springframework.kafka:spring-kafka'
+	implementation 'mysql:mysql-connector-java:8.0.28'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	// MapStruct (DTO 변환용)
 	implementation 'org.mapstruct:mapstruct:1.6.3'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+	// Lombok과 함께 MapStruct 사용하는 경우
+	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
 	// Jackson for JSON 처리
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
