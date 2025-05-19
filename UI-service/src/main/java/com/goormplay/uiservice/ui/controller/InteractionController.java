@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/ui")
+@RequestMapping("/ui")
 public class InteractionController {
     
     private final InteractionService interactionService;
