@@ -1,0 +1,13 @@
+rootProject.name = 'GoormPlay'
+
+include 'ad-admin-service'
+include 'ad-service'
+include 'apigateway-service'
+include 'auth-service'
+include 'content-service'
+include 'eureka-service'
+include 'member-service'
+include 'review-service'
+include 'subscribe-service'
+include 'UI-service'
+include 'userAction-test-service'

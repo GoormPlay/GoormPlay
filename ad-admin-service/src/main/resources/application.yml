@@ -1,5 +1,5 @@
 server:
-  port: 8089  # ?? ???? ??? ?? ??
+  port: 8089
 spring:
   application:
     name: ad-admin-service
@@ -29,4 +29,7 @@ imgbb:
   api-key: 646294fbcae89553a1a3f957780abd89
 eureka:
   client:
-    enabled: false  # Eureka ????
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://gpadmin:1234@localhost:8761/eureka

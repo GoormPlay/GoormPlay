@@ -34,7 +34,24 @@ public class MongoConfig {
         this.mongoUri = mongoUri;
         this.mongoDatabase = mongoDatabase;
     }
+    @Bean
+    public MongoClient mongoClient() {
+        ServerApi serverApi = ServerApi.builder()
+                .version(ServerApiVersion.V1)
+                .build();
 
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .applyConnectionString(new ConnectionString(mongoUri))
+                .serverApi(serverApi)
+                .build();
+
+        return MongoClients.create(settings);
+    }
+
+    @Bean
+    public MongoTemplate mongoTemplate() {
+        return new MongoTemplate(mongoClient(),mongoDatabase);
+    }
 
     @Bean
     public MongoCustomConversions customConversions() {
