@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/events")
+@RequestMapping("/events")
 @RequiredArgsConstructor
 @Slf4j
 public class VideoEventController {

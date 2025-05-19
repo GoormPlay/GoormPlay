@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/subscribe")
+@RequestMapping("/subscribe")
 public class SubscribeController {
 
     private final SubscribeService subscribeService;
