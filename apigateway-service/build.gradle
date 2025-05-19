@@ -44,6 +44,7 @@ dependencies {
 
     //eureka client
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation project(':common')  // common 모듈 의존성 추가
 }
 
 dependencyManagement {

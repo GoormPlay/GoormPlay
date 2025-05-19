@@ -20,10 +20,12 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/apigateway-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/apigateway-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/UI-service/com.goormplay.GoormPlay.UI-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/UI-service/com.goormplay.GoormPlay.UI-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ad-admin-service/com.goormplay.GoormPlay.ad-admin-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ad-admin-service/com.goormplay.GoormPlay.ad-admin-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ad-service/com.goormplay.GoormPlay.ad-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ad-service/com.goormplay.GoormPlay.ad-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ad-service/com.goormplay.GoormPlay.ad-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/ad-service/com.goormplay.GoormPlay.ad-service.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/apigateway-service/com.goormplay.GoormPlay.apigateway-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/apigateway-service/com.goormplay.GoormPlay.apigateway-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/com.goormplay.GoormPlay.auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/com.goormplay.GoormPlay.auth-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/content-service/com.goormplay.GoormPlay.content-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/content-service/com.goormplay.GoormPlay.content-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/eureka-service/com.goormplay.GoormPlay.eureka-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/eureka-service/com.goormplay.GoormPlay.eureka-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/member-service/com.goormplay.GoormPlay.member-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/member-service/com.goormplay.GoormPlay.member-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/review-service/com.goormplay.GoormPlay.review-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/review-service/com.goormplay.GoormPlay.review-service.main.iml" />
