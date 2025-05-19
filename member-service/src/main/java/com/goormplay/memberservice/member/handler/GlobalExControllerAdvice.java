@@ -52,7 +52,7 @@ public class GlobalExControllerAdvice {
     //FeignException 에러 처리
 
     @ExceptionHandler(FeignException.class)
-    public ResponseEntity<ResponseDto> handleIllegalArgumentEx(FeignException exception) {
+    public ResponseEntity<ResponseDto> handleFeignExceptionEx(FeignException exception) {
         ResponseDto responseDTO = ResponseDto.builder()
                 .message(exception.getMessage()+"feign 오류")
                 .build();

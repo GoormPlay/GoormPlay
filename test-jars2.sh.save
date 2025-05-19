@@ -1,0 +1,127 @@
+#!/bin/bash
+
+# 서비스 실행 전 이전 프로세스 확인 및 종료 함수
+kill_service() {
+    local service_name=$1
+    pid=$(jps | grep "$service_name" | awk '{print $1}')
+    if [ ! -z "$pid" ]; then
+        echo "Killing existing $service_name process: $pid"
+        kill $pid
+    fi
+}
+
+# 서비스 실행 함수
+run_service() {
+    local service_dir=$1
+    local service_name=${service_dir%/}
+    
+    if [ -d "${service_dir}build/libs" ]; then
+        echo "Starting $service_name..."
+        # plain이 포함되지 않은 jar 파일 찾기
+        jar_file=$(find "${service_dir}build/libs" -name "*.jar" -not -name "*plain.jar" -type f | head -n 1)
+        
+        if [ -n "$jar_file" ]; then
+            kill_service $service_name
+            echo "Running $jar_file"
+            java -jar "$jar_file" &
+            sleep 10  # 서비스가 시작될 때까지 대기
+        else
+            echo "No jar file found in $service_name"
+        fi
+        echo "------------------------"
+    fi
+}
+
+# 메인 실행 부분
+echo "Starting services in order..."
+
+# 1. Eureka Server
+run_service "eureka-service/"
+
+# 2. API Gateway
+run_service "apigateway-service/"
+
+# 3. 핵심 서비스들
+run_service "auth-service/"
+run_service "member-service/"
+run_service "content-service/"
+run_service "ad-admin-service/"
+run_service "ad-service/"
+run_service "review-service/"
+run_service "subscribe-service/"
+run_service "UI-service/"
+run_service "userAction-test-service/"
+# 나머지 서비스들 추가...
+
+echo "All services started. Check logs for details."
+echo "Services are running in background."
+echo "Use 'jps' command to check running Java processes"
+echo "Press Ctrl+C to stop all services"
+
+# 모든 백그라운드 프로세스 대기
+wait
+
+# 스크립트가 종료될 때 실행되는 부분
+echo "Shutting down all services..."
+# 서비스 실행 전 이전 프로세스 확인 및 종료 함수
+kill_service() {
+    local service_name=$1
+    pid=$(jps | grep "$service_name" | awk '{print $1}')
+    if [ ! -z "$pid" ]; then
+        echo "Killing existing $service_name process: $pid"
+        kill $pid
+    fi
+}
+
+# 서비스 실행 함수
+run_service() {
+    local service_dir=$1
+    local service_name=${service_dir%/}
+    
+    if [ -d "${service_dir}build/libs" ]; then
+        echo "Starting $service_name..."
+        jar_file=$(find "${service_dir}build/libs" -name "*.jar" -type f | head -n 1)
+        
+        if [ -n "$jar_file" ]; then
+            kill_service $service_name
+            echo "Running $jar_file"
+            java -jar "$jar_file" &
+            sleep 10  # 서비스가 시작될 때까지 대기
+        else
+            echo "No jar file found in $service_name"
+        fi
+        echo "------------------------"
+    fi
+}
+
+# 메인 실행 부분
+echo "Starting services in order..."
+
+# 1. Eureka Server
+run_service "eureka-service/"
+
+# 2. API Gateway
+run_service "apigateway-service/"
+
+# 3. 핵심 서비스들
+run_service "auth-service/"
+run_service "member-service/"
+run_service "content-service/"
+run_service "ad-admin-service/"
+run_service "ad-service/"
+run_service "review-service/"
+run_service "subscribe-service/"
+run_service "UI-service/"
+run_service "userAction-test-service/"
+# 나머지 서비스들 추가...
+
+echo "All services started. Check logs for details."
+echo "Services are running in background."
+echo "Use 'jps' command to check running Java processes"
+echo "Press Ctrl+C to stop all services"
+
+# 모든 백그라운드 프로세스 대기
+wait
+
+# 스크립트가 종료될 때 실행되는 부분
+echo "Shutting down all services..."

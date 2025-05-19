@@ -3,17 +3,17 @@ spring:
     name: ad-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/goormtest
+    url: jdbc:mysql://localhost:3306/goormtest_ad
     username: root
-    password: 1234
+    password:
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
   data:
     mongodb:
-      uri: ${MONGODB_URI}
-      database: ${MONGODB_DATABASE}
+      uri: mongodb+srv://user:goorm0508@goorm-mongodb.svz66jf.mongodb.net/?retryWrites=true&w=majority&appName=goorm-mongoDB
+      database: content-db
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration

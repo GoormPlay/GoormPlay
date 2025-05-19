@@ -81,7 +81,7 @@ public class SubscribesServiceImpl implements SubscribeService{
 
 
     @Scheduled(cron = "@midnight")
-    private void expireOldSubscriptions() {
+    protected void expireOldSubscriptions() {
         log.info("Subscribe Service :  구독 스케줄러");
         LocalDate today = LocalDate.now();
         LocalDate nextMonth = today.plusMonths(1);

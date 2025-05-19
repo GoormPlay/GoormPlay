@@ -13,12 +13,12 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/contents")
+@RequestMapping
 @RequiredArgsConstructor
 public class ContentController {
     private final ContentService contentService;
 
-    @PostMapping("/import-test")
+    @PostMapping("/api/public/contents/import-test")
     public ResponseEntity<String> saveTestLatestContents() {
         try {
             contentService.saveTestContents();
@@ -28,15 +28,15 @@ public class ContentController {
         }
     }
 
-    @GetMapping("/latest-test")
+    @GetMapping("/api/public/contents/latest-test")
     public ResponseEntity<List<ContentCardDTO>> getLatestTestContentCards() {
         return ResponseEntity.ok(contentService.getTestLatestContentCards());
     }
-    @GetMapping("/latest")
+    @GetMapping("/api/contents/latest")
     public ResponseEntity<Page<ContentCardDTO>> getLatestContents(int page, int size) {
         return ResponseEntity.ok(contentService.getLatestContents(page, size));
     }
-    @GetMapping("/{id}")
+    @GetMapping("/api/contents/{id}")
     public ResponseEntity<ContentDetailDTO> getContentDetail(@PathVariable String id) {
         return ResponseEntity.ok(contentService.getContentDetailById(id));
     }
