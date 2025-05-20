@@ -33,3 +33,9 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://gpadmin:1234@localhost:8761/eureka
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    com.netflix.discovery: WARN
+    org.springframework.cloud.netflix: WARN
+    com.goormplay.adadminservice: INFO
