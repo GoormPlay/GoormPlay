@@ -1,0 +1,2 @@
+# 매일 자정에 로그 파일 순환
+0 0 * * * $PWD/collect_logs.sh >> $PWD/logs/cron.log 2>&1

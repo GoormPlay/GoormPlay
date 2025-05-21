@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 로그 경로를 ad-admin-service 내부로 명확히 지정 -->
+    <property name="LOG_PATH" value="ad-admin-service/logs"/>
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} - %msg%n"/>
+
+    <!-- 파일 애펜더 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/ad_admin.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/ad_admin.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Eureka 관련 로그 레벨 조정 -->
+    <logger name="com.netflix.discovery" level="WARN"/>
+    <logger name="org.springframework.cloud.netflix" level="WARN"/>
+
+    <!-- CustomLogger 관련 설정 -->
+    <logger name="com.goormplay.adadminservice.logger.CustomLogger" level="INFO" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <!-- Root 로거 설정 -->
+    <root level="INFO">
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

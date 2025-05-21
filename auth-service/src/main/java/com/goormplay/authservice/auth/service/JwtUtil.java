@@ -59,18 +59,18 @@ public class JwtUtil {
     public String createJwt(MemberDto memberDto) {
         log.info("Auth Service - JwtUtil - createJwt 시작");
         String accessToken = getAccessToken(memberDto);
-        String refreshToken = getRefreshToken(memberDto);
+//        String refreshToken = getRefreshToken(memberDto);
 
-        log.info("Auth Service - JwtUtil - createJwt - 리프레쉬 토큰을 redis에 저장");
+//        log.info("Auth Service - JwtUtil - createJwt - 리프레쉬 토큰을 redis에 저장");
 
-        RefreshToken savedRefreshToken = refreshTokenRepository.save(new RefreshToken(refreshToken, memberDto.getMemberId()));
-        log.info("Auth Service - JwtUtil - createJwt -  cookie에 Refresh token 담기");
+//        RefreshToken savedRefreshToken = refreshTokenRepository.save(new RefreshToken(refreshToken, memberDto.getMemberId()));
+//        log.info("Auth Service - JwtUtil - createJwt -  cookie에 Refresh token 담기");
 
-        setRefreshTokenToCookie(refreshToken);
-
-        if (refreshTokenRepository.findById(savedRefreshToken.getRefreshToken()).isEmpty()) {
-            throw new JwtException(JwtExceptionType.TOKEN_SAVE_FAIL);
-        }
+//        setRefreshTokenToCookie(refreshToken);
+//
+//        if (refreshTokenRepository.findById(savedRefreshToken.getRefreshToken()).isEmpty()) {
+//            throw new JwtException(JwtExceptionType.TOKEN_SAVE_FAIL);
+//        }
 
         // Access token 리턴
         return accessToken;
