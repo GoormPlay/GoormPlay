@@ -80,6 +80,27 @@ public class AuthServiceImpl implements AuthService{
         }
     }
 
+    @Override
+    @Transactional
+    public void createTestAccount(SignUpRequestDto dto) {
+        if(authRepository.existsByUsername(dto.getUsername())) {
+            log.info("이미 존재하는 테스트 계정입니다: {}", dto.getUsername());
+            return;
+        }
+
+        String memberId = UUID.randomUUID().toString(); // 테스트용 memberId 생성
+        Auth auth = Auth.builder()
+                .id(UUID.randomUUID().toString())
+                .username(dto.getUsername())
+                .password(bCryptPasswordEncoder.encode(dto.getPassword()))
+                .role(Role.USER)
+                .createdAt(LocalDateTime.now())
+                .Memberid(memberId)
+                .build();
+        authRepository.save(auth);
+        log.info("테스트 계정 생성 완료: {}", dto.getUsername());
+    }
+
 
     @Override
     public void deleteTransaction(String username) {

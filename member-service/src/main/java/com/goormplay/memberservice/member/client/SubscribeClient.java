@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface SubscribeClient {
 
 
-    @GetMapping("/api/subcribe/client/{memberId}")
+    @GetMapping("/subscribe/client/{memberId}")
     void joinSubscribe(@PathVariable("memberId") String memberId);
-    @DeleteMapping("/api/subcribe/client/{memberId}")
+    @DeleteMapping("/subscribe/client/{memberId}")
     void deleteSubscribe(@PathVariable("memberId") String memberId);
 
-    @GetMapping("/api/subscribe/client/{memberId}/status")
+    @GetMapping("/subscribe/client/{memberId}/status")
     SubScribeStatusDto getSubScribeStatus(@PathVariable("memberId") String memberId);
 
 

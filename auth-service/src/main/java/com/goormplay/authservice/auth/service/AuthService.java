@@ -14,4 +14,5 @@ public interface AuthService {
     String createJwt(MemberDto memberDto);
     String tokenRefresh();
     void logout();
+    void createTestAccount(SignUpRequestDto dto);
 }

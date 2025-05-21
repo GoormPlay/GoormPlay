@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "member-service" , configuration = FeignHeaderConfig.class)
 public interface MemberClient {
-    @PostMapping("/api/member/client")//회원가입
+    @PostMapping("/member/client")//회원가입
     String signUpMember(@RequestBody SignUpRequestDto dto);
 
-    @DeleteMapping("/api/member/client/{username}")
+    @DeleteMapping("/member/client/{username}")
     void deleteMember(@PathVariable("username")String username);
 }
