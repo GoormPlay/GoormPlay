@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_PATH" value="logs/video-events"/>
+    <property name="LOG_PATTERN" value="%msg%n"/>
+
+    <!-- Console Appender for system logs -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %cyan(%logger{36}) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Appender for video events only -->
+    <appender name="VIDEO_EVENTS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/video-events.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/video-events.%d{yyyy-MM-dd-HH-mm}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Video Event Logger - 파일에만 기록 -->
+    <logger name="com.goormplay.useractiontestservice.logger.VideoEventLogger" level="INFO" additivity="false">
+        <appender-ref ref="VIDEO_EVENTS"/>
+    </logger>
+
+    <!-- 다른 모든 로그는 콘솔에만 출력 -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

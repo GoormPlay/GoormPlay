@@ -5,7 +5,6 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="17" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -19,69 +18,6 @@
             <option value="$PROJECT_DIR$/member-service" />
             <option value="$PROJECT_DIR$/review-service" />
             <option value="$PROJECT_DIR$/subscribe-service" />
-            <option value="$PROJECT_DIR$/userAction-test-service" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/ad-admin-service" />
-        <option name="gradleJvm" value="17" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/ad-admin-service" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/apigateway-service" />
-        <option name="gradleJvm" value="17" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/apigateway-service" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/auth-service" />
-        <option name="gradleJvm" value="17" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/auth-service" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/content-service" />
-        <option name="gradleJvm" value="17" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/content-service" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/eureka-service" />
-        <option name="gradleJvm" value="17" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/eureka-service" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/indexing-service" />
-        <option name="gradleJvm" value="17" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/indexing-service" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/userAction-test-service" />
-        <option name="gradleJvm" value="17" />
-        <option name="modules">
-          <set>
             <option value="$PROJECT_DIR$/userAction-test-service" />
           </set>
         </option>

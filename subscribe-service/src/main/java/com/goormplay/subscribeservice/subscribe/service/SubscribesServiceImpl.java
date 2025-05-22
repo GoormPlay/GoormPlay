@@ -55,10 +55,10 @@ public class SubscribesServiceImpl implements SubscribeService{
 
         subscribeRepository.save(Subscribe.builder()
                 .id(UUID.randomUUID().toString())
-                .subscriptionStartDate(LocalDate.now()).
-                subscriptionEndDate(LocalDate.now().plusMonths(1)).
-                isCancelScheduled(false).
-                memberId(memberId).build());
+                .subscriptionStartDate(LocalDate.now())
+                .subscriptionEndDate(LocalDate.now().plusMonths(1))
+                .isCancelScheduled(false)
+                .memberId(memberId).build());
     }
 
     @Transactional

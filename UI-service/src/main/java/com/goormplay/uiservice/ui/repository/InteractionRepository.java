@@ -1,5 +1,6 @@
 package com.goormplay.uiservice.ui.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -10,5 +11,6 @@ import com.goormplay.uiservice.ui.entity.InteractionEntity;
 
 
 public interface InteractionRepository extends MongoRepository<InteractionEntity, String> {
-    Optional<InteractionEntity> findByUserIdAndContentId(String userId, String contentId); 
+    Optional<InteractionEntity> findByUserIdAndContentId(String userId, String contentId);
+    List<InteractionEntity> findByUserIdAndLikedIsTrue(String userId);
 }

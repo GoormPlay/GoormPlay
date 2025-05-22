@@ -19,11 +19,7 @@ public class FeignHeaderConfig {
                 if (fromGateway != null) {
                     requestTemplate.header("X-From-Gateway", fromGateway);
                 }
-                // Authorization 헤더 전달
-                String authorization = request.getHeader("Authorization");
-                if (authorization != null) {
-                    requestTemplate.header("Authorization", authorization);
-                }
+
             }
         };
     }

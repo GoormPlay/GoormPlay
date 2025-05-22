@@ -1,7 +1,7 @@
 package com.goormplay.uiservice.ui.service;
 
+import com.goormplay.uiservice.ui.dto.LikedContentDto;
 import com.goormplay.uiservice.ui.entity.InteractionEntity;
-import com.goormplay.uiservice.ui.entity.InteractionEntity.Interactions;
 import com.goormplay.uiservice.ui.repository.InteractionRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -21,26 +21,31 @@ public class InteractionService {
     private final InteractionRepository interactionRepository;
 
 
-    // 실제 '좋아요' 처리 기능
-    public InteractionEntity likeContent(String userId, String contentId, Boolean liked) {
-        log.info("Interaction Service :  좋아요 상태 변경");
-
+    public void updateLike(String userId, String contentId, boolean liked) {
         Optional<InteractionEntity> optional = interactionRepository.findByUserIdAndContentId(userId, contentId);
 
-        // 없으면 새로 InteractionEntity 객체 만들기
-        InteractionEntity entity = optional.orElseGet(InteractionEntity::new);
-        entity.setUserId(userId);
-        entity.setContentId(contentId);
+        InteractionEntity entity = optional.orElseGet(() -> {
+            InteractionEntity newInteraction = new InteractionEntity();
+            newInteraction.setUserId(userId);
+            newInteraction.setContentId(contentId);
+            return newInteraction;
+        });
 
-        // '좋아요' 상태 저장
-        Interactions interactions = new Interactions();
-        interactions.setLiked(liked);
-        //지금은 t/f를 받아서 집어넣는데 on/off 매서드로 바꾸는 게 낫지 않은가?
-        entity.setInteractions(interactions);
-        log.info("좋아요 상태 변경");
+        entity.setLiked(liked);
+        entity.setUpdatedAt(LocalDateTime.now());
 
+        interactionRepository.save(entity);
+    }
 
-        return interactionRepository.save(entity);
+    public List<LikedContentDto> getLikedContent(String userId) {
+        List<InteractionEntity> likedInteractions = getLikedInteractions(userId);
+        return likedInteractions.stream()
+                .map(interaction -> new LikedContentDto(interaction.getContentId()))
+                .toList();
+    }
+
+    private List<InteractionEntity> getLikedInteractions(String userId) {
+        return interactionRepository.findByUserIdAndLikedIsTrue(userId);
     }
 
 
