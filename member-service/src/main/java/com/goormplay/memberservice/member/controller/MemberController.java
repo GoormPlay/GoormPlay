@@ -23,8 +23,9 @@ public class MemberController {
     public ResponseEntity<ResponseDto> getMemberProfile(Authentication authentication) {
         log.info("Member Controller :  멤버 프로필 조회 시작");
 
-        String member_Id = authentication.getName();
-        MemberProfileDto memberProfileDto = memberService.findMemberProfile(member_Id);
+        String memberId = authentication.getName();
+        log.info(memberId);
+        MemberProfileDto memberProfileDto = memberService.findMemberProfile(memberId);
 
         return new ResponseEntity<>(new ResponseDto("멤버 프로필 조회",memberProfileDto), HttpStatus.OK);
     }

@@ -71,7 +71,8 @@ public class MemberServiceImpl implements MemberService {
                 age(member.getAge()).
                 subscription_start_date(subScribeStatusDto.getSubscription_start_date()).
                 subscription_end_date(subScribeStatusDto.getSubscription_end_date()).
-                is_cancel_scheduled(subScribeStatusDto.getIs_cancel_scheduled()).
+                isCancelScheduled(subScribeStatusDto.getIsCancelScheduled()).
+                isSubscribed(subScribeStatusDto.getIsSubscribed()).
                 build();
     }
 }

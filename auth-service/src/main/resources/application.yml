@@ -35,10 +35,6 @@ service:
     access-expiration : 3600000 #1시간
     refresh-expiration : 36000000 #10시간
 
-logging:
-  level:
-    root: DEBUG
-    org.springframework: DEBUG
 server:
   port: 9000
 

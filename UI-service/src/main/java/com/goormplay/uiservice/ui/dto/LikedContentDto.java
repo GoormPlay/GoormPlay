@@ -7,13 +7,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class InteractionRequestDto {
-
-    private String contentId;
-    private boolean liked;
-
-
-
+@NoArgsConstructor
+public class LikedContentDto {
+    String contentId;
 }

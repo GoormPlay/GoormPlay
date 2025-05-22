@@ -14,5 +14,6 @@ import java.time.LocalDate;
 public class SubScribeStatusDto {
     LocalDate subscription_start_date;
     LocalDate subscription_end_date;
-    Boolean is_cancel_scheduled;
+    Boolean isCancelScheduled;
+    Boolean isSubscribed;
 }

@@ -1,19 +1,15 @@
-package com.goormplay.uiservice.ui.dto;
+package com.goormplay.memberservice.member.dto.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class InteractionRequestDto {
-
-    private String contentId;
-    private boolean liked;
-
-
-
+public class LikedContentIdDto {
+    String contentId;
 }

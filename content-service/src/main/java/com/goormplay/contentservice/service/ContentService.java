@@ -80,6 +80,9 @@ public class ContentService {
                 .toList();
     }
 
+    // 사용자 좋아요 데이터 조회
+
+
     // 최신 컨텐츠 조회
     public Page<ContentCardDTO> getLatestContents(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size,

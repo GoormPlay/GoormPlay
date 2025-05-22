@@ -49,7 +49,7 @@ public class AuthServiceImpl implements AuthService{
         auth.setLastLoginAt(LocalDateTime.now());
 
         return createJwt(MemberDto.builder().
-                memberId(auth.getId()).
+                memberId(auth.getMemberid()).
                 role(auth.getRole())
                 .build());
     }

@@ -9,4 +9,5 @@ public interface MemberService {
     void deleteMember(String username);
 
     MemberProfileDto findMemberProfile(String MemberId);
+
 }

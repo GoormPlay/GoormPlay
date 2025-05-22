@@ -10,8 +10,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public interface SubscribeRepository extends JpaRepository<Subscribe, String> {
-    Optional<Subscribe> findByMemberId(String memberid);
-
+    Optional<Subscribe> findByMemberId(String memberId);
     @Modifying//벌크 연산
     @Query("update Subscribe s set s.subscriptionEndDate = :nextMonth " +
             "where s.subscriptionEndDate = :today and s.isCancelScheduled = false")

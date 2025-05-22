@@ -15,34 +15,18 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection="user_interaction")
+@Document(collection="interactions")
 public class InteractionEntity {
 
     @Id
     private String id;
 
-    @Field("user_id")
     private String userId;
-
-    @Field("content_id")
     private String contentId;
-    
-    private Interactions interactions;
 
-    @LastModifiedDate
+    private boolean liked;
     private LocalDateTime updatedAt;
 
-    public static class Interactions {
-        private boolean liked;
-
-        public boolean isLiked() {
-            return liked;
-        }
-
-        public void setLiked(boolean liked) {
-            this.liked = liked;
-        }
-    }
 
     
 }
