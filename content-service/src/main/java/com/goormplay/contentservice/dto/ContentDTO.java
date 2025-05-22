@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class ContentDTO {
+    private String id;
     private String title;
     private String kind;
     private String[] genre;
@@ -22,6 +23,5 @@ public class ContentDTO {
     private String videoId;
     private LocalDate releaseDate;
     private String synopsis;
-
 
 }

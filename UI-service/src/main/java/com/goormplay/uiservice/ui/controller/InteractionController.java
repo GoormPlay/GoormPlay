@@ -34,8 +34,8 @@ public class InteractionController {
 
     //Get으로 좋아요 정보 보내는 Feign controller 필요
    @GetMapping("/content/{userId}/liked")
-   public List<LikedContentDto>  getLikedContent(@PathVariable String userId) {
-        return interactionService.getLikedContent(userId);
+   public List<String>  getLikedContentsId(@PathVariable String userId) {
+        return interactionService.getLikedContentIds(userId);
    }
 
 

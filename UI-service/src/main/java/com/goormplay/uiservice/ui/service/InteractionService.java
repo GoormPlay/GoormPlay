@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,11 +38,11 @@ public class InteractionService {
         interactionRepository.save(entity);
     }
 
-    public List<LikedContentDto> getLikedContent(String userId) {
+    public List<String> getLikedContentIds(String userId) {
         List<InteractionEntity> likedInteractions = getLikedInteractions(userId);
         return likedInteractions.stream()
-                .map(interaction -> new LikedContentDto(interaction.getContentId()))
-                .toList();
+                .map(InteractionEntity::getContentId)
+                .collect(Collectors.toList());
     }
 
     private List<InteractionEntity> getLikedInteractions(String userId) {

@@ -46,3 +46,9 @@ UI-service/src/main/resources/.env
 # 컴파일 아웃풋
 out/
 target/
+logs/video-events/video-events.log
+apigateway-service/src/main/resources/static/static/js/main.e39e9877.js.LICENSE.txt
+/.idea
+/.idea
+apigateway-service/src/main/resources/static/asset-manifest.json
+apigateway-service/src/main/resources/static/index.html

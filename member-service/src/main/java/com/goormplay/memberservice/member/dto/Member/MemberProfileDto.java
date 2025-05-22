@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -20,5 +21,5 @@ public class MemberProfileDto {
     LocalDate subscription_end_date;
     Boolean isCancelScheduled;
     Boolean isSubscribed;
-    //아마 유저 좋아요 정보? 추천 영화도 담아서 보내야 할듯?
+    private List<VideoDto> liked; // Video[] -> List<ContentCardDto>로 매핑
 }

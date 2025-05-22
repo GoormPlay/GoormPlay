@@ -6,11 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goormplay.contentservice.dto.ContentCardDTO;
 import com.goormplay.contentservice.dto.ContentDTO;
 import com.goormplay.contentservice.dto.ContentDetailDTO;
+import com.goormplay.contentservice.dto.VideoDTO;
 import com.goormplay.contentservice.entity.Content;
 import com.goormplay.contentservice.repository.ContentRepository;
 import com.goormplay.contentservice.tool.ContentMapper;
+import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -20,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,23 +35,79 @@ public class ContentService {
     private final ObjectMapper objectMapper;
     private final ContentMapper contentMapper;
 
+    // 상세 페이지 조회
+    public VideoDTO getContentDetailById(String id) {
+        return contentRepository.findContentDetailById(id)
+                .orElseThrow();
+    }
+
+    // 컨텐츠 ID 목록으로 카드 조회
+    public List<VideoDTO> getContentCardsByIds(List<String> contentIds) {
+        List<ObjectId> objectIds = contentIds.stream()
+                .map(ObjectId::new)
+                .collect(Collectors.toList());
+
+        return contentRepository.findContentCardsByIds(objectIds);
+    }
+
+    // 사용자별 추천 컨텐츠 조회
+    public List<VideoDTO> getRecommendedContentsForUser(List<String> contentIds) {
+        if (contentIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<ObjectId> objectIds = contentIds.stream()
+                .map(ObjectId::new)
+                .collect(Collectors.toList());
+
+        return contentRepository.findByIdsAsRecommended(objectIds);
+    }
+
+    // 일반적인 트렌딩/최신 컨텐츠 조회
+    public List<VideoDTO> getTrendingContents() {
+        return contentRepository.findAllAsTrending();
+    }
+
+    public List<VideoDTO> getLatestContents() {
+        return contentRepository.findAllAsLatest();
+    }
+
+    // 최신 컨텐츠 카드 조회 (페이징)
+    public Page<VideoDTO> getLatestContents(int page, int size) {
+        return contentRepository.findLatestContents(
+                PageRequest.of(page, size, Sort.by("releaseDate").descending())
+        );
+    }
+
+    // 최신 컨텐츠 카드 조회 (리스트)
+    public List<VideoDTO> getLatestContentCards(int limit) {
+        return contentRepository.findLatestContentCards(limit);
+    }
+
+    // 테스트 데이터 관련 메서드
+    @Transactional
+    public void saveTestContents() throws IOException {
+        List<ContentDTO> contents = importContentsFromJson();
+        contentRepository.saveAll(contents.stream()
+                .map(this::toEntity)
+                .collect(Collectors.toList()));
+    }
+
+    private Content toEntity(ContentDTO dto) {
+        return Content.builder()
+                // ... DTO to Entity 매핑
+                .build();
+    }
 
 
-//    private String title;
-//    private String contentType;
-//    private String[] genre;
-//    private int year;
-//    private String KMRB;
-//    private String[] cast;
-//    private String embedUrl;
-//    private String thumbnailUrl;
-//    private LocalDate releaseDate;
 
-    // 컨텐츠 상세 페이지 조회
-    public ContentDetailDTO getContentDetailById(String id) {
-        Content content = contentRepository.findById(id).orElseThrow();
-        return contentToContentDetailDto(content);
-
+    // 테스트 데이터 임포트
+    private List<ContentDTO> importContentsFromJson() throws IOException {
+        try (InputStream is = getClass().getResourceAsStream("/scripts/test-contents.json")) {
+            JsonNode root = objectMapper.readTree(is);
+            return objectMapper.convertValue(root.get("test-contents"),
+                    new TypeReference<List<ContentDTO>>() {});
+        }
     }
 
     // 테스트 데이터 변환
@@ -60,36 +120,16 @@ public class ContentService {
         );
     }
 
-    // 테스트 데이터 변환 후 저장
-    public void saveTestContents() throws IOException {
-
-        List<ContentDTO> contentDTOS = importContentsFromJson();
-
-        List<Content> contents = contentDTOS.stream()
-                .map(contentMapper::toEntity)
-                .collect(Collectors.toList());
-        contentRepository.saveAll(contents);
-    }
-
     // 테스트 데이터 cardDTO 조회
-    public List<ContentCardDTO> getTestLatestContentCards()  {
+    public List<VideoDTO> getTestLatestContentCards()  {
+      return contentRepository.findAllLatestContentCards();
 
-        List<Content> contents = contentRepository.findAllLatestContents();
-        return contents.stream()
-                .map(this::contentToContentCardDto)
-                .toList();
     }
 
     // 사용자 좋아요 데이터 조회
 
 
-    // 최신 컨텐츠 조회
-    public Page<ContentCardDTO> getLatestContents(int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size,
-                Sort.by("releaseDate").descending());
-        return contentRepository.findLatestContents(pageRequest)
-                .map(this::contentToContentCardDto);
-    }
+
 
     // 사용자 맞춤 컨텐츠 조회 (예정)
     public List<ContentCardDTO> getRecommendedContents(String userId) {
@@ -97,44 +137,5 @@ public class ContentService {
         return null;
     }
 
-    // 컨텐츠 Card DTO
-    public ContentCardDTO contentToContentCardDto(Content content){
-        return ContentCardDTO.builder()
-                .id(content.getId())
-                .title(content.getTitle())
-                .kind(content.getKind())
-                .genre(content.getGenre())
-                .thumbnail(content.getThumbnail())
-                .videoId(content.getVideoId())
-                .build();
-    }
-
-    // 컨텐츠 Detail DTO
-    public ContentDetailDTO contentToContentDetailDto(Content content){
-        return ContentDetailDTO.builder()
-                .id(content.getId())
-                .title(content.getTitle())
-                .kind(content.getKind())
-                .genre(content.getGenre())
-                .year(content.getYear())
-                .KMRB(content.getKMRB())
-                .cast(content.getCast())
-                .director(content.getDirector())
-                .videoId(content.getVideoId())
-                .releaseDate(content.getReleaseDate())
-                .thumbnail(content.getThumbnail())
-                .synopsis(content.getSynopsis())
-                .provider(content.getProvider())
-                .build();
-    }
-
-    // 임시 Content 더미데이터 만들기
-    public List<ContentDTO> importContentsFromJson() throws IOException {
-        try (InputStream is = getClass().getResourceAsStream("/scripts/test-contents.json")) {
-            JsonNode root = objectMapper.readTree(is);
-            return objectMapper.convertValue(root.get("test-contents"),
-                    new TypeReference<List<ContentDTO>>() {});
-        }
-    }
 
 }
