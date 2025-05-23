@@ -59,6 +59,11 @@ dependencies {
     //db
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'mysql:mysql-connector-java:8.0.33'
+
+    //kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
 }
 
 

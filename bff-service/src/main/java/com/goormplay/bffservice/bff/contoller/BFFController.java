@@ -22,19 +22,20 @@ public class BFFController {
     private final BFFService bffService;
 
     @PostMapping("/join")
-    public ResponseEntity<ResponseDto> joinBFFRequest(SignUpRequestDto dto){
-        bffService.join(dto);
+    public ResponseEntity<ResponseDto> joinBFFRequest(SignUpRequestDto dto) {
+//        bffService.join();
 
-        return new ResponseEntity<>(new ResponseDto("유저 계정 생성",null),
+        return new ResponseEntity<>(new ResponseDto("유저 계정 생성", null),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/profile")
-    public ResponseEntity<ResponseDto> getMemberProfile(Authentication authentication) {
-        log.info("Member Controller :  멤버 프로필 조회 시작");
-
-        String member_Id = authentication.getName();
-
-
-        return new ResponseEntity<>(new ResponseDto("멤버 프로필 조회",bffService.getMemberProfile(member_Id)), HttpStatus.OK);
-    }
+//    @GetMapping("/profile")
+//    public ResponseEntity<ResponseDto> getMemberProfile(Authentication authentication) {
+//        log.info("Member Controller :  멤버 프로필 조회 시작");
+//
+//        String member_Id = authentication.getName();
+//
+//
+//        return new ResponseEntity<>(new ResponseDto("멤버 프로필 조회", bffService.getMemberProfile(member_Id)), HttpStatus.OK);
+//    }
+}
