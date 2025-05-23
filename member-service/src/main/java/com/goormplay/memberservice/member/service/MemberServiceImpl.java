@@ -2,7 +2,7 @@ package com.goormplay.memberservice.member.service;
 
 import com.goormplay.memberservice.member.client.ContentClient;
 import com.goormplay.memberservice.member.client.SubscribeClient;
-import com.goormplay.memberservice.member.client.UIClient;
+import com.goormplay.memberservice.member.client.UserInteractionClient;
 import com.goormplay.memberservice.member.dto.ContentIdsRequest;
 import com.goormplay.memberservice.member.dto.Member.*;
 import com.goormplay.memberservice.member.dto.SignUpRequestDto;
@@ -11,7 +11,6 @@ import com.goormplay.memberservice.member.exception.Member.MemberException;
 import com.goormplay.memberservice.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +28,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final SubscribeClient subscribeClient;
-    private final UIClient  uiClient;
+    private final UserInteractionClient userInteractionClient;
     private final ContentClient contentClient;
 
     @Override
@@ -78,7 +77,7 @@ public class MemberServiceImpl implements MemberService {
         SubScribeStatusDto subScribeStatusDto = subscribeClient.getSubScribeStatus(memberId);
 
         // 3. 좋아요한 컨텐츠 조회
-        List<String> likedContentsIds = uiClient.getLikedContentsId(memberId);
+        List<String> likedContentsIds = userInteractionClient.getLikedContentsId(memberId);
         List<VideoDto> likedContents = likedContentsIds.isEmpty()
                 ? Collections.emptyList()
                 : contentClient.getContentCardsByContentIds(new ContentIdsRequest(likedContentsIds));

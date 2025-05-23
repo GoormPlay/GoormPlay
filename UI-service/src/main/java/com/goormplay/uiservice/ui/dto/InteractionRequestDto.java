@@ -12,8 +12,5 @@ import lombok.NoArgsConstructor;
 public class InteractionRequestDto {
 
     private String contentId;
-    private boolean liked;
-
-
 
 }
