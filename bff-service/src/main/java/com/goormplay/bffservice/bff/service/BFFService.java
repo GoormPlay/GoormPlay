@@ -18,7 +18,7 @@ public class BFFService {
     private  final KafkaTemplate<String, String> kafkaTemplate;
     private  final ObjectMapper objectMapper;
 
-    public void join(String userId, String action, String description, Map<String, Object> details) {
+    public void join(String userId, String action, String gender, int age) {
         Map<String, Object> logData = new HashMap<>();
         logData.put("timestamp", LocalDateTime.now().toString());
         logData.put("userId", userId);
