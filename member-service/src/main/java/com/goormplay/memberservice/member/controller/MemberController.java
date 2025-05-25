@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -22,8 +24,9 @@ public class MemberController {
     @GetMapping("/profile")
     public ResponseEntity<ResponseDto> getMemberProfile(Authentication authentication) {
         log.info("Member Controller :  멤버 프로필 조회 시작");
-
-        String memberId = authentication.getName();
+        @SuppressWarnings("unchecked")
+        Map<String, String> principal = (Map<String, String>) authentication.getPrincipal();
+        String memberId = principal.get("memberId");
         log.info(memberId);
         MemberProfileDto memberProfileDto = memberService.findMemberProfile(memberId);
 

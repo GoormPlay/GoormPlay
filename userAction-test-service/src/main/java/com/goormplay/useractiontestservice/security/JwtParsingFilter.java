@@ -1,4 +1,4 @@
-package com.goormplay.subscribeservice.Security;
+package com.goormplay.useractiontestservice.security;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

@@ -1,13 +1,15 @@
 package com.goormplay.reviewservice.review.service;
 
-import com.goormplay.reviewservice.review.dto.ReviewRequest;
+import com.goormplay.reviewservice.review.dto.CreateReviewRequest;
 import com.goormplay.reviewservice.review.dto.ReviewResponse;
+import com.goormplay.reviewservice.review.dto.UpdateReviewRequest;
 import com.goormplay.reviewservice.review.entity.Review;
 import com.goormplay.reviewservice.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -23,20 +25,21 @@ public class ReviewService {
                 .collect(Collectors.toList());
     }
 
-    public void createReview(String contentId, ReviewRequest request) {
+    public void createReview(String contentId, CreateReviewRequest request) {
 
         reviewRepository.save(Review.builder().id(UUID.randomUUID().toString())
                 .contentId(contentId)
+                        .username(request.getUsername())
                 .userId(request.getUserId())
-                .text(request.getText())
+                .comment(request.getComment())
                 .rating(request.getRating())
                 .build());
     }
 
-    public void updateReview(String contentId, ReviewRequest request) {
-        Review review = reviewRepository.findByContentIdAndUserId(contentId, request.getUserId())
+    public void updateReview(UpdateReviewRequest request) {
+        Review review = reviewRepository.findByIdAndUserId(request.getId(), request.getUserId())
                 .orElseThrow();
-        review.setText(request.getText());
+        review.setComment(request.getComment());
         review.setRating(request.getRating());
         reviewRepository.save(review);
     }

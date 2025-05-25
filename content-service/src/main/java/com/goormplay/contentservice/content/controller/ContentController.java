@@ -2,15 +2,19 @@ package com.goormplay.contentservice.content.controller;
 
 import com.goormplay.contentservice.content.dto.ContentIdsRequest;
 import com.goormplay.contentservice.content.dto.VideoDTO;
+import com.goormplay.contentservice.content.dto.response.ContentDetailResponse;
 import com.goormplay.contentservice.content.service.ContentService;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/contents")
@@ -56,8 +60,12 @@ public class ContentController {
         return ResponseEntity.ok(contentService.getLatestContents(page, size));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<VideoDTO> getContentDetail(@PathVariable String id) {
-        return ResponseEntity.ok(contentService.getContentDetailById(id));
+    public ResponseEntity<ContentDetailResponse> getContentDetail(@PathVariable String id,
+                                                                  @Nullable Authentication authentication) {
+        String userId = Optional.ofNullable(authentication)
+                .map(Authentication::getName)
+                .orElse(null);
+        return ResponseEntity.ok(contentService.getContentDetailById(id, userId));
     }
 
 

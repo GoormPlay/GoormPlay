@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,9 @@ public class InteractionController {
     @PostMapping("/like")
     public void likeContent(@RequestBody InteractionRequestDto requestDto, Authentication authentication) {
         log.info("Interaction Controller :  좋아요 상태 변경 시작");
-        String userId = authentication.getName();
+        @SuppressWarnings("unchecked")
+        Map<String, String> principal = (Map<String, String>) authentication.getPrincipal();
+        String userId = principal.get("memberId");
         interactionService.toggleLike(
             userId,
             requestDto.getContentId()

@@ -82,6 +82,7 @@ public class JwtUtil {
         log.info("Auth Service - memberDto ROLE  : " + memberDto.getRole().toString());
         return JWT.create()
                 .withSubject(memberDto.getMemberId())
+                .withClaim("username", memberDto.getUsername())
                 .withClaim("memberId", memberDto.getMemberId())
                 .withClaim("role", memberDto.getRole().toString())
                 .withExpiresAt(Date.from(LocalDateTime.now()

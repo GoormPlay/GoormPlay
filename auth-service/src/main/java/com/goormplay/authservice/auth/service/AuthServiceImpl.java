@@ -51,6 +51,7 @@ public class AuthServiceImpl implements AuthService{
         return createJwt(MemberDto.builder().
                 memberId(auth.getMemberid()).
                 role(auth.getRole())
+                .username(auth.getUsername())
                 .build());
     }
 

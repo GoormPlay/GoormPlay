@@ -4,18 +4,23 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goormplay.contentservice.content.client.ContentInteractionClient;
+import com.goormplay.contentservice.content.client.ContentReviewClient;
 import com.goormplay.contentservice.content.dto.ContentCardDTO;
 import com.goormplay.contentservice.content.dto.ContentDTO;
+import com.goormplay.contentservice.content.dto.ReviewDTO;
 import com.goormplay.contentservice.content.dto.VideoDTO;
+import com.goormplay.contentservice.content.dto.response.ContentDetailResponse;
 import com.goormplay.contentservice.content.entity.Content;
 import com.goormplay.contentservice.content.repository.ContentRepository;
 import com.goormplay.contentservice.content.tool.ContentMapper;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,15 +41,30 @@ public class ContentService {
     private final ObjectMapper objectMapper;
     private final ContentMapper contentMapper;
     private final ContentInteractionClient contentInteractionClient;
+    private final ContentReviewClient contentReviewClient;
 
     // 상세 페이지 조회
-    public VideoDTO getContentDetailById(String contentId, Authentication authentication) {
-        String userId = authentication.getName();
+    public ContentDetailResponse getContentDetailById(String contentId, @Nullable String userId) {
         VideoDTO content = contentRepository.findContentDetailById(contentId)
                 .orElseThrow();
-        boolean isLiked = userId != null ?
-                contentInteractionClient.isContentLikedByUser(userId, contentId) : false;
+        List<ReviewDTO> reviews = contentReviewClient.getReviews(contentId);
+        //임시
+        Double averageRating = 2.0;
 
+        return ContentDetailResponse.builder()
+                .content(content)
+                .isLiked(checkIsLiked(userId, contentId))
+                .reviews(reviews)
+                .averageRating(averageRating)
+                .build();
+
+
+    }
+
+    private boolean checkIsLiked(String userId, String contentId) {
+        return Optional.ofNullable(userId)
+                .map(id -> contentInteractionClient.isContentLikedByUser(id, contentId))
+                .orElse(false);
     }
 
     // 컨텐츠 ID 목록으로 카드 조회

@@ -15,7 +15,7 @@ public class GatewayHeaderFilter implements Filter {
             throws IOException, ServletException {
 
         HttpServletRequest request = (HttpServletRequest) req;
-        log.info("request : 요청 들어옴");
+        log.info("[{}]request: 요청 들어옴",  request.getRequestURI());
         String fromGateway = request.getHeader("X-From-Gateway");
         log.info("request fromGateway : "+ fromGateway);
         if (!"true".equals(fromGateway)) {

@@ -16,10 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 public class JwtParsingFilter extends OncePerRequestFilter {
@@ -45,14 +42,15 @@ public class JwtParsingFilter extends OncePerRequestFilter {
             JsonNode claims = parsePayload(payload);
             // SecurityContext에 인증 정보 설정
             log.info("claim - sub : " + claims.get("sub").asText());
-
-
-
             if (!claims.has("sub")) {
                 throw new ServletException("Missing 'sub' claim");
             }
+            Map<String, String> principal = new HashMap<>();
+            principal.put("memberId", claims.get("sub").asText());
+            principal.put("username", claims.get("username").asText());
+
             Authentication auth = new UsernamePasswordAuthenticationToken(
-                    claims.get("memberId").asText(),
+                    principal,
                     null,
                     extractAuthorities(claims)
             );

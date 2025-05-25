@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberDto {//수정
     String memberId;
+    String username;
     Role role;
 
 }

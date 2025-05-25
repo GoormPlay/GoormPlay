@@ -3,8 +3,8 @@ spring:
     name: review-service
   data:
     mongodb:
-      uri: mongodb://localhost:27017
-      database: dbfirst
+      uri: mongodb+srv://user:goorm0508@goorm-mongodb.svz66jf.mongodb.net/?retryWrites=true&w=majority&appName=goorm-mongoDB
+      database: content-db
 
 server:
   port: 9007
