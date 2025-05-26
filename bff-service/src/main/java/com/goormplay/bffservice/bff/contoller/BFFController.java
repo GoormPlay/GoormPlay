@@ -20,7 +20,7 @@ public class BFFController {
 
     private final BFFService bffService;
 
-    @PostMapping("/join")
+    @PostMapping("/users")
     public ResponseEntity<ResponseDto> joinBFFRequest(@Valid @RequestBody SignUpRequestDto dto) {
         bffService.join(dto.getUsername(), dto.getPassword(), dto.getGender().name(), dto.getAge());
 

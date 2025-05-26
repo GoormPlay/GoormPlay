@@ -48,7 +48,7 @@ public class BFFService {
                     .eventType("UserJoinEvent")
                     .payload(json)
                     .timestamp(LocalDateTime.now())
-                    .processed(true)
+                    .processed(false)
                     .build());
         } catch (JsonProcessingException e) {
             log.error("Json 직렬화 실패  : {}.", username, e);

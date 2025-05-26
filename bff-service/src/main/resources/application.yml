@@ -22,6 +22,37 @@ spring:
         spring:
           json:
             encoding=UTF-8:
+  datasource:
+    url: jdbc:mysql://localhost:3306/goormtest?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver # MySQL 8 이상 드라이버
+
+    jpa:
+      hibernate:
+        ddl-auto: update # 개발용: 애플리케이션 시작 시 DB 스키마 업데이트
+        # production 환경에서는 'none' 또는 'validate'를 권장
+      show-sql: true # 콘솔에 JPA가 생성하는 SQL 쿼리 로그 출력
+      properties:
+        hibernate:
+          format_sql: true # SQL 쿼리를 보기 좋게 포맷팅
+          dialect: org.hibernate.dialect.MySQL8Dialect
+
+redisson:
+  config: |
+    singleServerConfig:
+      idleConnectionTimeout: 10000
+      connectTimeout: 10000
+      timeout: 3000
+      retryAttempts: 3
+      retryInterval: 1500
+      password: null
+      subscriptionsPerConnection: 5
+      clientName: ${spring.application.name}-redisson
+      address: "redis://127.0.0.1:6379"  # Redis 서버 주소
+      connectionMinimumIdleSize: 10
+      connectionPoolSize: 64
+      database: 0
 
 eureka:
   client:

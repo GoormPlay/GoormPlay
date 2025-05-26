@@ -10,7 +10,6 @@ public class MemberException extends BaseException {
     public MemberException(BaseExceptionType exceptionType) {
         this.exceptionType = exceptionType;
     }
-
     @Override
     public BaseExceptionType getExceptionType() {
         return exceptionType;

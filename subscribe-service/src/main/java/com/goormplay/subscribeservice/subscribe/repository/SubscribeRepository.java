@@ -17,4 +17,5 @@ public interface SubscribeRepository extends JpaRepository<Subscribe, String> {
             "where s.subscriptionEndDate = :today and s.isCancelScheduled = false")
     void extendSubscriptions(@Param("nextMonth") LocalDate nextMonth,
                             @Param("today") LocalDate today);
+    boolean existsByMemberId(String memberId);
 }

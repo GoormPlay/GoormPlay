@@ -1,6 +1,8 @@
 package com.goormplay.bffservice.bff.handler;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goormplay.bffservice.bff.dto.ErrorResultDto;
 import com.goormplay.bffservice.bff.dto.ResponseDto;
 import com.goormplay.bffservice.bff.exception.BaseException;
@@ -28,7 +30,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GlobalExControllerAdvice {
 
-    private final KafkaTemplate<String, ErrorLogEvent> kafkaTemplate; // ErrorLogEvent를 값으로 보내도록 설정
+    private final KafkaTemplate<String, String> kafkaTemplate; // ErrorLogEvent를 값으로 보내도록 설정
+    private final ObjectMapper objectMapper;
+
     private final String ERROR_LOG_TOPIC = "application-error-logs"; // 로그 전용 카프카 토픽
 
     // Bean Valid 검사 후 에러 처리
@@ -40,21 +44,31 @@ public class GlobalExControllerAdvice {
 
         // 카프카로 에러 로그 전송
         ErrorLogEvent errorLog = buildErrorLogEvent(e, "Validation Error", "DTO 유효성 검사 실패", e.getMessage());
-        kafkaTemplate.send(ERROR_LOG_TOPIC, errorLog.getServiceName(), errorLog); // 키는 서비스명이나 트랜잭션 ID 등
+        try {
 
+
+            kafkaTemplate.send(ERROR_LOG_TOPIC, errorLog.getServiceName(), objectMapper.writeValueAsString(errorLog)); // 키는 서비스명이나 트랜잭션 ID 등
+        }catch(JsonProcessingException jsonEx){
+            log.error("CRITICAL: Failed to serialize ErrorLogEvent in exception handler: {}", jsonEx.getMessage(), jsonEx);
+
+        }
         return new ResponseEntity<>(collect, HttpStatus.BAD_REQUEST);
     }
 
     //커스텀 에러 BaseException 에러 처리
     @ExceptionHandler(BaseException.class)
-    public ResponseEntity<ResponseDto> handleBaseEx(BaseException exception){
+    public ResponseEntity<ResponseDto> handleBaseEx(BaseException exception) {
         log.error("BaseException errorMessage(): {}",exception.getExceptionType().getErrorMessage());
         log.error("BaseException HttpStatus(): {}",exception.getExceptionType().getHttpStatus());
 
         // 카프카로 에러 로그 전송
         ErrorLogEvent errorLog = buildErrorLogEvent(exception, "BaseException", exception.getExceptionType().getHttpStatus().toString(), exception.getExceptionType().getErrorMessage());
-        kafkaTemplate.send(ERROR_LOG_TOPIC, errorLog.getServiceName(), errorLog);
+        try {
+            kafkaTemplate.send(ERROR_LOG_TOPIC, errorLog.getServiceName(), objectMapper.writeValueAsString(errorLog));
+        } catch(JsonProcessingException jsonEx){
+            log.error("CRITICAL: Failed to serialize ErrorLogEvent in exception handler: {}", jsonEx.getMessage(), jsonEx);
 
+        }
         ResponseDto responseDTO = ResponseDto.builder()
                 .message(exception.getExceptionType().getErrorMessage())
                 .build();
@@ -67,9 +81,14 @@ public class GlobalExControllerAdvice {
         log.error("IllegalArgumentException: {}", exception.getMessage());
 
         // 카프카로 에러 로그 전송
-        ErrorLogEvent errorLog = buildErrorLogEvent(exception, "IllegalArgumentException", "Invalid Argument", exception.getMessage());
-        kafkaTemplate.send(ERROR_LOG_TOPIC, errorLog.getServiceName(), errorLog);
 
+        ErrorLogEvent errorLog = buildErrorLogEvent(exception, "IllegalArgumentException", "Invalid Argument", exception.getMessage());
+        try{
+        kafkaTemplate.send(ERROR_LOG_TOPIC, errorLog.getServiceName(), objectMapper.writeValueAsString(errorLog));
+        }catch(JsonProcessingException jsonEx){
+            log.error("CRITICAL: Failed to serialize ErrorLogEvent in exception handler: {}", jsonEx.getMessage(), jsonEx);
+
+        }
         ResponseDto responseDTO = ResponseDto.builder()
                 .message(exception.getMessage())
                 .build();

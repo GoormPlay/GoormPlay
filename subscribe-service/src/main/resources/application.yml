@@ -21,6 +21,18 @@ spring:
           auth: true
           starttls:
             enable: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: subscription-registration-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: latest
+      enable-auto-commit: true # 오프셋을 자동으로 커밋할지 여부
+      auto-commit-interval: 1000 # 오프셋 자동 커밋 간격 (밀리초)
 
 
 eureka:
@@ -33,6 +45,6 @@ eureka:
 
 
 server:
-  port: 9005
+  port: 9006
 
 #?db 9000, 3306

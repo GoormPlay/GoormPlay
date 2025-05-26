@@ -32,7 +32,7 @@ spring:
         - id: bff-service # bff 서비스
           uri: lb://bff-service
           predicates:
-            - Path=/ad/**
+            - Path=/bff/**
           filters:
             - RewritePath=/bff/(?<segment>.*), /api/bff/$\{segment}
       default-filters:
@@ -56,4 +56,4 @@ eureka:
       defaultZone: http://gpadmin:1234@localhost:8761/eureka
 
 security:
-  permit-paths: /api/auth/signin,/api/auth/signup,/api/public/**
+  permit-paths: /api/auth/signin,/api/bff/users,/api/public/**
