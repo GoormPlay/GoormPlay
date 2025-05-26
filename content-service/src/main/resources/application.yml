@@ -3,6 +3,15 @@ spring:
     name: content-service
   profiles:
     active: dev
+  data:
+    mongodb:
+      uri: mongodb+srv://user:goorm0508@goorm-mongodb.svz66jf.mongodb.net/?retryWrites=true&w=majority&appName=goorm-mongoDB
+      database: content-db
+  kafka:
+    bootstrap-servers: localhost:29092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 eureka:
   client:
     register-with-eureka: true

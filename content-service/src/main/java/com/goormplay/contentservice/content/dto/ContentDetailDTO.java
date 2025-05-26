@@ -20,5 +20,6 @@ public class ContentDetailDTO {
     private String[] director;
     private String videoId;
     private LocalDate releaseDate;
+    private String releaseDateString;
     private String synopsis;
 }

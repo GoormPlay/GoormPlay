@@ -43,6 +43,7 @@ public class Content {
 
     private LocalDate releaseDate; // 출시일
 
+
     @CreatedDate
     private LocalDate createdAt;
     @LastModifiedDate

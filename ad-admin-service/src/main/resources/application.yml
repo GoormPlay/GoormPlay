@@ -9,8 +9,8 @@ spring:
       database: content-db
   datasource:
     url: jdbc:mysql://localhost:3306/ad_service
-    username: aduser
-    password: 1234
+    username: root
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
