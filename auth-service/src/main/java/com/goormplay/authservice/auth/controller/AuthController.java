@@ -2,6 +2,7 @@ package com.goormplay.authservice.auth.controller;
 
 import com.goormplay.authservice.auth.dto.ResponseDto;
 import com.goormplay.authservice.auth.dto.SignInRequestDto;
+import com.goormplay.authservice.auth.dto.SignInResponseDto;
 import com.goormplay.authservice.auth.dto.SignUpRequestDto;
 import com.goormplay.authservice.auth.service.AuthService;
 import jakarta.validation.Valid;
@@ -24,9 +25,9 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<ResponseDto> signIn(@Valid @RequestBody SignInRequestDto dto) {
         log.info("Auth Controller : 로그인 시작");
-        String accessToken = authService.signIn(dto);
+        SignInResponseDto signInResponseDto = authService.signIn(dto);
 
-        return new ResponseEntity<>(new ResponseDto("로그인", accessToken), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDto("로그인", signInResponseDto), HttpStatus.OK);
     }
 
     @PostMapping("/signup")

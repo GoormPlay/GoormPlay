@@ -4,10 +4,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
@@ -32,16 +29,18 @@ public class Review {
     @NotBlank(message = "User ID cannot be blank")
     private String userId;    // 작성자 ID
 
+    private String username;
+
     @NotBlank(message = "Review text cannot be blank")
     @Size(max = 500, message = "Review text cannot exceed 500 characters")
-    private String text;      // 리뷰 텍스트
+    private String comment;      // 리뷰 텍스트
 
     @Min(value = 0, message = "Rating must be at least 0")
     @Max(value = 5, message = "Rating must be at most 5")
-    private BigDecimal rating; // 별점
+    private double rating; // 별점
 
     @CreatedDate
-    private LocalDateTime timestamp; // 작성 시간
+    private LocalDateTime createdAt; // 작성 시간
 
 
 }

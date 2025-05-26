@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -39,8 +41,10 @@ public class SubscribeController {
     @PatchMapping("/status")
     public void patchSubscriptionStatus(Authentication authentication) {
         log.info("Subscribe Controller : 멤버 구독 상태 변경 시작");
-        String member_Id = authentication.getName();
-        subscribeService.changeSubscribeStatus(authentication.getName());
+        @SuppressWarnings("unchecked")
+        Map<String, String> principal = (Map<String, String>) authentication.getPrincipal();
+        String memberId = principal.get("memberId");
+        subscribeService.changeSubscribeStatus(memberId);
     }
 
 }

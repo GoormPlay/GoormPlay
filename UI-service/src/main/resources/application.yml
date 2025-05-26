@@ -3,7 +3,7 @@ spring:
     name: UI-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/goormtest
+    url: jdbc:mysql://localhost:3306/ui_db
     username: root
     password:
   jpa:

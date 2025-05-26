@@ -7,10 +7,14 @@ import com.goormplay.uiservice.ui.repository.InteractionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,28 +24,31 @@ public class InteractionService {
     // 데이터를 DB에 저장하거나 가져오기 위한 저장소
     private final InteractionRepository interactionRepository;
 
-
-    public void updateLike(String userId, String contentId, boolean liked) {
-        Optional<InteractionEntity> optional = interactionRepository.findByUserIdAndContentId(userId, contentId);
-
-        InteractionEntity entity = optional.orElseGet(() -> {
-            InteractionEntity newInteraction = new InteractionEntity();
-            newInteraction.setUserId(userId);
-            newInteraction.setContentId(contentId);
-            return newInteraction;
-        });
-
-        entity.setLiked(liked);
-        entity.setUpdatedAt(LocalDateTime.now());
-
-        interactionRepository.save(entity);
+    public boolean isContentLikedByUser(String contentId, String userId) {
+        return interactionRepository.existsByUserIdAndContentIdAndLikedTrue(userId, contentId);
     }
 
-    public List<LikedContentDto> getLikedContent(String userId) {
+    @Transactional
+    public boolean toggleLike(String userId, String contentId) {
+        InteractionEntity interaction = interactionRepository
+                .findByUserIdAndContentId(userId, contentId)
+                .orElse(InteractionEntity.builder()
+                        .userId(userId)
+                        .contentId(contentId)
+                        .liked(false)
+                           .build());
+        interaction.setLiked(!interaction.isLiked());
+        interaction.setUpdatedAt(LocalDateTime.now());
+
+        interactionRepository.save(interaction);
+        return interaction.isLiked();
+    }
+
+    public List<String> getLikedContentIds(String userId) {
         List<InteractionEntity> likedInteractions = getLikedInteractions(userId);
         return likedInteractions.stream()
-                .map(interaction -> new LikedContentDto(interaction.getContentId()))
-                .toList();
+                .map(InteractionEntity::getContentId)
+                .collect(Collectors.toList());
     }
 
     private List<InteractionEntity> getLikedInteractions(String userId) {

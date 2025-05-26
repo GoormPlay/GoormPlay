@@ -4,6 +4,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.goormplay.authservice.auth.client.MemberClient;
 import com.goormplay.authservice.auth.dto.Member.MemberDto;
 import com.goormplay.authservice.auth.dto.SignInRequestDto;
+import com.goormplay.authservice.auth.dto.SignInResponseDto;
 import com.goormplay.authservice.auth.dto.SignUpRequestDto;
 import com.goormplay.authservice.auth.entity.Auth;
 import com.goormplay.authservice.auth.entity.Role;
@@ -38,7 +39,7 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     @Transactional
-    public String signIn(SignInRequestDto dto) {
+    public SignInResponseDto signIn(SignInRequestDto dto) {
         log.info("Auth Service : 로그인 시작");
         Auth auth = authRepository.findByUsername(dto.getUsername()).orElseThrow(()->new AuthException(NOT_FOUND_MEMBER));
         String memberPass = auth.getPassword();
@@ -48,10 +49,15 @@ public class AuthServiceImpl implements AuthService{
 
         auth.setLastLoginAt(LocalDateTime.now());
 
-        return createJwt(MemberDto.builder().
+        String accessToken = createJwt(MemberDto.builder().
                 memberId(auth.getMemberid()).
                 role(auth.getRole())
+                .username(auth.getUsername())
                 .build());
+        return SignInResponseDto.builder()
+                .accessToken(accessToken)
+                .username(auth.getUsername())
+                .build();
     }
 
     @Override

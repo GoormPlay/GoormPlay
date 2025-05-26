@@ -13,18 +13,21 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 public class ReviewResponse {
+    private String id;
     private String userId;
-    private String text;
-    private BigDecimal rating; // BigDecimal로 변경
-    private LocalDateTime timestamp;
+    private String username;
+    private String comment;
+    private double rating; //double로 변경: 리뷰 별점을 정밀하게 계산할 필요는 없을 것 같음..
+    private LocalDateTime createdAt;
 
     public static ReviewResponse of(Review review) {
         Objects.requireNonNull(review, "Review cannot be null");
         return ReviewResponse.builder()
             .userId(review.getUserId())
-            .text(review.getText())
+                .username(review.getUsername())
+            .comment(review.getComment())
             .rating(review.getRating()) // BigDecimal 그대로 사용
-            .timestamp(review.getTimestamp())
+            .createdAt(review.getCreatedAt())
             .build();
     }
 

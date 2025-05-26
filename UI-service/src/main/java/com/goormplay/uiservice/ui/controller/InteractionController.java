@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -20,22 +21,27 @@ public class InteractionController {
     
     private final InteractionService interactionService;
 
-
-    @PostMapping("/like")
-    public void likeContent(@RequestBody InteractionRequestDto requestDto, Authentication  authentication) {
-        log.info("Interaction Controller :  좋아요 상태 변경 시작");
-        String userId = authentication.getName();
-        interactionService.updateLike(
-            userId,
-            requestDto.getContentId(),
-            requestDto.isLiked()
-        );
+    @GetMapping("/content/{contentId}/liked/{userId}")
+    public boolean isContentLikedByUser(
+            @PathVariable String contentId, @PathVariable String userId) {
+        return interactionService.isContentLikedByUser(contentId, userId);
     }
 
-    //Get으로 좋아요 정보 보내는 Feign controller 필요
+    @PostMapping("/like")
+    public void likeContent(@RequestBody InteractionRequestDto requestDto, Authentication authentication) {
+        log.info("Interaction Controller :  좋아요 상태 변경 시작");
+        @SuppressWarnings("unchecked")
+        Map<String, String> principal = (Map<String, String>) authentication.getPrincipal();
+        String userId = principal.get("memberId");
+        interactionService.toggleLike(
+            userId,
+            requestDto.getContentId()
+        );
+    }
+    // contentIds로 content 조회
    @GetMapping("/content/{userId}/liked")
-   public List<LikedContentDto>  getLikedContent(@PathVariable String userId) {
-        return interactionService.getLikedContent(userId);
+   public List<String>  getLikedContentsId(@PathVariable String userId) {
+        return interactionService.getLikedContentIds(userId);
    }
 
 
