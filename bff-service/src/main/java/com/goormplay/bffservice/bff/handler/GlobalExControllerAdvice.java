@@ -28,11 +28,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GlobalExControllerAdvice {
 
-    private final KafkaTemplate<String, ErrorLogEvent> kafkaTemplate; // ErrorLogEvent를 값으로 보내도록 설정 (JsonSerializer 필요)
+    private final KafkaTemplate<String, ErrorLogEvent> kafkaTemplate; // ErrorLogEvent를 값으로 보내도록 설정
     private final String ERROR_LOG_TOPIC = "application-error-logs"; // 로그 전용 카프카 토픽
 
     // Bean Valid 검사 후 에러 처리
-    @ExceptionHandler(MethodArgumentNotValidException.class) // 특정 예외 타입을 명시하는 것이 좋습니다.
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<ErrorResultDto>> handleValidError(MethodArgumentNotValidException e){
         List<ErrorResultDto> collect = e.getAllErrors().stream().map(o -> (FieldError) o)
                 .map(o -> new ErrorResultDto(o.getField(), o.getDefaultMessage()))
