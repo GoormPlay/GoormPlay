@@ -62,7 +62,8 @@ dependencies {
 
     //email
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-
+    //redis
+    implementation 'org.redisson:redisson-spring-boot-starter:3.27.2'
     //kafka
     implementation 'org.springframework.kafka:spring-kafka'
 }

@@ -27,7 +27,6 @@ public class BFFService {
     private  final ObjectMapper objectMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final OutboxRepository outboxRepository;
-    private final String USER_JOIN_LOGS_TOPIC = "user-join-logs";
     @Transactional
     public void join(String username, String password, String gender, int age) {
         String HashedPassword = bCryptPasswordEncoder.encode(password);

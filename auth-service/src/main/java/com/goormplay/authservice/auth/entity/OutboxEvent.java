@@ -1,10 +1,13 @@
-package com.goormplay.bffservice.bff.Entity;
+package com.goormplay.authservice.auth.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "outbox_event", indexes = { // 여기에 인덱스 정의
+@Table(name = "outboxEvent", indexes = { // 여기에 인덱스 정의
         @Index(name = "idx_outbox_processed", columnList = "processed")
 })
 public class OutboxEvent {
@@ -37,7 +40,7 @@ public class OutboxEvent {
     @NotBlank(message = "이벤트 유형은 비어 있을 수 없습니다.")
     @Size(max = 255, message = "이벤트 유형은 255자를 초과할 수 없습니다.")
     private String eventType;
- @Column(name = "payload", nullable = false)
+    @Column(name = "payload", nullable = false)
     @NotNull(message = "페이로드(Payload)는 null일 수 없습니다.")
     private String payload; // 실제 이벤트 데이터  JSON 문자열 형태로 저장
 

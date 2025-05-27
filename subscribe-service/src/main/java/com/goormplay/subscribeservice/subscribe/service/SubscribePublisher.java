@@ -1,29 +1,35 @@
-package com.goormplay.bffservice.bff.service;
+package com.goormplay.subscribeservice.subscribe.service;
+
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.goormplay.bffservice.bff.Entity.OutboxEvent;
-import com.goormplay.bffservice.bff.repository.OutboxRepository;
+import com.goormplay.subscribeservice.subscribe.entity.InboxEvent;
+import com.goormplay.subscribeservice.subscribe.repository.InboxRepository;
+import com.goormplay.subscribeservice.subscribe.repository.SubscribeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Service
+@Component
 @RequiredArgsConstructor
 @Slf4j
-public class BFFPublisher {
-    private final OutboxRepository outboxRepository;
+public class SubscribePublisher {
+
+    private  final InboxRepository inboxRepository;
+
+
+    private final InboxEventProcessor outboxEventProcessor;
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private final ObjectMapper objectMapper;
-    private final OutboxEventProcessor outboxEventProcessor;
     private final RedissonClient redissonClient;
-    private static final String USER_REGISTRATION_TOPIC = "user-registration-events";
+
+
+    private static final String SUBSCRIBE_REGISTRATION_TOPIC = "subscribe-registration-events";
     private static final String OUTBOX_LOCK_KEY = "outbox:publisher:lock";
     @Scheduled(fixedDelay = 5000) // 5초마다 실행
     public void publishPendingOutboxEvents() {
@@ -38,7 +44,7 @@ public class BFFPublisher {
             if (isLocked) {
                 log.info("분산 락 획득, Outbox 이벤트 발행.");
 
-                List<OutboxEvent> pendingEvents = outboxRepository.findPendingEventsWithLimit(10);
+                List<InboxEvent> pendingEvents = inboxRepository.findPendingEventsWithLimit(10);
 
                 if (pendingEvents.isEmpty()) {
                     log.debug("Outbox 이벤트 없음.");
@@ -47,27 +53,26 @@ public class BFFPublisher {
 
                 log.info("Outbox 이벤트 {}개.", pendingEvents.size());
 
-                for (OutboxEvent event : pendingEvents) {
+                for (InboxEvent event : pendingEvents) {
                     try {
-                       kafkaTemplate.send(USER_REGISTRATION_TOPIC, event.getId(), event.getPayload())
-                        .whenComplete((result, ex) -> {
-                            if (ex == null) {
-                                // Kafka 발행 성공 시 DB의 상태 업데이트 (트랜잭션 적용)
-                                outboxEventProcessor.markEventAsProcessed(event.getId());
-                                log.info("Outbox 이벤트 '{}' 발행: 토픽={}, 파티션={}, 오프셋={}",
-                                        event.getId(), result.getRecordMetadata().topic(),
-                                        result.getRecordMetadata().partition(),
-                                        result.getRecordMetadata().offset());
-                            } else {
-                                log.error("Outbox 이벤트 '{}' 발행 실패: {}", event.getId(), ex.getMessage());
-                                // 발행 실패 시 processed=false 상태 유지 -> 다음 스케줄러 실행 시 재시도
+                        kafkaTemplate.send(SUBSCRIBE_REGISTRATION_TOPIC, event.getId(), event.getPayload())
+                                .whenComplete((result, ex) -> {
+                                    if (ex == null) {
+                                        // Kafka 발행 성공 시 DB의 상태 업데이트 (트랜잭션 적용)
+                                        outboxEventProcessor.markEventAsProcessed(event.getId());
+                                        log.info("Outbox 이벤트 '{}' 발행: 토픽={}, 파티션={}, 오프셋={}",
+                                                event.getId(), result.getRecordMetadata().topic(),
+                                                result.getRecordMetadata().partition(),
+                                                result.getRecordMetadata().offset());
+                                    } else {
+                                        log.error("Outbox 이벤트 '{}' 발행 실패: {}", event.getId(), ex.getMessage());
+                                        // 발행 실패 시 processed=false 상태 유지 , 다음 스케줄러 실행 시 재시도
 
-                            }
-                        });
+                                    }
+                                });
 
                     } catch (Exception e) {
                         log.error("Outbox 이벤트 발행 중 예외 발생 (ID: {}): {}", event.getId(), e.getMessage());
-                        // 이 예외는 KafkaTemplate.send()가 비동기 Future를 반환하기 전에 발생한 동기적 예외 (거의 없음)
                     }
                 }
             } else {
