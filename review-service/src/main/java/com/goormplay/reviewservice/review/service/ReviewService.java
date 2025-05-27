@@ -44,7 +44,7 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
-    public void deleteReview(String contentId, String userId) {
-        reviewRepository.deleteByContentIdAndUserId(contentId, userId);
+    public void deleteReview(String reviewId, String userId) {
+        reviewRepository.deleteByIdAndUserId(reviewId, userId);
     }
 }

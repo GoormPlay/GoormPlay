@@ -23,6 +23,7 @@ public class ReviewResponse {
     public static ReviewResponse of(Review review) {
         Objects.requireNonNull(review, "Review cannot be null");
         return ReviewResponse.builder()
+                .id(review.getId())
             .userId(review.getUserId())
                 .username(review.getUsername())
             .comment(review.getComment())
