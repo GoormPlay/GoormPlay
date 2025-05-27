@@ -1,4 +1,4 @@
-package com.goormplay.uiservice.ui.dto;
+package com.goormplay.uiservice.ui.dto.event;
 
 import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;

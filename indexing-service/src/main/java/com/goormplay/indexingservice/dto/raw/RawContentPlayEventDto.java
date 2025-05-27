@@ -1,4 +1,4 @@
-package com.goormplay.indexingservice.dto;
+package com.goormplay.indexingservice.dto.raw;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RatingEventDto {
+public class RawContentPlayEventDto {
     private String userId;
     private String contentId;
     private String timestamp;
-    private double rating;
-    private String eventType;
-    private String page;
+    private String eventType;      // e.g., "play", "pause", "end", "exit"
+    private double watchProgress;    // current playback position in seconds
 }

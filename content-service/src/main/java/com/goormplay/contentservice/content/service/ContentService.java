@@ -14,6 +14,7 @@ import com.goormplay.contentservice.content.entity.Content;
 import com.goormplay.contentservice.content.repository.ContentRepository;
 import com.goormplay.contentservice.content.tool.ContentMapper;
 import jakarta.annotation.Nullable;
+import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -45,18 +46,28 @@ public class ContentService {
     // 상세 페이지 조회
     public ContentDetailResponse getContentDetailById(String contentId, @Nullable String userId) {
         VideoDTO content = contentRepository.findContentDetailById(contentId)
-                .orElseThrow();
+                .orElseThrow(() -> new NotFoundException("Content not found"));
+
+        // 리뷰 목록 조회
         List<ReviewDTO> reviews = contentReviewClient.getReviews(contentId);
-        //임시
-        Double averageRating = 2.0;
+
+        // 사용자별 좋아요 상태 확인 (비로그인 사용자는 false)
+        boolean isLiked = userId != null && checkIsLiked(userId, contentId);
+        Double averageRating = 2.0; //임시
+        // 리뷰에 사용자 작성 여부 표시
+        reviews = reviews.stream()
+                .peek(review -> {
+                    boolean isAuthor = userId != null && userId.equals(review.getUserId());
+                    review.setAuthor(isAuthor);
+                })
+                .collect(Collectors.toList());
 
         return ContentDetailResponse.builder()
                 .content(content)
-                .isLiked(checkIsLiked(userId, contentId))
+                .isLiked(isLiked)
                 .reviews(reviews)
                 .averageRating(averageRating)
                 .build();
-
 
     }
 

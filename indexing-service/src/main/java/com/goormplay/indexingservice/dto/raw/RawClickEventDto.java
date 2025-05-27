@@ -1,25 +1,21 @@
-package com.goormplay.uiservice.ui.dto;
+package com.goormplay.indexingservice.dto.raw;
 
-import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class ContentClickEventDto {
+@AllArgsConstructor
+public class RawClickEventDto {
+    private String userId;
     private String contentId;
-    private List<String> genre;
     private String timestamp;
+    private List<String> genre;
     private boolean trending;
     private boolean latest;
     private boolean recommended;
-
-    @Nullable
-    private String userId; // 서버에서 설정
 }

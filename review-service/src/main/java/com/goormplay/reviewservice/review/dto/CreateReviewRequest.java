@@ -14,7 +14,7 @@ public class CreateReviewRequest {
 
     @Nullable
     private String username;
-
+    private String contentId;
     @NotBlank(message = "Review text cannot be blank")
     @Size(min = 10, max = 500, message = "Review text must be between 1 and 500 characters")
     private String comment;     // 리뷰 텍스트

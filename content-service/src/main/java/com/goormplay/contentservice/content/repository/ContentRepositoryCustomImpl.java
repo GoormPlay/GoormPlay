@@ -3,6 +3,7 @@ package com.goormplay.contentservice.content.repository;
 import com.goormplay.contentservice.content.dto.VideoDTO;
 import com.goormplay.contentservice.content.entity.Content;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,6 +22,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class ContentRepositoryCustomImpl implements ContentRepositoryCustom{
     private final MongoTemplate mongoTemplate;
 
@@ -84,16 +86,22 @@ public class ContentRepositoryCustomImpl implements ContentRepositoryCustom{
 
     @Override
     public Optional<VideoDTO> findContentDetailById(String id) {
-        Criteria criteria = Criteria.where("_id").is(new ObjectId(id));
+        try {
+            ObjectId objectId = new ObjectId(id);
+            Criteria criteria = Criteria.where("_id").is(objectId);
 
-        Aggregation aggregation = Aggregation.newAggregation(
-                Aggregation.match(criteria),
-                getBaseProjection(),
-                addDefaultAttributes()
-        );
+            Aggregation aggregation = Aggregation.newAggregation(
+                    Aggregation.match(criteria),
+                    getBaseProjection(),
+                    addDefaultAttributes()
+            );
 
-        return Optional.ofNullable(mongoTemplate.aggregate(aggregation, "contents", VideoDTO.class)
-                .getUniqueMappedResult());
+            return Optional.ofNullable(mongoTemplate.aggregate(aggregation, "contents", VideoDTO.class)
+                    .getUniqueMappedResult());
+        }catch (IllegalArgumentException e){
+            log.error("Invalid ObjectId format: {}", id);
+            return Optional.empty();
+        }
     }
 
     @Override

@@ -41,28 +41,16 @@ public class ReviewController {
             Map<String, String> principal = (Map<String, String>) authentication.getPrincipal();
             request.setUserId(principal.get("memberId"));
             request.setUsername(principal.get("username"));
+            request.setContentId(contentId);
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
 
         reviewService.createReview(contentId, request);
 
-        publishCreateReviewEvent(CreateReviewEventDto.builder()
-                .userId(request.getUserId())
-                .contentId(contentId)
-                .timestamp(LocalDateTime.now().toString())
-                .eventType("review_write")
-                .page("content_detail")
-                .build());
-
-        publishRatingEvent(RatingEventDto.builder()
-                .userId(request.getUserId())
-                .contentId(contentId)
-                .rating(String.valueOf(request.getRating()))  // ← rating 필드 필요
-                .timestamp(LocalDateTime.now().toString())
-                .eventType("rating_submit")
-                .page("content_detail")
-                .build());
+        publishCreateReviewEvent(request);
+        publishRatingEvent(request);
 
         return ResponseEntity.status(201).build();
     }
@@ -92,20 +80,20 @@ public class ReviewController {
         return ResponseEntity.noContent().build(); // 204 No Content
     }
 
-    public void publishCreateReviewEvent(@RequestBody CreateReviewEventDto event){
+    public void publishCreateReviewEvent(@RequestBody CreateReviewRequest event){
         try {
             String json = objectMapper.writeValueAsString(event);
-            kafkaTemplate.send("review-write-events", json);
+            kafkaTemplate.send("raw-review-write-events", json);
             log.info("Sent review event: {}", json);
         } catch (JsonProcessingException e) {
             log.error("Kafka send failed", e);
         }
     }
 
-    public void publishRatingEvent(@RequestBody RatingEventDto event){
+    public void publishRatingEvent(@RequestBody CreateReviewRequest event){
         try {
             String json = objectMapper.writeValueAsString(event);
-            kafkaTemplate.send("rating-submit-events", json);
+            kafkaTemplate.send("raw-rating-submit-events", json);
             log.info("Sent rating event: {}", json);
         } catch (JsonProcessingException e) {
             log.error("Kafka send failed", e);
