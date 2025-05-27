@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/review")
 @RequiredArgsConstructor
 @Slf4j
 public class ReviewController {
-    private final KafkaTemplate<String, String> kafkaTemplate;
-    // kafka topic
 
+    private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final ReviewService reviewService;
 
@@ -34,18 +34,19 @@ public class ReviewController {
 
     @PostMapping("/new")
     public ResponseEntity<Void> createReview(@RequestParam String contentId, @RequestBody CreateReviewRequest request, Authentication authentication) {
+
         try {
+
             @SuppressWarnings("unchecked")
             Map<String, String> principal = (Map<String, String>) authentication.getPrincipal();
-            String userId = principal.get("memberId");
-            String userName = principal.get("username");
-            request.setUserId(userId);
-            request.setUsername(userName);
-        }catch (Exception e){
+            request.setUserId(principal.get("memberId"));
+            request.setUsername(principal.get("username"));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+
         reviewService.createReview(contentId, request);
-        log.debug(request.toString());
+
         publishCreateReviewEvent(CreateReviewEventDto.builder()
                 .userId(request.getUserId())
                 .contentId(contentId)
@@ -53,18 +54,21 @@ public class ReviewController {
                 .eventType("review_write")
                 .page("content_detail")
                 .build());
+
         publishRatingEvent(RatingEventDto.builder()
                 .userId(request.getUserId())
                 .contentId(contentId)
+                .rating(String.valueOf(request.getRating()))  // ← rating 필드 필요
                 .timestamp(LocalDateTime.now().toString())
                 .eventType("rating_submit")
                 .page("content_detail")
                 .build());
-        return ResponseEntity.status(201).build(); // 201 Created
+
+        return ResponseEntity.status(201).build();
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<Void> updateReview(@RequestParam UpdateReviewRequest request, Authentication authentication) {
+    public ResponseEntity<Void> updateReview(@RequestBody UpdateReviewRequest request, Authentication authentication) {
         try {
             @SuppressWarnings("unchecked")
             Map<String, String> principal = (Map<String, String>) authentication.getPrincipal();
@@ -80,33 +84,31 @@ public class ReviewController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteReview(@RequestParam String contentId, Authentication authentication) {
+    public ResponseEntity<Void> deleteReview(@RequestParam String reviewId, Authentication authentication) {
         @SuppressWarnings("unchecked")
         Map<String, String> principal = (Map<String, String>) authentication.getPrincipal();
         String userId = principal.get("memberId");
-        reviewService.deleteReview(contentId, userId);
+        reviewService.deleteReview(reviewId, userId);
         return ResponseEntity.noContent().build(); // 204 No Content
     }
 
     public void publishCreateReviewEvent(@RequestBody CreateReviewEventDto event){
         try {
-            String TOPIC = "review-write-events";
-            String eventJson = objectMapper.writeValueAsString(event);
-            kafkaTemplate.send(TOPIC, eventJson);
-            log.info("Sent review write event: {}", eventJson);
-        } catch (Exception e) {
-            log.warn("Kafka unavailable, skipping event publish. Cause: {}", e.getMessage());
+            String json = objectMapper.writeValueAsString(event);
+            kafkaTemplate.send("review-write-events", json);
+            log.info("Sent review event: {}", json);
+        } catch (JsonProcessingException e) {
+            log.error("Kafka send failed", e);
         }
     }
 
     public void publishRatingEvent(@RequestBody RatingEventDto event){
         try {
-            String TOPIC = "rating-submit-events";
-            String eventJson = objectMapper.writeValueAsString(event);
-            kafkaTemplate.send(TOPIC, eventJson);
-            log.info("Sent rating submit event: {}", eventJson);
-        } catch (Exception e) {
-            log.warn("Kafka unavailable, skipping rating publish. Cause: {}", e.getMessage());
+            String json = objectMapper.writeValueAsString(event);
+            kafkaTemplate.send("rating-submit-events", json);
+            log.info("Sent rating event: {}", json);
+        } catch (JsonProcessingException e) {
+            log.error("Kafka send failed", e);
         }
     }
 }

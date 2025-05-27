@@ -1,4 +1,4 @@
-package com.goormplay.reviewservice.review.dto;
+package com.goormplay.indexingservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

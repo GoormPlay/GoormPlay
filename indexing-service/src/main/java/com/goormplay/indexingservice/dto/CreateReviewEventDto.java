@@ -1,4 +1,4 @@
-package com.goormplay.reviewservice.review.dto;
+package com.goormplay.indexingservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class RatingEventDto {
+@NoArgsConstructor
+public class CreateReviewEventDto {
     private String userId;
     private String contentId;
     private String timestamp;
-    private String rating;
+    private String review;
     private String eventType;
     private String page;
+
 }

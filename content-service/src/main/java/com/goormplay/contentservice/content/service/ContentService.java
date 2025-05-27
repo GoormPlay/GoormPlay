@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -28,9 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -94,15 +93,20 @@ public class ContentService {
         return contentRepository.findAllAsTrending();
     }
 
-    public List<VideoDTO> getLatestContents() {
-        return contentRepository.findAllAsLatest();
-    }
 
     // 최신 컨텐츠 카드 조회 (페이징)
-    public Page<VideoDTO> getLatestContents(int page, int size) {
-        return contentRepository.findLatestContents(
-                PageRequest.of(page, size, Sort.by("releaseDate").descending())
-        );
+    public Map<String, Object> getLatestContentsWithMeta(Pageable pageable) {
+        Page<VideoDTO> page = contentRepository.findLatestContents(pageable);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("contents", page.getContent());
+        response.put("page", page.getNumber());
+        response.put("size", page.getSize());
+        response.put("totalElements", page.getTotalElements());
+        response.put("totalPages", page.getTotalPages());
+        response.put("isLast", page.isLast());
+
+        return response;
     }
 
     // 최신 컨텐츠 카드 조회 (리스트)

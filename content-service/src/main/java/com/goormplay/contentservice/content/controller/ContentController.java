@@ -8,12 +8,17 @@ import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -56,8 +61,9 @@ public class ContentController {
         return ResponseEntity.ok(contentService.getTestLatestContentCards());
     }
     @GetMapping("/latest")
-    public ResponseEntity<Page<VideoDTO>> getLatestContents(int page, int size) {
-        return ResponseEntity.ok(contentService.getLatestContents(page, size));
+    public ResponseEntity<Map<String, Object>> getLatestContents(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("releaseDate").descending());
+        return ResponseEntity.ok(contentService.getLatestContentsWithMeta(pageable));
     }
     @GetMapping("/{id}")
     public ResponseEntity<ContentDetailResponse> getContentDetail(@PathVariable String id,
