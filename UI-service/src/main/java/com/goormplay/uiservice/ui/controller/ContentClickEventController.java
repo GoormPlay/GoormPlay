@@ -2,8 +2,7 @@ package com.goormplay.uiservice.ui.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.goormplay.uiservice.ui.dto.ClickEventLogDto;
-import com.goormplay.uiservice.ui.dto.ContentClickEventDto;
+import com.goormplay.uiservice.ui.dto.event.ContentClickEventDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -36,34 +35,14 @@ public class ContentClickEventController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        if (request.isTrending() || request.isLatest()) {
-            sendToKafka(ClickEventLogDto.builder()
-                    .userId(request.getUserId())
-                    .contentId(request.getContentId())
-                    .timestamp(request.getTimestamp())
-                    .eventType("content_click")
-                    .contentCategory(request.getGenre())  // ✅ 장르 그대로 전달
-                    .page("content_detail")
-                    .build());
-        }
-        if (request.isRecommended()) {
-            sendToKafka(ClickEventLogDto.builder()
-                    .userId(request.getUserId())
-                    .contentId(request.getContentId())
-                    .timestamp(request.getTimestamp())
-                    .eventType("content_recom_click")
-                    .page("content_detail")
-                    .build());
-        }
-
-
+       sendToKafka(request);
         return ResponseEntity.ok().build();
     }
 
-    private void sendToKafka(ClickEventLogDto logDto) {
+    private void sendToKafka(ContentClickEventDto dto) {
         try {
-            String json = objectMapper.writeValueAsString(logDto);
-            kafkaTemplate.send("content-click-events", json);
+            String json = objectMapper.writeValueAsString(dto);
+            kafkaTemplate.send("raw-content-click-events",json);
             log.info("Click event sent: {}", json);
         } catch (JsonProcessingException e) {
             log.error("Kafka serialization failed", e);
