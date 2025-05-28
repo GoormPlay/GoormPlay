@@ -56,8 +56,9 @@ public class ContentClickEventConsumer {
     private void publish(ClickEventLogDto logDto) {
         try {
             String json = objectMapper.writeValueAsString(logDto);
-            kafkaTemplate.send("content-user-events", json);
-            log.info("✅ Published processed click event: {}", json);
+            String topic = "content-user-events";
+            kafkaTemplate.send(topic, json);
+            log.info("✅ Published processed click event: {} topic: {}", json,topic);
         } catch (Exception e) {
             log.error("❌ Failed to publish click event", e);
         }
