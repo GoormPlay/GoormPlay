@@ -18,7 +18,7 @@ public class SubscribeController {
     private final SubscribeService subscribeService;
 
 
-    @GetMapping("/client/{memberId}")
+    @PostMapping("/client/{memberId}")
     void joinSubscribe(@PathVariable("memberId") String memberId) {
         log.info("Subscribe Controller :  회원가입 시작 ");
         subscribeService.joinSubscribe(memberId);
