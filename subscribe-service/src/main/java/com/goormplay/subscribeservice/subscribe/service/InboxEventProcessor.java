@@ -13,8 +13,7 @@ public class InboxEventProcessor { // 별도의 서비스로 분리
 
     private final InboxRepository inboxRepository;
 
-    // 이 메서드는 OutboxEventPublisher에서 호출될 것이며, 이제 별도의 트랜잭션을 가집니다.
-    @Transactional
+    @Transactional //트랜잭션 적용을 위해 별도 클래스로 분리
     public void markEventAsProcessed(String eventId) {
         inboxRepository.findById(eventId).ifPresent(event -> {
             event.setProcessed(true);
