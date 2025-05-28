@@ -16,5 +16,4 @@ public class ContentPlayEventDto {
     private String timestamp;
     private String eventType;      // e.g., "play", "pause", "end", "exit"
     private String page;
-    private double watchProgress;    // current playback position in seconds
 }

@@ -29,7 +29,6 @@ public class ContentPlayEventConsumer {
                     .timestamp(eventDto.getTimestamp())
                     .eventType(eventDto.getEventType())
                     .page("content_play")
-                    .watchProgress(eventDto.getWatchProgress())
                     .build();
             publish(dto);
         }catch (Exception e) {

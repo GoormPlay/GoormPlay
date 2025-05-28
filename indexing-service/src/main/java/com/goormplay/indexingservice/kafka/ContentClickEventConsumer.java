@@ -30,6 +30,7 @@ public class ContentClickEventConsumer {
                         .contentId(original.getContentId())
                         .timestamp(original.getTimestamp())
                         .eventType("content_recom_click")
+                        .contentCategory(original.getGenre())
                         .page("content_detail")
                         .build();
                 publish(logDto);
