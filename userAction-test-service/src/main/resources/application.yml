@@ -1,13 +1,8 @@
-server:
-  port: 8085  # 다른 서비스와 겹치지 않는 포트
-
 spring:
   application:
     name: userAction-test-service
-  data:
-    mongodb:
-      uri: mongodb+srv://user:goorm0508@goorm-mongodb.svz66jf.mongodb.net/?retryWrites=true&w=majority&appName=goorm-mongoDB
-      database: content-db
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
   kafka:
     bootstrap-servers: localhost:9092,3.37.147.123:9092,3.36.188.73:9092,54.180.180.120:9092
     producer:
@@ -24,4 +19,6 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://gpadmin:1234@localhost:8761/eureka
+      defaultZone: ${EUREKA_URL:http://gpadmin:1234@localhost:8761/eureka} # Jenkins 환경변수 EUREKA_URL이 있으면 사용, 없으면 localhost
+server:
+  port: 8085  # 다른 서비스와 겹치지 않는 포트

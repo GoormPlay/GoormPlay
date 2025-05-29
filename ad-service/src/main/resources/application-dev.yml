@@ -1,8 +1,4 @@
 spring:
-  application:
-    name: ad-service
-  profiles:
-    active: ${SPRING_PROFILES_ACTIVE:dev}
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${MYSQL_URL:jdbc:mysql://localhost:3306/ad_db}   # Jenkins 환경변수 MYSQL_URL이 있으면 사용, 없으면 localhost
@@ -24,14 +20,3 @@ spring:
     exclude:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
       - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
-
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: ${EUREKA_URL:http://gpadmin:1234@localhost:8761/eureka} # Jenkins 환경변수 EUREKA_URL이 있으면 사용, 없으면 localhost
-server:
-  port: 9003
-
-#?db 9000, 3306
