@@ -1,19 +1,8 @@
 spring:
   application:
     name: subscribe-service
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/subscribe_db
-    username: root
-    password:
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
   mail:
     host: smtp.gmail.com
     port: 587
@@ -32,7 +21,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://gpadmin:1234@localhost:8761/eureka
+      defaultZone: ${EUREKA_URL:http://gpadmin:1234@localhost:8761/eureka} # Jenkins 환경변수 EUREKA_URL이 있으면 사용, 없으면 localhost
 
 
 
