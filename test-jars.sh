@@ -86,6 +86,13 @@ run_service "UI-service/" "9002"
 echo -e "\n${GREEN}Service Status:${NC}"
 jps -l
 
+# indexing-service 실행 (로그 포함)
+echo -e "${YELLOW}Starting indexing-service...${NC}"
+jar_file=$(find indexing-service/build/libs -name "*.jar" -not -name "*plain.jar" -type f | head -n 1)
+mkdir -p indexing-service/logs
+java -jar "$jar_file" > indexing-service/logs/application.log 2>&1 &
+tail -f indexing-service/logs/application.log &
+
 echo -e "\n${YELLOW}Services are running in background.${NC}"
 echo "Use 'jps' to check running Java processes"
 echo -e "${YELLOW}Press Ctrl+C to stop all services${NC}"
