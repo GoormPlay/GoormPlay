@@ -86,12 +86,12 @@ run_service "ad-admin-service/" "8089"
 run_service "userAction-test-service/" "8085"
 run_service "review-service/" "9007"
 run_service "UI-service/" "9002"
+run_service "indexing-service/" ""
 
 echo -e "\n${GREEN}Service Status:${NC}"
 jps -l
 
 echo -e "${YELLOW}📘 Starting indexing-service with log tail...${NC}"
-jar_file=$(find indexing-service/build/libs -name "*.jar" -not -name "*plain.jar" -type f | head -n 1)
 mkdir -p indexing-service/logs
 java -jar "$jar_file" > indexing-service/logs/application.log 2>&1 &
 tail -f indexing-service/logs/application.log &
