@@ -14,6 +14,10 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: ${EUREKA_URL:http://gpadmin:1234@localhost:8761/eureka} # Jenkins 환경변수 EUREKA_URL이 있으면 사용, 없으면 localhost
+  instance:
+    prefer-ip-address: true
+    hostname: ${HOSTNAME:localhost}
+    instance-id: ${spring.application.name}:${random.value}
 server:
   port: 9001
 
