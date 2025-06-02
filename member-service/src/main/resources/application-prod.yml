@@ -1,6 +1,6 @@
 spring:
   datasource:
-    driver-class-name: software.aws.rds.jdbc.mysql.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${DB_NAME:member_db}?allowPublicKeyRetrieval=true
     username: ${MYSQL_USER:admin}
     password: ${MYSQL_PASSWORD:}
