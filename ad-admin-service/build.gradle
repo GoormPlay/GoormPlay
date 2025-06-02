@@ -52,7 +52,6 @@ dependencies {
 	implementation 'org.springframework.kafka:spring-kafka'
 
 	implementation 'mysql:mysql-connector-java:8.0.33'
-	implementation 'software.aws.rds:aws-mysql-jdbc:1.1.4'  // IAM 인증용
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	// MapStruct (DTO 변환용)
 	implementation 'org.mapstruct:mapstruct:1.6.3'
