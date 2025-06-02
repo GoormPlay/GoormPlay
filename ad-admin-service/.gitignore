@@ -17,7 +17,7 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-
+logs/
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -36,13 +36,8 @@ out/
 
 ### VS Code ###
 .vscode/
-content-service/src/main/resources/.env
-apigateway-service/.gradle/8.13/fileHashes/fileHashes.lock
-.DS_Store
-.idea/modules.xml
-infra-test/kafka-docker-test/
-UI-service/src/main/resources/.env
 
+.DS_Store
 # 컴파일 아웃풋
 out/
 target/

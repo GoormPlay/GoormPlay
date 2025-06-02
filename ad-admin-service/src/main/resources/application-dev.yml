@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: ${MONGODB_URL:mongodb+srv://user:goorm0508@goorm-mongodb.svz66jf.mongodb.net/?retryWrites=true&w=majority&appName=goorm-mongoDB}
+      uri: ${MONGODB_URL:}
       database: ad-db
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
