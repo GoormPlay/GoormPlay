@@ -1,0 +1,24 @@
+spring:
+  data:
+    mongodb:
+      uri: ${MONGODB_URL:mongodb+srv://user:goorm0508@goorm-mongodb.svz66jf.mongodb.net/?retryWrites=true&w=majority&appName=goorm-mongoDB}
+      database: ad-db
+  datasource:
+    driver-class-name: software.aws.rds.jdbc.mysql.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${DB_NAME:ad_admin_db}?allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER:admin}
+    hikari:
+      data-source-properties:
+        useAwsIam: true
+  jpa:
+    hibernate:
+      ddl-auto: none  # 운영환경에서는 update 대신 none
+    show-sql: false   # 운영환경에서는 SQL 로그 비활성화
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+  servlet:
+    multipart:
+      location: ./uploads
+      max-file-size: 5MB
+      max-request-size: 5MB
+imgbb:
+  api-key: 646294fbcae89553a1a3f957780abd89
