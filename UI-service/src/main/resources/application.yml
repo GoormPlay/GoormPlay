@@ -1,6 +1,6 @@
 spring:
   application:
-    name: UI-service
+    name: ui-service
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
   kafka:
